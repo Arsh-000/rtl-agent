@@ -1,0 +1,6 @@
+# Keep Unix line endings for scripts and the Dockerfile, even when the project is cloned on Windows
+# (Windows line endings break bash scripts with "$'\r': command not found").
+* text=auto eol=lf
+*.lib binary
+*.pdf binary
+*.png binary

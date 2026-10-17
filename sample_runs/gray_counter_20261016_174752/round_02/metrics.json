@@ -1,0 +1,55 @@
+{
+  "metrics": {
+    "setup_ws": -0.0285,
+    "setup_tns": -0.0347,
+    "hold_ws": 0.0479,
+    "area": 158.536,
+    "power_mw": 0.23325289999999999,
+    "flop_bits": 16,
+    "cell_count": 99,
+    "latency": 0
+  },
+  "checks": {
+    "equivalence": {
+      "ran": true,
+      "passed": true,
+      "latency": 0,
+      "compared_cycles": 1995,
+      "outputs_toggled": "6 of 8",
+      "detail": ""
+    },
+    "formal": {
+      "status": "proven_bounded",
+      "depth": 10,
+      "detail": "no difference possible in the first 10 cycle(s) after reset"
+    },
+    "testbench": {
+      "passed": true,
+      "detail": "cycles=3000 errors=0\nTEST PASSED\n/home/claude/rtl-agent/runs/gray_counter_20261016_174752/spec/testbench_1/tb_gray_counter.v:42: $finish called at 30020000 (1ps)"
+    },
+    "verified_by": [
+      "co-simulation vs original",
+      "bounded formal",
+      "testbench"
+    ]
+  },
+  "status": "kept",
+  "reason": "better timing than round 0",
+  "claims": {
+    "setup_slack": {
+      "claimed": "improve",
+      "measured": "improve",
+      "correct": true
+    },
+    "area": {
+      "claimed": "worsen",
+      "measured": "worsen",
+      "correct": true
+    },
+    "power": {
+      "claimed": "worsen",
+      "measured": "worsen",
+      "correct": true
+    }
+  }
+}

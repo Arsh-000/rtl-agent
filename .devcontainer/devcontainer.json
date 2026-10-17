@@ -1,0 +1,14 @@
+{
+  // Lets anyone open rtl-agent in GitHub Codespaces (or VS Code "Reopen in Container") with every
+  // tool already installed. The first start builds the Docker image (20-40 minutes); after that it
+  // is cached.
+  "name": "rtl-agent",
+  "build": { "dockerfile": "../Dockerfile", "context": ".." },
+  "remoteEnv": {
+    "GROQ_API_KEY": "${localEnv:GROQ_API_KEY}"
+  },
+  "customizations": {
+    "vscode": { "extensions": ["ms-python.python"] }
+  },
+  "postCreateCommand": "python3 -m rtl_agent check-tools"
+}

@@ -1,0 +1,44 @@
+
+9. Printing statistics.
+
+=== sync_fifo ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+      498        - wires
+      644        - wire bits
+      498        - public wires
+      644        - public wire bits
+        8        - ports
+       22        - port bits
+      479 1.15E+03 cells
+        3    3.192   AND2_X1
+        1     1.33   AOI211_X1
+       11   11.704   AOI21_X1
+       22   35.112   AOI221_X1
+        8   17.024   AOI222_X1
+       10     13.3   AOI22_X1
+       14    74.48   DFFR_X1
+        1     5.32   DFFS_X1
+      128  578.816   DFF_X1
+       19   10.108   INV_X1
+      153  284.886   MUX2_X1
+       21   16.758   NAND2_X1
+        7    7.448   NAND3_X1
+        2     2.66   NAND4_X1
+       21   16.758   NOR2_X1
+        4    4.256   NOR3_X1
+       11    14.63   OAI211_X1
+        7    7.448   OAI21_X1
+        2    3.192   OAI221_X1
+        3     3.99   OAI22_X1
+        1    1.862   OAI33_X1
+       18   19.152   OR2_X1
+        4     5.32   OR3_X1
+        7   11.172   XNOR2_X1
+        1    1.596   XOR2_X1
+
+   Chip area for module '\sync_fifo': 1151.514000
+     of which used for sequential elements: 658.616000 (57.20%)
+

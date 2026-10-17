@@ -1,0 +1,177 @@
+Startpoint: rd_ptr_next_DFF_X1_D
+            (rising edge-triggered flip-flop clocked by clk)
+Endpoint: dout[6] (output port clocked by clk)
+Path Group: clk
+Path Type: max
+
+    Delay      Time   Description                          Src Attr
+-----------------------------------------------------------------------------------------------------
+   0.0000    0.0000   clock clk (rise edge)
+   0.0000    0.0000   clock network delay (ideal)
+   0.0000    0.0000 ^ rd_ptr_next_DFF_X1_D/CK (DFF_X1)
+   0.2570    0.2570 ^ rd_ptr_next_DFF_X1_D/Q (DFF_X1)
+   0.0745    0.3315 v dout_MUX2_X1_Z_2_B_OAI22_X1_ZN_B1_AND3_X1_ZN_A1_INV_X1_ZN/ZN (INV_X1)
+   0.0573    0.3888 ^ dout_AOI21_X1_ZN_A_AOI211_X1_ZN_B_AOI221_X1_ZN_B2_AOI21_X1_ZN/ZN (AOI21_X1)
+   0.0264    0.4152 v dout_AOI21_X1_ZN_A_AOI211_X1_ZN_B_AOI221_X1_ZN/ZN (AOI221_X1)
+   0.0684    0.4836 ^ dout_AOI21_X1_ZN_A_AOI211_X1_ZN/ZN (AOI211_X1)
+   0.0144    0.4980 v dout_AOI21_X1_ZN/ZN (AOI21_X1)
+   0.0000    0.4980 v dout[6] (out)
+             0.4980   data arrival time
+
+   0.7000    0.7000   clock clk (rise edge)
+   0.0000    0.7000   clock network delay (ideal)
+   0.0000    0.7000   clock reconvergence pessimism
+  -0.2000    0.5000   output external delay
+             0.5000   data required time
+-----------------------------------------------------------------------------------------------------
+             0.5000   data required time
+            -0.4980   data arrival time
+-----------------------------------------------------------------------------------------------------
+             0.0020   slack (MET)
+
+
+Startpoint: rd_ptr_next_DFF_X1_D
+            (rising edge-triggered flip-flop clocked by clk)
+Endpoint: dout[3] (output port clocked by clk)
+Path Group: clk
+Path Type: max
+
+    Delay      Time   Description                          Src Attr
+-----------------------------------------------------------------------------------------------------
+   0.0000    0.0000   clock clk (rise edge)
+   0.0000    0.0000   clock network delay (ideal)
+   0.0000    0.0000 ^ rd_ptr_next_DFF_X1_D/CK (DFF_X1)
+   0.2570    0.2570 ^ rd_ptr_next_DFF_X1_D/Q (DFF_X1)
+   0.0614    0.3184 v dout_MUX2_X1_Z_2_B_OAI22_X1_ZN_A1_AOI211_X1_ZN_B_AND2_X1_ZN_A2_MUX2_X1_Z/Z (MUX2_X1)
+   0.0314    0.3498 v dout_MUX2_X1_Z_2_B_OAI22_X1_ZN_A1_AOI211_X1_ZN_B_AND2_X1_ZN/ZN (AND2_X1)
+   0.0623    0.4121 ^ dout_MUX2_X1_Z_2_B_OAI22_X1_ZN_A1_AOI211_X1_ZN/ZN (AOI211_X1)
+   0.0212    0.4333 v dout_MUX2_X1_Z_2_B_OAI22_X1_ZN/ZN (OAI22_X1)
+   0.0545    0.4878 v dout_MUX2_X1_Z_2/Z (MUX2_X1)
+   0.0000    0.4878 v dout[3] (out)
+             0.4878   data arrival time
+
+   0.7000    0.7000   clock clk (rise edge)
+   0.0000    0.7000   clock network delay (ideal)
+   0.0000    0.7000   clock reconvergence pessimism
+  -0.2000    0.5000   output external delay
+             0.5000   data required time
+-----------------------------------------------------------------------------------------------------
+             0.5000   data required time
+            -0.4878   data arrival time
+-----------------------------------------------------------------------------------------------------
+             0.0122   slack (MET)
+
+
+Startpoint: rd_ptr_next_DFF_X1_D
+            (rising edge-triggered flip-flop clocked by clk)
+Endpoint: dout[4] (output port clocked by clk)
+Path Group: clk
+Path Type: max
+
+    Delay      Time   Description                          Src Attr
+-----------------------------------------------------------------------------------------------------
+   0.0000    0.0000   clock clk (rise edge)
+   0.0000    0.0000   clock network delay (ideal)
+   0.0000    0.0000 ^ rd_ptr_next_DFF_X1_D/CK (DFF_X1)
+   0.2570    0.2570 ^ rd_ptr_next_DFF_X1_D/Q (DFF_X1)
+   0.0614    0.3184 v dout_MUX2_X1_Z_3_B_OAI22_X1_ZN_A1_AOI211_X1_ZN_B_AND2_X1_ZN_A2_MUX2_X1_Z/Z (MUX2_X1)
+   0.0314    0.3498 v dout_MUX2_X1_Z_3_B_OAI22_X1_ZN_A1_AOI211_X1_ZN_B_AND2_X1_ZN/ZN (AND2_X1)
+   0.0623    0.4121 ^ dout_MUX2_X1_Z_3_B_OAI22_X1_ZN_A1_AOI211_X1_ZN/ZN (AOI211_X1)
+   0.0212    0.4332 v dout_MUX2_X1_Z_3_B_OAI22_X1_ZN/ZN (OAI22_X1)
+   0.0545    0.4877 v dout_MUX2_X1_Z_3/Z (MUX2_X1)
+   0.0000    0.4877 v dout[4] (out)
+             0.4877   data arrival time
+
+   0.7000    0.7000   clock clk (rise edge)
+   0.0000    0.7000   clock network delay (ideal)
+   0.0000    0.7000   clock reconvergence pessimism
+  -0.2000    0.5000   output external delay
+             0.5000   data required time
+-----------------------------------------------------------------------------------------------------
+             0.5000   data required time
+            -0.4877   data arrival time
+-----------------------------------------------------------------------------------------------------
+             0.0123   slack (MET)
+
+
+Startpoint: rst_n (input port clocked by clk)
+Endpoint: empty_DFFS_X1_Q (recovery check against rising-edge clock clk)
+Path Group: asynchronous
+Path Type: max
+
+    Delay      Time   Description                          Src Attr
+-----------------------------------------------------------------------------------------------------
+   0.0000    0.0000   clock clk (rise edge)
+   0.0000    0.0000   clock network delay (ideal)
+   0.2000    0.2000 ^ input external delay
+   0.0000    0.2000 ^ rst_n (in)
+   0.0000    0.2000 ^ empty_DFFS_X1_Q/SN (DFFS_X1)         /home/claude/rtl-agent/runs/sync_fifo_20261016_174743/round_02/rtl/sync_fifo.v:29.5-53.8
+             0.2000   data arrival time
+
+   0.7000    0.7000   clock clk (rise edge)
+   0.0000    0.7000   clock network delay (ideal)
+   0.0000    0.7000   clock reconvergence pessimism
+             0.7000 ^ empty_DFFS_X1_Q/CK (DFFS_X1)
+   0.0421    0.7421   library recovery time
+             0.7421   data required time
+-----------------------------------------------------------------------------------------------------
+             0.7421   data required time
+            -0.2000   data arrival time
+-----------------------------------------------------------------------------------------------------
+             0.5421   slack (MET)
+
+
+Startpoint: rst_n (input port clocked by clk)
+Endpoint: count_DFFR_X1_Q (recovery check against rising-edge clock clk)
+Path Group: asynchronous
+Path Type: max
+
+    Delay      Time   Description                          Src Attr
+-----------------------------------------------------------------------------------------------------
+   0.0000    0.0000   clock clk (rise edge)
+   0.0000    0.0000   clock network delay (ideal)
+   0.2000    0.2000 ^ input external delay
+   0.0000    0.2000 ^ rst_n (in)
+   0.0000    0.2000 ^ count_DFFR_X1_Q/RN (DFFR_X1)         /home/claude/rtl-agent/runs/sync_fifo_20261016_174743/round_02/rtl/sync_fifo.v:29.5-53.8
+             0.2000   data arrival time
+
+   0.7000    0.7000   clock clk (rise edge)
+   0.0000    0.7000   clock network delay (ideal)
+   0.0000    0.7000   clock reconvergence pessimism
+             0.7000 ^ count_DFFR_X1_Q/CK (DFFR_X1)
+   0.0537    0.7537   library recovery time
+             0.7537   data required time
+-----------------------------------------------------------------------------------------------------
+             0.7537   data required time
+            -0.2000   data arrival time
+-----------------------------------------------------------------------------------------------------
+             0.5537   slack (MET)
+
+
+Startpoint: rst_n (input port clocked by clk)
+Endpoint: count_DFFR_X1_Q_1 (recovery check against rising-edge clock clk)
+Path Group: asynchronous
+Path Type: max
+
+    Delay      Time   Description                          Src Attr
+-----------------------------------------------------------------------------------------------------
+   0.0000    0.0000   clock clk (rise edge)
+   0.0000    0.0000   clock network delay (ideal)
+   0.2000    0.2000 ^ input external delay
+   0.0000    0.2000 ^ rst_n (in)
+   0.0000    0.2000 ^ count_DFFR_X1_Q_1/RN (DFFR_X1)       /home/claude/rtl-agent/runs/sync_fifo_20261016_174743/round_02/rtl/sync_fifo.v:29.5-53.8
+             0.2000   data arrival time
+
+   0.7000    0.7000   clock clk (rise edge)
+   0.0000    0.7000   clock network delay (ideal)
+   0.0000    0.7000   clock reconvergence pessimism
+             0.7000 ^ count_DFFR_X1_Q_1/CK (DFFR_X1)
+   0.0537    0.7537   library recovery time
+             0.7537   data required time
+-----------------------------------------------------------------------------------------------------
+             0.7537   data required time
+            -0.2000   data arrival time
+-----------------------------------------------------------------------------------------------------
+             0.5537   slack (MET)
+
+

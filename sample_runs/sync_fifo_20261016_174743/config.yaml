@@ -1,0 +1,77 @@
+# Copy of the configuration used for this run (paths resolved).
+project_name: sync_fifo
+mode: rtl
+design:
+  top: sync_fifo
+  description: null
+  rtl_files:
+  - /home/claude/rtl-agent/examples/sync_fifo/rtl/sync_fifo.v
+  include_dirs: []
+  defines: {}
+spec: null
+sdc: /home/claude/rtl-agent/examples/sync_fifo/constraints/sync_fifo.sdc
+clock_period_ns: null
+testbench:
+  files:
+  - /home/claude/rtl-agent/examples/sync_fifo/tb/tb_sync_fifo.v
+  top: tb_sync_fifo
+  pass_pattern: TEST PASSED
+  fail_pattern: TEST FAILED|ERROR
+  timeout_s: 120
+library:
+  liberty: /home/claude/rtl-agent/libs/nangate45_typ.lib
+  tie_hi: null
+  tie_lo: null
+targets:
+  min_setup_slack_ns: 0.0
+  min_hold_slack_ns: null
+  max_area_um2: null
+  max_power_mw: null
+priority:
+- timing
+- area
+- power
+latency:
+  policy: fixed
+  max_extra_cycles: 2
+correctness:
+  equivalence: auto
+  cycles: 2000
+  seed: 1
+  formal: auto
+  formal_depth: 10
+  formal_timeout_s: 60
+  keep_registered_outputs: true
+explore:
+  candidates: null
+loop:
+  max_rounds: 10
+  patience: 3
+  max_consecutive_failures: 4
+  min_improvement_pct: 1.0
+  optimize_beyond_targets: false
+  max_minutes: 120.0
+llm:
+  provider: scripted
+  base_url: https://api.groq.com/openai/v1
+  model: openai/gpt-oss-120b
+  api_key_env: GROQ_API_KEY
+  temperature: 0.2
+  max_output_tokens: 5000
+  tokens_per_minute: 8000
+  tokens_per_day: 200000
+  request_timeout_s: 180
+  max_retries: 5
+  extra_params:
+    reasoning_effort: medium
+  scripted_dir: /home/claude/rtl-agent/examples/sync_fifo/scripted
+tools:
+  yosys: yosys
+  sta: sta
+  iverilog: iverilog
+  vvp: vvp
+custom_commands:
+  synth: null
+  sta: null
+output_dir: /home/claude/rtl-agent/runs
+base_dir: /home/claude/rtl-agent/examples/sync_fifo

@@ -1,0 +1,12 @@
+read_verilog -sv /home/claude/rtl-agent/runs/sync_fifo_20261016_174743/golden/golden.v
+read_verilog -sv /home/claude/rtl-agent/runs/sync_fifo_20261016_174743/round_02/rtl/sync_fifo.v
+hierarchy -check
+proc
+memory
+flatten
+opt_clean
+miter -equiv -flatten -make_assert -ignore_gold_x sync_fifo__golden sync_fifo rtl_agent_miter
+hierarchy -top rtl_agent_miter
+async2sync
+opt -fast
+sat -verify -prove-asserts -show-ports -seq 10 -set-init-zero -set-at 1 in_rst_n 0 -timeout 60 rtl_agent_miter

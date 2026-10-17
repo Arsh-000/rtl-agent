@@ -1,0 +1,4 @@
+$ /opt/eda/bin/iverilog -g2012 -Wall -o compile_check.vvp -s seq_detector /home/claude/rtl-agent/runs/seq_detector_20261016_174748/round_01/rtl/seq_detector.v
+# exit=0 timed_out=False seconds=0.0
+
+

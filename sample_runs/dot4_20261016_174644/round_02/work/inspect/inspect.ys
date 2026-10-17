@@ -1,0 +1,10 @@
+read_verilog -sv /home/claude/rtl-agent/runs/dot4_20261016_174644/round_02/rtl/dot4.v
+hierarchy -check -top dot4
+tee -q -o modules.txt ls
+proc
+flatten
+opt_clean
+opt_dff -nodffe
+opt_clean
+memory -nomap
+write_json design.json

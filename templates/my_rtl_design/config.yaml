@@ -1,0 +1,43 @@
+# Template: optimize YOUR OWN existing Verilog design.
+# Copy this folder, put your files next to this config, edit the lines marked <-- , then run:
+#   ~/rtl-agent/scripts/docker-run.sh analyze config.yaml     (measure once, no AI)
+#   ~/rtl-agent/scripts/docker-run.sh run config.yaml         (the agent)
+# With Docker, every file must be INSIDE this folder (only this folder is visible to the container).
+project_name: my_block                      # <-- any name; used for the results folder
+
+design:
+  top: my_block                             # <-- name of your top-level module
+  rtl_files: [my_block.v]                   # <-- your Verilog files (list them all)
+  description: "What the block does, in one or two sentences."   # <-- shown at the top of the report
+
+sdc: my_block.sdc                           # <-- your timing constraints file ...
+# clock_period_ns: 1.0                      #     ... OR delete the line above and give just a clock period
+
+# testbench:                                # optional but recommended: your own self-checking testbench
+#   files: [tb_my_block.v]
+#   top: tb_my_block
+#   pass_pattern: "TEST PASSED"             # text your testbench prints when everything is correct
+
+library:
+  liberty: nangate45_typ.lib                # the example 45 nm library (found automatically in Docker),
+                                            # or put your own .lib file in this folder and name it here
+targets:
+  min_setup_slack_ns: 0.0                   # timing must be met
+  # max_area_um2: 1000                      # optional area limit
+  # max_power_mw: 1.0                       # optional power limit
+
+priority: [timing, area, power]             # how two versions are compared
+
+latency:
+  policy: fixed                             # fixed: outputs identical on every clock cycle
+  # policy: flexible                        # flexible: pipelining allowed ...
+  # max_extra_cycles: 2                     # ... up to this many extra cycles
+
+loop:
+  max_rounds: 10
+  patience: 3
+
+llm:                                        # Groq's free tier; set GROQ_API_KEY in your shell first
+  model: openai/gpt-oss-120b
+  max_output_tokens: 5000
+  extra_params: {reasoning_effort: medium}

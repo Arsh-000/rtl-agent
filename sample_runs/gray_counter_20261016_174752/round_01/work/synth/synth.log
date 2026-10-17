@@ -1,0 +1,795 @@
+
+ /----------------------------------------------------------------------------\
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |  Copyright (C) 2012 - 2026  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |  Distributed under an ISC-like license, type "license" to see terms        |
+ \----------------------------------------------------------------------------/
+ Yosys 0.69 (git sha1 9f75ca1f9, Release, GNU /usr/bin/c++ 13.3.0)
+
+-- Executing script file `synth.ys' --
+
+1. Executing Liberty frontend: /home/claude/rtl-agent/libs/nangate45_typ.lib
+Imported 134 cell types from liberty file.
+
+2. Executing Verilog-2005 frontend: /home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v
+Parsing SystemVerilog input from `/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v' to AST representation.
+Generating RTLIL representation for module `\gray_counter'.
+Successfully finished Verilog frontend.
+
+3. Executing HIERARCHY pass (managing design hierarchy).
+
+3.1. Analyzing design hierarchy..
+Top module:  \gray_counter
+
+3.2. Analyzing design hierarchy..
+Top module:  \gray_counter
+Removed 0 unused modules.
+
+4. Executing SYNTH pass.
+
+4.1. Executing HIERARCHY pass (managing design hierarchy).
+
+4.1.1. Analyzing design hierarchy..
+Top module:  \gray_counter
+
+4.1.2. Analyzing design hierarchy..
+Top module:  \gray_counter
+Removed 0 unused modules.
+
+4.2. Executing PROC pass (convert processes to netlists).
+
+4.2.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+4.2.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 1 switch rules as full_case in process $proc$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:20$4 in module gray_counter.
+Removed a total of 0 dead cases.
+
+4.2.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 0 redundant assignments.
+Promoted 0 assignments to connections.
+
+4.2.4. Executing PROC_INIT pass (extract init attributes).
+
+4.2.5. Executing PROC_ARST pass (detect async resets in processes).
+
+4.2.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+<suppressed ~2 debug messages>
+
+4.2.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\gray_counter.$proc$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:20$4'.
+     1/1: $0\gray[7:0]
+
+4.2.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+
+4.2.9. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `\gray_counter.\gray' using process `\gray_counter.$proc$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:20$4'.
+  created $dff cell `$procdff$19' with positive edge clock.
+
+4.2.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+4.2.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Found and cleaned up 2 empty switches in `\gray_counter.$proc$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:20$4'.
+Removing empty process `gray_counter.$proc$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:20$4'.
+Cleaned up 2 empty switches.
+
+4.2.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module gray_counter.
+<suppressed ~1 debug messages>
+
+4.3. Executing CHECK pass (checking for obvious problems).
+Checking module gray_counter...
+Found and reported 0 problems.
+
+4.4. Executing FLATTEN pass (flatten design).
+
+4.5. Executing OPT_EXPR pass (perform const folding).
+Optimizing module gray_counter.
+
+4.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \gray_counter..
+Removed 0 unused cells and 12 unused wires.
+<suppressed ~1 debug messages>
+
+4.7. Executing CHECK pass (checking for obvious problems).
+Checking module gray_counter...
+Found and reported 0 problems.
+
+4.8. Executing OPT pass (performing simple optimizations).
+
+4.8.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module gray_counter.
+
+4.8.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\gray_counter'.
+Computing hashes of 14 cells of `\gray_counter'.
+Finding duplicate cells in `\gray_counter'.
+Removed a total of 0 cells.
+
+4.8.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \gray_counter..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~5 debug messages>
+
+4.8.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \gray_counter.
+Performed a total of 0 changes.
+
+4.8.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\gray_counter'.
+Computing hashes of 14 cells of `\gray_counter'.
+Finding duplicate cells in `\gray_counter'.
+Removed a total of 0 cells.
+
+4.8.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.8.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \gray_counter..
+
+4.8.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module gray_counter.
+
+4.8.9. Finished fast OPT passes. (There is nothing left to do.)
+
+4.9. Executing FSM pass (extract and optimize FSM).
+
+4.9.1. Executing FSM_DETECT pass (finding FSMs in design).
+
+4.9.2. Executing FSM_EXTRACT pass (extracting FSM from design).
+
+4.9.3. Executing FSM_OPT pass (simple optimizations of FSMs).
+
+4.9.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \gray_counter..
+
+4.9.5. Executing FSM_OPT pass (simple optimizations of FSMs).
+
+4.9.6. Executing FSM_RECODE pass (re-assigning FSM state encoding).
+
+4.9.7. Executing FSM_INFO pass (dumping all available information on FSM cells).
+
+4.9.8. Executing FSM_MAP pass (mapping FSMs to basic logic).
+
+4.10. Executing OPT pass (performing simple optimizations).
+
+4.10.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module gray_counter.
+
+4.10.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\gray_counter'.
+Computing hashes of 14 cells of `\gray_counter'.
+Finding duplicate cells in `\gray_counter'.
+Removed a total of 0 cells.
+
+4.10.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \gray_counter..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~5 debug messages>
+
+4.10.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \gray_counter.
+Performed a total of 0 changes.
+
+4.10.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\gray_counter'.
+Computing hashes of 14 cells of `\gray_counter'.
+Finding duplicate cells in `\gray_counter'.
+Removed a total of 0 cells.
+
+4.10.6. Executing OPT_DFF pass (perform DFF optimizations).
+Adding SRST signal on $procdff$19 ($dff) from module gray_counter (D = $procmux$14_Y, Q = \gray, rval = 8'00000000).
+Adding EN signal on $auto$ff.cc:337:slice$20 ($sdff) from module gray_counter (D = $xor$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:24$6_Y, Q = \gray).
+
+4.10.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \gray_counter..
+Removed 2 unused cells and 2 unused wires.
+<suppressed ~3 debug messages>
+
+4.10.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module gray_counter.
+
+4.10.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+4.10.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \gray_counter..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~2 debug messages>
+
+4.10.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \gray_counter.
+Performed a total of 0 changes.
+
+4.10.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\gray_counter'.
+Computing hashes of 12 cells of `\gray_counter'.
+Finding duplicate cells in `\gray_counter'.
+Removed a total of 0 cells.
+
+4.10.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.10.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \gray_counter..
+
+4.10.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module gray_counter.
+
+4.10.16. Finished fast OPT passes. (There is nothing left to do.)
+
+4.11. Executing WREDUCE pass (reducing word size of cells).
+Removed top 7 bits (of 8) from port B of cell gray_counter.$add$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:18$1 ($add).
+Removed top 7 bits (of 8) from port B of cell gray_counter.$sub$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:18$2 ($sub).
+Removed top 1 bits (of 8) from port B of cell gray_counter.$xor$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:24$6 ($xor).
+
+4.12. Executing PEEPOPT pass (run peephole optimizers).
+
+4.13. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \gray_counter..
+
+4.14. Executing ALUMACC pass (create $alu and $macc cells).
+Extracting $alu and $macc cells in module gray_counter:
+  creating $macc model for $sub$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:18$2 ($sub).
+  creating $macc model for $add$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:18$1 ($add).
+  creating $alu model for $macc $add$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:18$1.
+  creating $alu model for $macc $sub$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:18$2.
+  creating $alu cell for $sub$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:18$2: $auto$alumacc.cc:548:replace_alu$22
+  creating $alu cell for $add$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:18$1: $auto$alumacc.cc:548:replace_alu$25
+  created 2 $alu and 0 $macc cells.
+
+4.15. Executing SHARE pass (SAT-based resource sharing).
+
+4.16. Executing OPT pass (performing simple optimizations).
+
+4.16.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module gray_counter.
+
+4.16.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\gray_counter'.
+Computing hashes of 12 cells of `\gray_counter'.
+Finding duplicate cells in `\gray_counter'.
+Removed a total of 0 cells.
+
+4.16.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \gray_counter..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~2 debug messages>
+
+4.16.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \gray_counter.
+Performed a total of 0 changes.
+
+4.16.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\gray_counter'.
+Computing hashes of 12 cells of `\gray_counter'.
+Finding duplicate cells in `\gray_counter'.
+Removed a total of 0 cells.
+
+4.16.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.16.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \gray_counter..
+
+4.16.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module gray_counter.
+
+4.16.9. Finished fast OPT passes. (There is nothing left to do.)
+
+4.17. Executing MEMORY pass.
+
+4.17.1. Executing OPT_MEM pass (optimize memories).
+Performed a total of 0 transformations.
+
+4.17.2. Executing OPT_MEM_PRIORITY pass (removing unnecessary memory write priority relations).
+Performed a total of 0 transformations.
+
+4.17.3. Executing OPT_MEM_FEEDBACK pass (finding memory read-to-write feedback paths).
+
+4.17.4. Executing MEMORY_BMUX2ROM pass (converting muxes to ROMs).
+
+4.17.5. Executing MEMORY_DFF pass (merging $dff cells to $memrd).
+
+4.17.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \gray_counter..
+
+4.17.7. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
+
+4.17.8. Executing OPT_MEM_WIDEN pass (optimize memories where all ports are wide).
+Performed a total of 0 transformations.
+
+4.17.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \gray_counter..
+
+4.17.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+4.18. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \gray_counter..
+
+4.19. Executing OPT pass (performing simple optimizations).
+
+4.19.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module gray_counter.
+<suppressed ~5 debug messages>
+
+4.19.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\gray_counter'.
+Computing hashes of 12 cells of `\gray_counter'.
+Finding duplicate cells in `\gray_counter'.
+Removed a total of 0 cells.
+
+4.19.3. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.19.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \gray_counter..
+Removed 0 unused cells and 2 unused wires.
+<suppressed ~1 debug messages>
+
+4.19.5. Finished fast OPT passes.
+
+4.20. Executing MEMORY_MAP pass (converting memories to logic and flip-flops).
+
+4.21. Executing OPT pass (performing simple optimizations).
+
+4.21.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module gray_counter.
+
+4.21.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\gray_counter'.
+Computing hashes of 12 cells of `\gray_counter'.
+Finding duplicate cells in `\gray_counter'.
+Removed a total of 0 cells.
+
+4.21.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \gray_counter..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~2 debug messages>
+
+4.21.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \gray_counter.
+Performed a total of 0 changes.
+
+4.21.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\gray_counter'.
+Computing hashes of 12 cells of `\gray_counter'.
+Finding duplicate cells in `\gray_counter'.
+Removed a total of 0 cells.
+
+4.21.6. Executing OPT_SHARE pass.
+    Found cells that share an operand and can be merged by moving the $mux $ternary$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:18$3 in front of them:
+        $auto$alumacc.cc:548:replace_alu$25
+        $auto$alumacc.cc:548:replace_alu$22
+
+4.21.7. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.21.8. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \gray_counter..
+Removed 0 unused cells and 6 unused wires.
+<suppressed ~1 debug messages>
+
+4.21.9. Executing OPT_EXPR pass (perform const folding).
+Optimizing module gray_counter.
+<suppressed ~2 debug messages>
+
+4.21.10. Rerunning OPT passes. (Maybe there is more to do..)
+
+4.21.11. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \gray_counter..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~2 debug messages>
+
+4.21.12. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \gray_counter.
+    Consolidated identical input bits for $mux cell $auto$opt_share.cc:244:merge_operators$34:
+      Old ports: A=8'11111111, B=8'00000001, Y=$auto$rtlil.cc:3386:Mux$35
+      New ports: A=1'1, B=1'0, Y=$auto$rtlil.cc:3386:Mux$35 [1]
+      New connections: { $auto$rtlil.cc:3386:Mux$35 [7:2] $auto$rtlil.cc:3386:Mux$35 [0] } = { $auto$rtlil.cc:3386:Mux$35 [1] $auto$rtlil.cc:3386:Mux$35 [1] $auto$rtlil.cc:3386:Mux$35 [1] $auto$rtlil.cc:3386:Mux$35 [1] $auto$rtlil.cc:3386:Mux$35 [1] $auto$rtlil.cc:3386:Mux$35 [1] 1'1 }
+  Optimizing cells in module \gray_counter.
+Performed a total of 1 changes.
+
+4.21.13. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\gray_counter'.
+Computing hashes of 11 cells of `\gray_counter'.
+Finding duplicate cells in `\gray_counter'.
+Removed a total of 0 cells.
+
+4.21.14. Executing OPT_SHARE pass.
+
+4.21.15. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.21.16. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \gray_counter..
+Removed 0 unused cells and 2 unused wires.
+<suppressed ~1 debug messages>
+
+4.21.17. Executing OPT_EXPR pass (perform const folding).
+Optimizing module gray_counter.
+<suppressed ~1 debug messages>
+
+4.21.18. Rerunning OPT passes. (Maybe there is more to do..)
+
+4.21.19. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \gray_counter..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+4.21.20. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \gray_counter.
+Performed a total of 0 changes.
+
+4.21.21. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\gray_counter'.
+Computing hashes of 11 cells of `\gray_counter'.
+Finding duplicate cells in `\gray_counter'.
+Removed a total of 0 cells.
+
+4.21.22. Executing OPT_SHARE pass.
+
+4.21.23. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.21.24. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \gray_counter..
+
+4.21.25. Executing OPT_EXPR pass (perform const folding).
+Optimizing module gray_counter.
+
+4.21.26. Finished fast OPT passes. (There is nothing left to do.)
+
+4.22. Executing TECHMAP pass (map to technology primitives).
+
+4.22.1. Executing Verilog-2005 frontend: /opt/eda/bin/../share/yosys/techmap.v
+Parsing Verilog input from `/opt/eda/bin/../share/yosys/techmap.v' to AST representation.
+Generating RTLIL representation for module `\_90_simplemap_bool_ops'.
+Generating RTLIL representation for module `\_90_simplemap_reduce_ops'.
+Generating RTLIL representation for module `\_90_simplemap_logic_ops'.
+Generating RTLIL representation for module `\_90_simplemap_compare_ops'.
+Generating RTLIL representation for module `\_90_simplemap_various'.
+Generating RTLIL representation for module `\_90_simplemap_registers'.
+Generating RTLIL representation for module `\_90_shift_ops_shr_shl_sshl_sshr'.
+Generating RTLIL representation for module `\_90_shift_shiftx'.
+Generating RTLIL representation for module `\_90_fa'.
+Generating RTLIL representation for module `\_90_lcu_brent_kung'.
+Generating RTLIL representation for module `\_90_alu'.
+Generating RTLIL representation for module `\_90_macc'.
+Generating RTLIL representation for module `\_90_alumacc'.
+Generating RTLIL representation for module `$__div_mod_u'.
+Generating RTLIL representation for module `$__div_mod_trunc'.
+Generating RTLIL representation for module `\_90_div'.
+Generating RTLIL representation for module `\_90_mod'.
+Generating RTLIL representation for module `$__div_mod_floor'.
+Generating RTLIL representation for module `\_90_divfloor'.
+Generating RTLIL representation for module `\_90_modfloor'.
+Generating RTLIL representation for module `\_90_pow'.
+Generating RTLIL representation for module `\_90_demux'.
+Generating RTLIL representation for module `\_90_lut'.
+Generating RTLIL representation for module `$connect'.
+Generating RTLIL representation for module `$input_port'.
+Successfully finished Verilog frontend.
+
+4.22.2. Continuing TECHMAP pass.
+Using extmapper simplemap for cells of type $not.
+Using extmapper simplemap for cells of type $xor.
+Using template $paramod$a1bc51c02ce12ac21eb18988e83292af48ed7d72\_90_alu for cells of type $alu.
+Using extmapper simplemap for cells of type $sdffe.
+Using template $paramod\_90_fa\WIDTH=32'00000000000000000000000000001000 for cells of type $fa.
+Using template $paramod\_90_lcu_brent_kung\WIDTH=32'00000000000000000000000000001000 for cells of type $lcu.
+Using extmapper simplemap for cells of type $pos.
+Using extmapper simplemap for cells of type $mux.
+Using extmapper simplemap for cells of type $or.
+Using extmapper simplemap for cells of type $and.
+No more expansions possible.
+<suppressed ~248 debug messages>
+
+4.23. Executing OPT pass (performing simple optimizations).
+
+4.23.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module gray_counter.
+<suppressed ~38 debug messages>
+
+4.23.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\gray_counter'.
+Computing hashes of 79 cells of `\gray_counter'.
+Finding duplicate cells in `\gray_counter'.
+Computing hashes of 78 cells of `\gray_counter'.
+Finding duplicate cells in `\gray_counter'.
+<suppressed ~3 debug messages>
+Removed a total of 1 cells.
+
+4.23.3. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.23.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \gray_counter..
+Removed 16 unused cells and 47 unused wires.
+<suppressed ~17 debug messages>
+
+4.23.5. Finished fast OPT passes.
+
+4.24. Executing ABC pass (technology mapping using ABC).
+
+4.24.1. Extracting gate netlist of module `\gray_counter' to `<abc-temp-dir>/input.blif'..
+
+4.24.1.1. Executed ABC.
+Extracted 54 gates and 63 wires to a netlist network with 9 inputs and 8 outputs.
+Running ABC script: <abc-temp-dir>/abc.script
+ABC: UC Berkeley, ABC 1.01 (compiled Oct  9 2026 11:17:03)
+ABC: abc 01> empty
+ABC: abc 01> source <abc-temp-dir>/abc.script
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_library <abc-temp-dir>/stdcells.genlib 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &fraig -x 
+ABC: + &put 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + dc2 
+ABC: + dretime 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &dch -f 
+ABC: + &nf 
+ABC: + &put 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+ABC: 
+ABC: YOSYS_ABC_DONE 
+
+4.24.1.2. Re-integrating ABC results.
+ABC RESULTS:               AND cells:        2
+ABC RESULTS:            ANDNOT cells:        3
+ABC RESULTS:               MUX cells:        3
+ABC RESULTS:              NAND cells:        5
+ABC RESULTS:               NOR cells:        1
+ABC RESULTS:               NOT cells:        1
+ABC RESULTS:                OR cells:        4
+ABC RESULTS:             ORNOT cells:        2
+ABC RESULTS:              XNOR cells:       10
+ABC RESULTS:               XOR cells:       12
+ABC RESULTS:        internal signals:       46
+ABC RESULTS:           input signals:        9
+ABC RESULTS:          output signals:        8
+Removing temp directory.
+Removing global temp directory.
+
+4.25. Executing OPT pass (performing simple optimizations).
+
+4.25.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module gray_counter.
+
+4.25.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\gray_counter'.
+Computing hashes of 51 cells of `\gray_counter'.
+Finding duplicate cells in `\gray_counter'.
+Removed a total of 0 cells.
+
+4.25.3. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.25.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \gray_counter..
+Removed 0 unused cells and 27 unused wires.
+<suppressed ~1 debug messages>
+
+4.25.5. Finished fast OPT passes.
+
+4.26. Executing HIERARCHY pass (managing design hierarchy).
+Attribute `top' found on module `gray_counter'. Setting top module to gray_counter.
+
+4.26.1. Analyzing design hierarchy..
+Top module:  \gray_counter
+
+4.26.2. Analyzing design hierarchy..
+Top module:  \gray_counter
+Removed 0 unused modules.
+
+4.27. Printing statistics.
+
+=== gray_counter ===
+
+        +----------Local Count, excluding submodules.
+        | 
+       49 wires
+       70 wire bits
+        7 public wires
+       28 public wire bits
+        5 ports
+       12 port bits
+       51 cells
+        3   $_ANDNOT_
+        2   $_AND_
+        3   $_MUX_
+        5   $_NAND_
+        1   $_NOR_
+        1   $_NOT_
+        2   $_ORNOT_
+        4   $_OR_
+        8   $_SDFFE_PP0P_
+       10   $_XNOR_
+       12   $_XOR_
+
+4.28. Executing CHECK pass (checking for obvious problems).
+Checking module gray_counter...
+Found and reported 0 problems.
+
+5. Executing DFFLIBMAP pass (mapping DFF/DLATCH cells to sequential cells from liberty file).
+  cell DFF_X1 (noninv, pins=4, area=4.52) is a direct match for cell type $_DFF_P_.
+  cell DFFR_X1 (noninv, pins=5, area=5.32) is a direct match for cell type $_DFF_PN0_.
+  cell DFFS_X1 (noninv, pins=5, area=5.32) is a direct match for cell type $_DFF_PN1_.
+  cell DFFRS_X1 (noninv, pins=6, area=6.38) is a direct match for cell type $_DFFSR_PNN_.
+  cell DLL_X1 (noninv, pins=3, area=2.66) is a direct match for cell type $_DLATCH_N_.
+  cell DLH_X1 (noninv, pins=3, area=2.66) is a direct match for cell type $_DLATCH_P_.
+  final dff/dlatch cell mappings:
+    unmapped dff/dlatch cell: $_DFF_N_
+    \DFF_X1 _DFF_P_ (.CK( C), .D( D), .Q( Q), .QN(~Q));
+    unmapped dff/dlatch cell: $_DFF_NN0_
+    unmapped dff/dlatch cell: $_DFF_NN1_
+    unmapped dff/dlatch cell: $_DFF_NP0_
+    unmapped dff/dlatch cell: $_DFF_NP1_
+    \DFFR_X1 _DFF_PN0_ (.CK( C), .D( D), .Q( Q), .QN(~Q), .RN( R));
+    \DFFS_X1 _DFF_PN1_ (.CK( C), .D( D), .Q( Q), .QN(~Q), .SN( R));
+    unmapped dff/dlatch cell: $_DFF_PP0_
+    unmapped dff/dlatch cell: $_DFF_PP1_
+    unmapped dff/dlatch cell: $_DFFE_NN_
+    unmapped dff/dlatch cell: $_DFFE_NP_
+    unmapped dff/dlatch cell: $_DFFE_PN_
+    unmapped dff/dlatch cell: $_DFFE_PP_
+    unmapped dff/dlatch cell: $_DFFSR_NNN_
+    unmapped dff/dlatch cell: $_DFFSR_NNP_
+    unmapped dff/dlatch cell: $_DFFSR_NPN_
+    unmapped dff/dlatch cell: $_DFFSR_NPP_
+    \DFFRS_X1 _DFFSR_PNN_ (.CK( C), .D( D), .Q( Q), .QN(~Q), .RN( R), .SN( S));
+    unmapped dff/dlatch cell: $_DFFSR_PNP_
+    unmapped dff/dlatch cell: $_DFFSR_PPN_
+    unmapped dff/dlatch cell: $_DFFSR_PPP_
+    \DLL_X1 _DLATCH_N_ (.D( D), .GN( E), .Q( Q));
+    \DLH_X1 _DLATCH_P_ (.D( D), .G( E), .Q( Q));
+    unmapped dff/dlatch cell: $_DLATCH_NN0_
+    unmapped dff/dlatch cell: $_DLATCH_NN1_
+    unmapped dff/dlatch cell: $_DLATCH_NP0_
+    unmapped dff/dlatch cell: $_DLATCH_NP1_
+    unmapped dff/dlatch cell: $_DLATCH_PN0_
+    unmapped dff/dlatch cell: $_DLATCH_PN1_
+    unmapped dff/dlatch cell: $_DLATCH_PP0_
+    unmapped dff/dlatch cell: $_DLATCH_PP1_
+    unmapped dff/dlatch cell: $_DLATCHSR_NNN_
+    unmapped dff/dlatch cell: $_DLATCHSR_NNP_
+    unmapped dff/dlatch cell: $_DLATCHSR_NPN_
+    unmapped dff/dlatch cell: $_DLATCHSR_NPP_
+    unmapped dff/dlatch cell: $_DLATCHSR_PNN_
+    unmapped dff/dlatch cell: $_DLATCHSR_PNP_
+    unmapped dff/dlatch cell: $_DLATCHSR_PPN_
+    unmapped dff/dlatch cell: $_DLATCHSR_PPP_
+
+5.1. Executing DFFLEGALIZE pass (convert FFs and LATCHes to types supported by the target).
+<suppressed ~8 debug messages>
+Mapping DFF/DLATCH cells in module `\gray_counter':
+  mapped 8 $_DFF_P_ cells to \DFF_X1 cells.
+
+6. Executing ABC pass (technology mapping using ABC).
+
+6.1. Extracting gate netlist of module `\gray_counter' to `<abc-temp-dir>/input.blif'..
+ABC: using cached merged SCL: /tmp/yosys-liberty-scl-cache-0/yosys_merged_cbdd84f8.scl (1 files)
+
+6.1.1. Executed ABC.
+Extracted 59 gates and 71 wires to a netlist network with 11 inputs and 8 outputs.
+Running ABC script: <abc-temp-dir>/abc.script
+ABC: UC Berkeley, ABC 1.01 (compiled Oct  9 2026 11:17:03)
+ABC: abc 01> empty
+ABC: abc 01> source <abc-temp-dir>/abc.script
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_scl /tmp/yosys-liberty-scl-cache-0/yosys_merged_cbdd84f8.scl 
+ABC: Warning: Detected 2 multi-output cells (for example, "FA_X1").
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &fraig -x 
+ABC: + &put 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + dc2 
+ABC: + dretime 
+ABC: + retime -o -D 450 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &dch -f 
+ABC: + &nf -D 450 
+ABC: + &put 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+ABC: 
+ABC: YOSYS_ABC_DONE 
+
+6.1.2. Re-integrating ABC results.
+ABC RESULTS:           AND2_X1 cells:        3
+ABC RESULTS:           AND3_X1 cells:        1
+ABC RESULTS:         AOI211_X1 cells:        7
+ABC RESULTS:          AOI21_X1 cells:        3
+ABC RESULTS:            INV_X1 cells:        5
+ABC RESULTS:           MUX2_X1 cells:        2
+ABC RESULTS:          NAND2_X1 cells:        3
+ABC RESULTS:          NAND3_X1 cells:        1
+ABC RESULTS:          NAND4_X1 cells:        1
+ABC RESULTS:           NOR2_X1 cells:       12
+ABC RESULTS:           NOR4_X1 cells:        1
+ABC RESULTS:         OAI211_X1 cells:        2
+ABC RESULTS:          OAI21_X1 cells:        1
+ABC RESULTS:          OAI22_X1 cells:        1
+ABC RESULTS:            OR2_X1 cells:        1
+ABC RESULTS:            OR3_X1 cells:        1
+ABC RESULTS:          XNOR2_X1 cells:       15
+ABC RESULTS:           XOR2_X1 cells:        5
+ABC RESULTS:        internal signals:       52
+ABC RESULTS:           input signals:       11
+ABC RESULTS:          output signals:        8
+Removing temp directory.
+Removing global temp directory.
+
+7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \gray_counter..
+Removed 0 unused cells and 71 unused wires.
+<suppressed ~3 debug messages>
+
+8. Executing AUTONAME pass.
+Renamed 146 objects in module gray_counter.
+<suppressed ~146 debug messages>
+
+9. Printing statistics.
+
+=== gray_counter ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+       78        - wires
+       85        - wire bits
+       78        - public wires
+       85        - public wire bits
+        5        - ports
+       12        - port bits
+       73  114.646 cells
+        3    3.192   AND2_X1
+        1     1.33   AND3_X1
+        7     9.31   AOI211_X1
+        3    3.192   AOI21_X1
+        8   36.176   DFF_X1
+        5     2.66   INV_X1
+        2    3.724   MUX2_X1
+        3    2.394   NAND2_X1
+        1    1.064   NAND3_X1
+        1     1.33   NAND4_X1
+       12    9.576   NOR2_X1
+        1     1.33   NOR4_X1
+        2     2.66   OAI211_X1
+        1    1.064   OAI21_X1
+        1     1.33   OAI22_X1
+        1    1.064   OR2_X1
+        1     1.33   OR3_X1
+       15    23.94   XNOR2_X1
+        5     7.98   XOR2_X1
+
+   Chip area for module '\gray_counter': 114.646000
+     of which used for sequential elements: 36.176000 (31.55%)
+
+10. Executing CHECK pass (checking for obvious problems).
+Checking module gray_counter...
+Found and reported 0 problems.
+
+11. Executing Verilog backend.
+Dumping module `\gray_counter'.
+
+End of script. Logfile hash: c843397907, time: 0.36s, user: 0.17s, system: 0.04s, MEM: 37.59 MB peak
+Yosys 0.69 (git sha1 9f75ca1f9, Release, GNU /usr/bin/c++ 13.3.0)
+Time spent: 44% 2x abc (0 sec), 11% 2x stat (0 sec), ...

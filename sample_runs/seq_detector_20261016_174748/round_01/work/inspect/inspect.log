@@ -1,0 +1,128 @@
+
+ /----------------------------------------------------------------------------\
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |  Copyright (C) 2012 - 2026  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |  Distributed under an ISC-like license, type "license" to see terms        |
+ \----------------------------------------------------------------------------/
+ Yosys 0.69 (git sha1 9f75ca1f9, Release, GNU /usr/bin/c++ 13.3.0)
+
+-- Executing script file `inspect.ys' --
+
+1. Executing Verilog-2005 frontend: /home/claude/rtl-agent/runs/seq_detector_20261016_174748/round_01/rtl/seq_detector.v
+Parsing SystemVerilog input from `/home/claude/rtl-agent/runs/seq_detector_20261016_174748/round_01/rtl/seq_detector.v' to AST representation.
+Generating RTLIL representation for module `\seq_detector'.
+Successfully finished Verilog frontend.
+
+2. Executing HIERARCHY pass (managing design hierarchy).
+
+2.1. Analyzing design hierarchy..
+Top module:  \seq_detector
+
+2.2. Analyzing design hierarchy..
+Top module:  \seq_detector
+Removed 0 unused modules.
+
+3. Executing PROC pass (convert processes to netlists).
+
+3.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+3.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 1 switch rules as full_case in process $proc$/home/claude/rtl-agent/runs/seq_detector_20261016_174748/round_01/rtl/seq_detector.v:18$18 in module seq_detector.
+Removed a total of 0 dead cases.
+
+3.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 6 redundant assignments.
+Promoted 0 assignments to connections.
+
+3.4. Executing PROC_INIT pass (extract init attributes).
+
+3.5. Executing PROC_ARST pass (detect async resets in processes).
+
+3.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+<suppressed ~1 debug messages>
+
+3.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\seq_detector.$proc$/home/claude/rtl-agent/runs/seq_detector_20261016_174748/round_01/rtl/seq_detector.v:18$18'.
+     1/2: $0\found[0:0]
+     2/2: { $0\s_idle[0:0] $0\s_1[0:0] $0\s_10[0:0] $0\s_101[0:0] $0\s_1011[0:0] }
+
+3.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+
+3.9. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `\seq_detector.\found' using process `\seq_detector.$proc$/home/claude/rtl-agent/runs/seq_detector_20261016_174748/round_01/rtl/seq_detector.v:18$18'.
+  created $dff cell `$procdff$26' with positive edge clock.
+Creating register for signal `\seq_detector.\s_idle' using process `\seq_detector.$proc$/home/claude/rtl-agent/runs/seq_detector_20261016_174748/round_01/rtl/seq_detector.v:18$18'.
+  created $dff cell `$procdff$27' with positive edge clock.
+Creating register for signal `\seq_detector.\s_1' using process `\seq_detector.$proc$/home/claude/rtl-agent/runs/seq_detector_20261016_174748/round_01/rtl/seq_detector.v:18$18'.
+  created $dff cell `$procdff$28' with positive edge clock.
+Creating register for signal `\seq_detector.\s_10' using process `\seq_detector.$proc$/home/claude/rtl-agent/runs/seq_detector_20261016_174748/round_01/rtl/seq_detector.v:18$18'.
+  created $dff cell `$procdff$29' with positive edge clock.
+Creating register for signal `\seq_detector.\s_101' using process `\seq_detector.$proc$/home/claude/rtl-agent/runs/seq_detector_20261016_174748/round_01/rtl/seq_detector.v:18$18'.
+  created $dff cell `$procdff$30' with positive edge clock.
+Creating register for signal `\seq_detector.\s_1011' using process `\seq_detector.$proc$/home/claude/rtl-agent/runs/seq_detector_20261016_174748/round_01/rtl/seq_detector.v:18$18'.
+  created $dff cell `$procdff$31' with positive edge clock.
+
+3.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+3.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Found and cleaned up 1 empty switch in `\seq_detector.$proc$/home/claude/rtl-agent/runs/seq_detector_20261016_174748/round_01/rtl/seq_detector.v:18$18'.
+Removing empty process `seq_detector.$proc$/home/claude/rtl-agent/runs/seq_detector_20261016_174748/round_01/rtl/seq_detector.v:18$18'.
+Cleaned up 1 empty switch.
+
+3.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module seq_detector.
+
+4. Executing FLATTEN pass (flatten design).
+
+5. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \seq_detector..
+Removed 0 unused cells and 9 unused wires.
+<suppressed ~1 debug messages>
+
+6. Executing OPT_DFF pass (perform DFF optimizations).
+Adding SRST signal on $procdff$26 ($dff) from module seq_detector (D = $and$/home/claude/rtl-agent/runs/seq_detector_20261016_174748/round_01/rtl/seq_detector.v:24$19_Y, Q = \found, rval = 1'0).
+Adding SRST signal on $procdff$27 ($dff) from module seq_detector (D = \n_idle, Q = \s_idle, rval = 1'1).
+Adding SRST signal on $procdff$28 ($dff) from module seq_detector (D = \n_1, Q = \s_1, rval = 1'0).
+Adding SRST signal on $procdff$29 ($dff) from module seq_detector (D = \n_10, Q = \s_10, rval = 1'0).
+Adding SRST signal on $procdff$30 ($dff) from module seq_detector (D = \n_101, Q = \s_101, rval = 1'0).
+Adding SRST signal on $procdff$31 ($dff) from module seq_detector (D = \n_1011, Q = \s_1011, rval = 1'0).
+
+7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \seq_detector..
+Removed 2 unused cells and 6 unused wires.
+<suppressed ~3 debug messages>
+
+8. Executing MEMORY pass.
+
+8.1. Executing OPT_MEM pass (optimize memories).
+Performed a total of 0 transformations.
+
+8.2. Executing OPT_MEM_PRIORITY pass (removing unnecessary memory write priority relations).
+Performed a total of 0 transformations.
+
+8.3. Executing OPT_MEM_FEEDBACK pass (finding memory read-to-write feedback paths).
+
+8.4. Executing MEMORY_BMUX2ROM pass (converting muxes to ROMs).
+
+8.5. Executing MEMORY_DFF pass (merging $dff cells to $memrd).
+
+8.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \seq_detector..
+
+8.7. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
+
+8.8. Executing OPT_MEM_WIDEN pass (optimize memories where all ports are wide).
+Performed a total of 0 transformations.
+
+8.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \seq_detector..
+
+8.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+9. Executing JSON backend.
+
+End of script. Logfile hash: 80b185e820, time: 0.00s, user: 0.00s, system: 0.01s, MEM: 33.21 MB peak
+Yosys 0.69 (git sha1 9f75ca1f9, Release, GNU /usr/bin/c++ 13.3.0)
+Time spent: 39% 2x read_verilog (0 sec), 19% 4x opt_clean (0 sec), ...

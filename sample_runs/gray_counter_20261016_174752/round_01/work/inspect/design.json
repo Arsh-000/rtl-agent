@@ -1,0 +1,422 @@
+{
+  "creator": "Yosys 0.69 (git sha1 9f75ca1f9, Release, GNU /usr/bin/c++ 13.3.0)",
+  "modules": {
+    "gray_counter": {
+      "attributes": {
+        "top": "00000000000000000000000000000001",
+        "src": "/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:1.1-26.10"
+      },
+      "ports": {
+        "clk": {
+          "direction": "input",
+          "bits": [ 2 ]
+        },
+        "rst": {
+          "direction": "input",
+          "bits": [ 3 ]
+        },
+        "en": {
+          "direction": "input",
+          "bits": [ 4 ]
+        },
+        "up": {
+          "direction": "input",
+          "bits": [ 5 ]
+        },
+        "gray": {
+          "direction": "output",
+          "bits": [ 6, 7, 8, 9, 10, 11, 12, 13 ]
+        }
+      },
+      "cells": {
+        "$add$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:18$1": {
+          "hide_name": 1,
+          "type": "$add",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000001000",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000001000",
+            "Y_WIDTH": "00000000000000000000000000001000"
+          },
+          "attributes": {
+            "src": "/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:18.28-18.38"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 14, 15, 16, 17, 18, 19, 20, 13 ],
+            "B": [ "1", "0", "0", "0", "0", "0", "0", "0" ],
+            "Y": [ 21, 22, 23, 24, 25, 26, 27, 28 ]
+          }
+        },
+        "$auto$ff.cc:337:slice$20": {
+          "hide_name": 1,
+          "type": "$sdff",
+          "parameters": {
+            "CLK_POLARITY": "00000000000000000000000000000001",
+            "SRST_POLARITY": "00000000000000000000000000000001",
+            "SRST_VALUE": "00000000",
+            "WIDTH": "00000000000000000000000000001000"
+          },
+          "attributes": {
+            "src": "/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:20.5-25.8"
+          },
+          "port_directions": {
+            "CLK": "input",
+            "D": "input",
+            "Q": "output",
+            "SRST": "input"
+          },
+          "connections": {
+            "CLK": [ 2 ],
+            "D": [ 29, 30, 31, 32, 33, 34, 35, 36 ],
+            "Q": [ 6, 7, 8, 9, 10, 11, 12, 13 ],
+            "SRST": [ 3 ]
+          }
+        },
+        "$procmux$14": {
+          "hide_name": 1,
+          "type": "$mux",
+          "parameters": {
+            "WIDTH": "00000000000000000000000000001000"
+          },
+          "attributes": {
+            "src": "/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:23.18-23.20|/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:23.14-24.40"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "S": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 6, 7, 8, 9, 10, 11, 12, 13 ],
+            "B": [ 37, 38, 39, 40, 41, 42, 43, 44 ],
+            "S": [ 4 ],
+            "Y": [ 29, 30, 31, 32, 33, 34, 35, 36 ]
+          }
+        },
+        "$sub$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:18$2": {
+          "hide_name": 1,
+          "type": "$sub",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000001000",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000001000",
+            "Y_WIDTH": "00000000000000000000000000001000"
+          },
+          "attributes": {
+            "src": "/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:18.41-18.51"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 14, 15, 16, 17, 18, 19, 20, 13 ],
+            "B": [ "1", "0", "0", "0", "0", "0", "0", "0" ],
+            "Y": [ 45, 46, 47, 48, 49, 50, 51, 52 ]
+          }
+        },
+        "$ternary$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:18$3": {
+          "hide_name": 1,
+          "type": "$mux",
+          "parameters": {
+            "WIDTH": "00000000000000000000000000001000"
+          },
+          "attributes": {
+            "src": "/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:18.23-18.51"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "S": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 45, 46, 47, 48, 49, 50, 51, 52 ],
+            "B": [ 21, 22, 23, 24, 25, 26, 27, 28 ],
+            "S": [ 5 ],
+            "Y": [ 53, 54, 55, 56, 57, 58, 59, 60 ]
+          }
+        },
+        "$xor$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:14$10": {
+          "hide_name": 1,
+          "type": "$xor",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000001",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000001",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+            "src": "/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:14.29-14.47"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 18 ],
+            "B": [ 9 ],
+            "Y": [ 17 ]
+          }
+        },
+        "$xor$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:14$11": {
+          "hide_name": 1,
+          "type": "$xor",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000001",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000001",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+            "src": "/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:14.29-14.47"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 17 ],
+            "B": [ 8 ],
+            "Y": [ 16 ]
+          }
+        },
+        "$xor$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:14$12": {
+          "hide_name": 1,
+          "type": "$xor",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000001",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000001",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+            "src": "/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:14.29-14.47"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 16 ],
+            "B": [ 7 ],
+            "Y": [ 15 ]
+          }
+        },
+        "$xor$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:14$13": {
+          "hide_name": 1,
+          "type": "$xor",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000001",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000001",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+            "src": "/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:14.29-14.47"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 15 ],
+            "B": [ 6 ],
+            "Y": [ 14 ]
+          }
+        },
+        "$xor$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:14$7": {
+          "hide_name": 1,
+          "type": "$xor",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000001",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000001",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+            "src": "/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:14.29-14.47"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 13 ],
+            "B": [ 12 ],
+            "Y": [ 20 ]
+          }
+        },
+        "$xor$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:14$8": {
+          "hide_name": 1,
+          "type": "$xor",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000001",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000001",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+            "src": "/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:14.29-14.47"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 20 ],
+            "B": [ 11 ],
+            "Y": [ 19 ]
+          }
+        },
+        "$xor$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:14$9": {
+          "hide_name": 1,
+          "type": "$xor",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000001",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000001",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+            "src": "/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:14.29-14.47"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 19 ],
+            "B": [ 10 ],
+            "Y": [ 18 ]
+          }
+        },
+        "$xor$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:24$6": {
+          "hide_name": 1,
+          "type": "$xor",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000001000",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000001000",
+            "Y_WIDTH": "00000000000000000000000000001000"
+          },
+          "attributes": {
+            "src": "/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:24.21-24.39"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 53, 54, 55, 56, 57, 58, 59, 60 ],
+            "B": [ 54, 55, 56, 57, 58, 59, 60, "0" ],
+            "Y": [ 37, 38, 39, 40, 41, 42, 43, 44 ]
+          }
+        }
+      },
+      "netnames": {
+        "$add$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:18$1_Y": {
+          "hide_name": 1,
+          "bits": [ 21, 22, 23, 24, 25, 26, 27, 28 ],
+          "attributes": {
+            "src": "/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:18.28-18.38"
+          }
+        },
+        "$procmux$14_Y": {
+          "hide_name": 1,
+          "bits": [ 29, 30, 31, 32, 33, 34, 35, 36 ],
+          "attributes": {
+          }
+        },
+        "$sub$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:18$2_Y": {
+          "hide_name": 1,
+          "bits": [ 45, 46, 47, 48, 49, 50, 51, 52 ],
+          "attributes": {
+            "src": "/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:18.41-18.51"
+          }
+        },
+        "$xor$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:24$6_Y": {
+          "hide_name": 1,
+          "bits": [ 37, 38, 39, 40, 41, 42, 43, 44 ],
+          "attributes": {
+            "src": "/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:24.21-24.39"
+          }
+        },
+        "bin": {
+          "hide_name": 0,
+          "bits": [ 14, 15, 16, 17, 18, 19, 20, 13 ],
+          "attributes": {
+            "src": "/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:9.16-9.19"
+          }
+        },
+        "clk": {
+          "hide_name": 0,
+          "bits": [ 2 ],
+          "attributes": {
+            "src": "/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:2.23-2.26"
+          }
+        },
+        "en": {
+          "hide_name": 0,
+          "bits": [ 4 ],
+          "attributes": {
+            "src": "/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:4.23-4.25"
+          }
+        },
+        "gray": {
+          "hide_name": 0,
+          "bits": [ 6, 7, 8, 9, 10, 11, 12, 13 ],
+          "attributes": {
+            "src": "/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:6.23-6.27"
+          }
+        },
+        "next": {
+          "hide_name": 0,
+          "bits": [ 53, 54, 55, 56, 57, 58, 59, 60 ],
+          "attributes": {
+            "src": "/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:18.16-18.20"
+          }
+        },
+        "rst": {
+          "hide_name": 0,
+          "bits": [ 3 ],
+          "attributes": {
+            "src": "/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:3.23-3.26"
+          }
+        },
+        "up": {
+          "hide_name": 0,
+          "bits": [ 5 ],
+          "attributes": {
+            "src": "/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_01/rtl/gray_counter.v:5.23-5.25"
+          }
+        }
+      }
+    }
+  }
+}

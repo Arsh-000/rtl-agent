@@ -1,0 +1,37 @@
+# Example 3 - a finite state machine. No SDC is given: the tool generates a
+# basic one from clock_period_ns (and the report flags it for review).
+project_name: seq_detector
+mode: rtl
+
+design:
+  top: seq_detector
+  rtl_files: [rtl/seq_detector.v]
+
+clock_period_ns: 0.5
+
+library:
+  liberty: ../../libs/nangate45_typ.lib
+
+targets:
+  min_setup_slack_ns: 0.0
+
+priority: [area, power, timing]      # this time area matters most
+
+latency:
+  policy: fixed
+
+loop:
+  max_rounds: 6
+  patience: 2
+  optimize_beyond_targets: true      # timing is already met; keep trying to shrink it
+
+llm:
+  provider: openai_compatible
+  base_url: https://api.groq.com/openai/v1
+  model: openai/gpt-oss-120b
+  api_key_env: GROQ_API_KEY
+  max_output_tokens: 5000             # "medium" reasoning needs room: hidden reasoning counts toward this
+  extra_params: {reasoning_effort: medium}   # "low" gave up too early in real runs
+  scripted_dir: scripted
+
+output_dir: ../../runs

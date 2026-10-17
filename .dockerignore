@@ -1,0 +1,10 @@
+# Keep the Docker build small and fast: none of these are needed inside the image.
+.git
+**/__pycache__
+runs/
+runs_*/
+sample_runs/
+new_user_test/
+libs/*.lib
+*.pyc
+release/

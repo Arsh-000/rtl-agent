@@ -1,0 +1,258 @@
+
+ /----------------------------------------------------------------------------\
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |  Copyright (C) 2012 - 2026  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |  Distributed under an ISC-like license, type "license" to see terms        |
+ \----------------------------------------------------------------------------/
+ Yosys 0.69 (git sha1 9f75ca1f9, Release, GNU /usr/bin/c++ 13.3.0)
+
+-- Executing script file `formal.ys' --
+
+1. Executing Verilog-2005 frontend: /home/claude/rtl-agent/runs/gray_counter_20261016_174752/golden/golden.v
+Parsing SystemVerilog input from `/home/claude/rtl-agent/runs/gray_counter_20261016_174752/golden/golden.v' to AST representation.
+Generating RTLIL representation for module `\gray_counter__golden'.
+Successfully finished Verilog frontend.
+
+2. Executing Verilog-2005 frontend: /home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_02/rtl/gray_counter.v
+Parsing SystemVerilog input from `/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_02/rtl/gray_counter.v' to AST representation.
+Generating RTLIL representation for module `\gray_counter'.
+Successfully finished Verilog frontend.
+
+3. Executing HIERARCHY pass (managing design hierarchy).
+
+4. Executing PROC pass (convert processes to netlists).
+
+4.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+4.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 1 switch rules as full_case in process $proc$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_02/rtl/gray_counter.v:14$17 in module gray_counter.
+Removed a total of 0 dead cases.
+
+4.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 0 redundant assignments.
+Promoted 2 assignments to connections.
+
+4.4. Executing PROC_INIT pass (extract init attributes).
+
+4.5. Executing PROC_ARST pass (detect async resets in processes).
+
+4.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+<suppressed ~2 debug messages>
+
+4.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\gray_counter.$proc$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_02/rtl/gray_counter.v:14$17'.
+     1/2: $0\count[7:0]
+     2/2: $0\gray[7:0]
+Creating decoders for process `\gray_counter__golden.$proc$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/golden/golden.v:26$3'.
+Creating decoders for process `\gray_counter__golden.$proc$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/golden/golden.v:24$2'.
+
+4.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+
+4.9. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `\gray_counter.\gray' using process `\gray_counter.$proc$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_02/rtl/gray_counter.v:14$17'.
+  created $dff cell `$procdff$30' with positive edge clock.
+Creating register for signal `\gray_counter.\count' using process `\gray_counter.$proc$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_02/rtl/gray_counter.v:14$17'.
+  created $dff cell `$procdff$31' with positive edge clock.
+Creating register for signal `\gray_counter__golden.\count' using process `\gray_counter__golden.$proc$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/golden/golden.v:26$3'.
+  created $dff cell `$procdff$32' with positive edge clock.
+Creating register for signal `\gray_counter__golden.\gray' using process `\gray_counter__golden.$proc$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/golden/golden.v:24$2'.
+  created $dff cell `$procdff$33' with positive edge clock.
+
+4.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+4.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Found and cleaned up 2 empty switches in `\gray_counter.$proc$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_02/rtl/gray_counter.v:14$17'.
+Removing empty process `gray_counter.$proc$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_02/rtl/gray_counter.v:14$17'.
+Removing empty process `gray_counter__golden.$proc$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/golden/golden.v:26$3'.
+Removing empty process `gray_counter__golden.$proc$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/golden/golden.v:24$2'.
+Cleaned up 2 empty switches.
+
+4.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module gray_counter.
+<suppressed ~2 debug messages>
+Optimizing module gray_counter__golden.
+
+5. Executing MEMORY pass.
+
+5.1. Executing OPT_MEM pass (optimize memories).
+Performed a total of 0 transformations.
+
+5.2. Executing OPT_MEM_PRIORITY pass (removing unnecessary memory write priority relations).
+Performed a total of 0 transformations.
+
+5.3. Executing OPT_MEM_FEEDBACK pass (finding memory read-to-write feedback paths).
+
+5.4. Executing MEMORY_BMUX2ROM pass (converting muxes to ROMs).
+
+5.5. Executing MEMORY_DFF pass (merging $dff cells to $memrd).
+
+5.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \gray_counter..
+Finding unused cells or wires in module \gray_counter__golden..
+Removed 0 unused cells and 22 unused wires.
+<suppressed ~2 debug messages>
+
+5.7. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
+
+5.8. Executing OPT_MEM_WIDEN pass (optimize memories where all ports are wide).
+Performed a total of 0 transformations.
+
+5.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \gray_counter..
+Finding unused cells or wires in module \gray_counter__golden..
+
+5.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+5.11. Executing MEMORY_MAP pass (converting memories to logic and flip-flops).
+
+6. Executing FLATTEN pass (flatten design).
+
+7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \gray_counter..
+Finding unused cells or wires in module \gray_counter__golden..
+
+8. Executing MITER pass (creating miter circuit).
+Creating miter cell "rtl_agent_miter" with gold cell "gray_counter__golden" and gate cell "gray_counter".
+
+8.1. Executing FLATTEN pass (flatten design).
+<suppressed ~2 debug messages>
+
+8.2. Executing OPT_EXPR pass (perform const folding).
+Optimizing module rtl_agent_miter.
+
+9. Executing HIERARCHY pass (managing design hierarchy).
+
+9.1. Analyzing design hierarchy..
+Top module:  \rtl_agent_miter
+
+9.2. Analyzing design hierarchy..
+Top module:  \rtl_agent_miter
+Removing unused module `\gray_counter'.
+Removing unused module `\gray_counter__golden'.
+Removed 2 unused modules.
+Module rtl_agent_miter directly or indirectly contains formal properties -> setting "keep" attribute.
+
+10. Executing ASYNC2SYNC pass.
+
+11. Executing OPT pass (performing simple optimizations).
+
+11.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module rtl_agent_miter.
+
+11.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\rtl_agent_miter'.
+Computing hashes of 37 cells of `\rtl_agent_miter'.
+Finding duplicate cells in `\rtl_agent_miter'.
+Removed a total of 0 cells.
+
+11.3. Executing OPT_DFF pass (perform DFF optimizations).
+Adding SRST signal on $flatten\gold.$procdff$33 ($dff) from module rtl_agent_miter (D = \gold._03_, Q = \gold.gray, rval = 8'00000000).
+Adding EN signal on $auto$ff.cc:337:slice$53 ($sdff) from module rtl_agent_miter (D = \gold._06_, Q = \gold.gray).
+Adding SRST signal on $flatten\gold.$procdff$32 ($dff) from module rtl_agent_miter (D = \gold._04_, Q = \gold.count, rval = 8'00000000).
+Adding EN signal on $auto$ff.cc:337:slice$55 ($sdff) from module rtl_agent_miter (D = \gold.next, Q = \gold.count).
+Adding SRST signal on $flatten\gate.$procdff$30 ($dff) from module rtl_agent_miter (D = $flatten\gate.$procmux$25_Y, Q = \gate.gray, rval = 8'00000000).
+Adding EN signal on $auto$ff.cc:337:slice$57 ($sdff) from module rtl_agent_miter (D = $flatten\gate.$ternary$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_02/rtl/gray_counter.v:20$19_Y, Q = \gate.gray).
+Adding SRST signal on $flatten\gate.$procdff$31 ($dff) from module rtl_agent_miter (D = $flatten\gate.$procmux$20_Y, Q = \gate.count, rval = 8'00000000).
+Adding EN signal on $auto$ff.cc:337:slice$59 ($sdff) from module rtl_agent_miter (D = $flatten\gate.$ternary$/home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_02/rtl/gray_counter.v:19$18_Y, Q = \gate.count).
+
+11.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \rtl_agent_miter..
+Removed 8 unused cells and 8 unused wires.
+<suppressed ~13 debug messages>
+
+11.5. Rerunning OPT passes. (Removed registers in this run.)
+
+11.6. Executing OPT_EXPR pass (perform const folding).
+Optimizing module rtl_agent_miter.
+
+11.7. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\rtl_agent_miter'.
+Computing hashes of 29 cells of `\rtl_agent_miter'.
+Finding duplicate cells in `\rtl_agent_miter'.
+Removed a total of 0 cells.
+
+11.8. Executing OPT_DFF pass (perform DFF optimizations).
+
+11.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \rtl_agent_miter..
+
+11.10. Finished fast OPT passes.
+
+12. Executing SAT pass (solving SAT problems in the circuit).
+Using SAT solver `minisat`.
+
+Setting up time step 1:
+Import set-constraint for this timestep: \in_rst = 1'1
+Final constraint equation: \in_rst = 1'1
+Imported 29 cells to SAT database.
+Final init constraint equation: { \gold.gray \gold.count \gate.count \gate.gray } = 0
+Import proof for assert: $auto$miter.cc:228:create_miter_equiv$48 when 1'1.
+
+Setting up time step 2:
+Final constraint equation: { } = { }
+Imported 29 cells to SAT database.
+Import proof for assert: $auto$miter.cc:228:create_miter_equiv$48 when 1'1.
+
+Setting up time step 3:
+Final constraint equation: { } = { }
+Imported 29 cells to SAT database.
+Import proof for assert: $auto$miter.cc:228:create_miter_equiv$48 when 1'1.
+
+Setting up time step 4:
+Final constraint equation: { } = { }
+Imported 29 cells to SAT database.
+Import proof for assert: $auto$miter.cc:228:create_miter_equiv$48 when 1'1.
+
+Setting up time step 5:
+Final constraint equation: { } = { }
+Imported 29 cells to SAT database.
+Import proof for assert: $auto$miter.cc:228:create_miter_equiv$48 when 1'1.
+
+Setting up time step 6:
+Final constraint equation: { } = { }
+Imported 29 cells to SAT database.
+Import proof for assert: $auto$miter.cc:228:create_miter_equiv$48 when 1'1.
+
+Setting up time step 7:
+Final constraint equation: { } = { }
+Imported 29 cells to SAT database.
+Import proof for assert: $auto$miter.cc:228:create_miter_equiv$48 when 1'1.
+
+Setting up time step 8:
+Final constraint equation: { } = { }
+Imported 29 cells to SAT database.
+Import proof for assert: $auto$miter.cc:228:create_miter_equiv$48 when 1'1.
+
+Setting up time step 9:
+Final constraint equation: { } = { }
+Imported 29 cells to SAT database.
+Import proof for assert: $auto$miter.cc:228:create_miter_equiv$48 when 1'1.
+
+Setting up time step 10:
+Final constraint equation: { } = { }
+Imported 29 cells to SAT database.
+Import proof for assert: $auto$miter.cc:228:create_miter_equiv$48 when 1'1.
+Import show expression: \in_clk
+Import show expression: \in_rst
+Import show expression: \in_en
+Import show expression: \in_up
+Import show expression: \trigger
+
+Solving problem with 10392 variables and 28371 clauses..
+SAT proof finished - no model found: SUCCESS!
+
+                  /$$$$$$      /$$$$$$$$     /$$$$$$$    
+                 /$$__  $$    | $$_____/    | $$__  $$   
+                | $$  \ $$    | $$          | $$  \ $$   
+                | $$  | $$    | $$$$$       | $$  | $$   
+                | $$  | $$    | $$__/       | $$  | $$   
+                | $$/$$ $$    | $$          | $$  | $$   
+                |  $$$$$$/ /$$| $$$$$$$$ /$$| $$$$$$$//$$
+                 \____ $$$|__/|________/|__/|_______/|__/
+                       \__/                              
+
+End of script. Logfile hash: ea323d2ecf, time: 0.14s, user: 0.13s, system: 0.00s, MEM: 84.43 MB peak
+Yosys 0.69 (git sha1 9f75ca1f9, Release, GNU /usr/bin/c++ 13.3.0)
+Time spent: 94% 1x sat (0 sec), 1% 5x opt_clean (0 sec), ...

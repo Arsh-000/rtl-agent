@@ -1,0 +1,18 @@
+{
+  "metrics": {
+    "setup_ws": -0.3685,
+    "setup_tns": -2.59,
+    "hold_ws": 0.0186,
+    "area": 2686.334,
+    "power_mw": 1.1299190000000001,
+    "flop_bits": 84,
+    "cell_count": 2043,
+    "latency": 0
+  },
+  "checks": {
+    "verified_by": []
+  },
+  "status": "baseline",
+  "reason": "starting point",
+  "claims": {}
+}

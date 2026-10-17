@@ -1,0 +1,19 @@
+$ /opt/eda/bin/vvp -n equiv.vvp
+# exit=0 timed_out=False seconds=0.1
+
+@@MISMATCH latency=0 cycle=5 expected=0820a got=00000
+@@MISMATCH latency=0 cycle=6 expected=70b91 got=0820a
+@@MISMATCH latency=2 cycle=6 expected=00000 got=0820a
+@@MISMATCH latency=0 cycle=7 expected=014c2 got=70b91
+@@MISMATCH latency=2 cycle=7 expected=0820a got=70b91
+@@MISMATCH latency=2 cycle=8 expected=70b91 got=014c2
+@@COVERAGE compared=1995 toggled=19 of 19
+@@RESULT latency=0 mismatches=1983
+@@RESULT latency=1 mismatches=0
+@@RESULT latency=2 mismatches=1970
+@@EARLY cycles=1 mismatches=1977
+@@EARLY cycles=2 mismatches=1971
+@@LATE cycles=3 mismatches=1964
+@@LATE cycles=4 mismatches=1957
+/home/claude/rtl-agent/runs/dot4_20261016_174644/round_02/work/equiv/equiv_tb.v:76: $finish called at 20000000 (1ps)
+

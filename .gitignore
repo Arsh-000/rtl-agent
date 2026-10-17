@@ -1,0 +1,7 @@
+runs/
+libs/*.lib
+__pycache__/
+*.pyc
+*.vvp
+.env
+release/

@@ -1,0 +1,812 @@
+
+ /----------------------------------------------------------------------------\
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |  Copyright (C) 2012 - 2026  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |  Distributed under an ISC-like license, type "license" to see terms        |
+ \----------------------------------------------------------------------------/
+ Yosys 0.69 (git sha1 9f75ca1f9, Release, GNU /usr/bin/c++ 13.3.0)
+
+-- Executing script file `synth.ys' --
+
+1. Executing Liberty frontend: /home/claude/rtl-agent/libs/nangate45_typ.lib
+Imported 134 cell types from liberty file.
+
+2. Executing Verilog-2005 frontend: /home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v
+Parsing SystemVerilog input from `/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v' to AST representation.
+Generating RTLIL representation for module `\dot4'.
+Successfully finished Verilog frontend.
+
+3. Executing HIERARCHY pass (managing design hierarchy).
+
+3.1. Analyzing design hierarchy..
+Top module:  \dot4
+
+3.2. Analyzing design hierarchy..
+Top module:  \dot4
+Removed 0 unused modules.
+
+4. Executing SYNTH pass.
+
+4.1. Executing HIERARCHY pass (managing design hierarchy).
+
+4.1.1. Analyzing design hierarchy..
+Top module:  \dot4
+
+4.1.2. Analyzing design hierarchy..
+Top module:  \dot4
+Removed 0 unused modules.
+
+4.2. Executing PROC pass (convert processes to netlists).
+
+4.2.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+4.2.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 1 switch rules as full_case in process $proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:43$13 in module dot4.
+Marked 1 switch rules as full_case in process $proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:21$2 in module dot4.
+Removed a total of 0 dead cases.
+
+4.2.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 5 redundant assignments.
+Promoted 2 assignments to connections.
+
+4.2.4. Executing PROC_INIT pass (extract init attributes).
+
+4.2.5. Executing PROC_ARST pass (detect async resets in processes).
+Found async reset \rst_n in `\dot4.$proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:43$13'.
+Found async reset \rst_n in `\dot4.$proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:21$2'.
+
+4.2.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+
+4.2.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\dot4.$proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:43$13'.
+     1/2: $0\out_valid[0:0]
+     2/2: $0\y[17:0]
+Creating decoders for process `\dot4.$proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:37$4'.
+Creating decoders for process `\dot4.$proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:21$2'.
+     1/3: $0\v_r[0:0]
+     2/3: $0\b_r[31:0]
+     3/3: $0\a_r[31:0]
+
+4.2.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `\dot4.\i' from process `\dot4.$proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:37$4'.
+No latch inferred for signal `\dot4.\sum' from process `\dot4.$proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:37$4'.
+
+4.2.9. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `\dot4.\y' using process `\dot4.$proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:43$13'.
+  created $adff cell `$procdff$19' with positive edge clock and positive level reset.
+Creating register for signal `\dot4.\out_valid' using process `\dot4.$proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:43$13'.
+  created $adff cell `$procdff$24' with positive edge clock and positive level reset.
+Creating register for signal `\dot4.\a_r' using process `\dot4.$proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:21$2'.
+  created $adff cell `$procdff$29' with positive edge clock and positive level reset.
+Creating register for signal `\dot4.\b_r' using process `\dot4.$proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:21$2'.
+  created $adff cell `$procdff$34' with positive edge clock and positive level reset.
+Creating register for signal `\dot4.\v_r' using process `\dot4.$proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:21$2'.
+  created $adff cell `$procdff$39' with positive edge clock and positive level reset.
+
+4.2.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+4.2.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Removing empty process `dot4.$proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:43$13'.
+Removing empty process `dot4.$proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:37$4'.
+Removing empty process `dot4.$proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:21$2'.
+Cleaned up 0 empty switches.
+
+4.2.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module dot4.
+<suppressed ~10 debug messages>
+
+4.3. Executing CHECK pass (checking for obvious problems).
+Checking module dot4...
+Found and reported 0 problems.
+
+4.4. Executing FLATTEN pass (flatten design).
+
+4.5. Executing OPT_EXPR pass (perform const folding).
+Optimizing module dot4.
+<suppressed ~1 debug messages>
+
+4.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \dot4..
+Removed 7 unused cells and 21 unused wires.
+<suppressed ~9 debug messages>
+
+4.7. Executing CHECK pass (checking for obvious problems).
+Checking module dot4...
+Found and reported 0 problems.
+
+4.8. Executing OPT pass (performing simple optimizations).
+
+4.8.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module dot4.
+
+4.8.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\dot4'.
+Computing hashes of 12 cells of `\dot4'.
+Finding duplicate cells in `\dot4'.
+Removed a total of 0 cells.
+
+4.8.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \dot4..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+4.8.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \dot4.
+Performed a total of 0 changes.
+
+4.8.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\dot4'.
+Computing hashes of 12 cells of `\dot4'.
+Finding duplicate cells in `\dot4'.
+Removed a total of 0 cells.
+
+4.8.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.8.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \dot4..
+
+4.8.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module dot4.
+
+4.8.9. Finished fast OPT passes. (There is nothing left to do.)
+
+4.9. Executing FSM pass (extract and optimize FSM).
+
+4.9.1. Executing FSM_DETECT pass (finding FSMs in design).
+
+4.9.2. Executing FSM_EXTRACT pass (extracting FSM from design).
+
+4.9.3. Executing FSM_OPT pass (simple optimizations of FSMs).
+
+4.9.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \dot4..
+
+4.9.5. Executing FSM_OPT pass (simple optimizations of FSMs).
+
+4.9.6. Executing FSM_RECODE pass (re-assigning FSM state encoding).
+
+4.9.7. Executing FSM_INFO pass (dumping all available information on FSM cells).
+
+4.9.8. Executing FSM_MAP pass (mapping FSMs to basic logic).
+
+4.10. Executing OPT pass (performing simple optimizations).
+
+4.10.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module dot4.
+
+4.10.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\dot4'.
+Computing hashes of 12 cells of `\dot4'.
+Finding duplicate cells in `\dot4'.
+Removed a total of 0 cells.
+
+4.10.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \dot4..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+4.10.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \dot4.
+Performed a total of 0 changes.
+
+4.10.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\dot4'.
+Computing hashes of 12 cells of `\dot4'.
+Finding duplicate cells in `\dot4'.
+Removed a total of 0 cells.
+
+4.10.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.10.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \dot4..
+
+4.10.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module dot4.
+
+4.10.9. Finished fast OPT passes. (There is nothing left to do.)
+
+4.11. Executing WREDUCE pass (reducing word size of cells).
+Converting cell dot4.$mul$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$5 ($mul) from unsigned to signed.
+Removed top 10 bits (of 18) from port A of cell dot4.$mul$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$5 ($mul).
+Removed top 10 bits (of 18) from port B of cell dot4.$mul$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$5 ($mul).
+Removed top 2 bits (of 18) from port Y of cell dot4.$mul$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$5 ($mul).
+Converting cell dot4.$mul$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$7 ($mul) from unsigned to signed.
+Removed top 10 bits (of 18) from port A of cell dot4.$mul$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$7 ($mul).
+Removed top 10 bits (of 18) from port B of cell dot4.$mul$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$7 ($mul).
+Removed top 2 bits (of 18) from port Y of cell dot4.$mul$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$7 ($mul).
+Converting cell dot4.$add$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$8 ($add) from unsigned to signed.
+Removed top 2 bits (of 18) from port A of cell dot4.$add$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$8 ($add).
+Removed top 2 bits (of 18) from port B of cell dot4.$add$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$8 ($add).
+Removed top 1 bits (of 18) from port Y of cell dot4.$add$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$8 ($add).
+Converting cell dot4.$mul$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$9 ($mul) from unsigned to signed.
+Removed top 10 bits (of 18) from port A of cell dot4.$mul$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$9 ($mul).
+Removed top 10 bits (of 18) from port B of cell dot4.$mul$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$9 ($mul).
+Removed top 2 bits (of 18) from port Y of cell dot4.$mul$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$9 ($mul).
+Converting cell dot4.$add$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$10 ($add) from unsigned to signed.
+Removed top 1 bits (of 18) from port A of cell dot4.$add$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$10 ($add).
+Removed top 2 bits (of 18) from port B of cell dot4.$add$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$10 ($add).
+Converting cell dot4.$mul$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$11 ($mul) from unsigned to signed.
+Removed top 10 bits (of 18) from port A of cell dot4.$mul$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$11 ($mul).
+Removed top 10 bits (of 18) from port B of cell dot4.$mul$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$11 ($mul).
+Removed top 2 bits (of 18) from port Y of cell dot4.$mul$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$11 ($mul).
+Removed top 2 bits (of 18) from port B of cell dot4.$add$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$12 ($add).
+
+4.12. Executing PEEPOPT pass (run peephole optimizers).
+
+4.13. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \dot4..
+
+4.14. Executing ALUMACC pass (create $alu and $macc cells).
+Extracting $alu and $macc cells in module dot4:
+  creating $macc model for $add$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$12 ($add).
+  creating $macc model for $mul$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$11 ($mul).
+  creating $macc model for $add$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$10 ($add).
+  creating $macc model for $mul$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$9 ($mul).
+  creating $macc model for $add$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$8 ($add).
+  creating $macc model for $mul$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$7 ($mul).
+  creating $macc model for $mul$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$5 ($mul).
+  merging $macc model for $mul$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$5 into $add$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$8.
+  merging $macc model for $mul$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$7 into $add$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$8.
+  merging $macc model for $add$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$8 into $add$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$10.
+  merging $macc model for $mul$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$9 into $add$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$10.
+  merging $macc model for $add$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$10 into $add$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$12.
+  merging $macc model for $mul$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$11 into $add$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$12.
+  creating $macc cell for $add$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$12: $auto$alumacc.cc:399:replace_macc$40
+  created 0 $alu and 1 $macc cells.
+
+4.15. Executing SHARE pass (SAT-based resource sharing).
+Found 4 cells in module dot4 that may be considered for resource sharing.
+  Analyzing resource sharing options for $mul$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$5 ($mul):
+    Found cell that is never activated: $add$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$10
+    Found cell that is never activated: $add$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$8
+    Found cell that is never activated: $mul$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$5
+    Cell is never active. Sharing is pointless, we simply remove it.
+  Analyzing resource sharing options for $mul$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$7 ($mul):
+    Found cell that is never activated: $mul$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$7
+    Cell is never active. Sharing is pointless, we simply remove it.
+  Analyzing resource sharing options for $mul$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$9 ($mul):
+    Found cell that is never activated: $mul$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$9
+    Cell is never active. Sharing is pointless, we simply remove it.
+  Analyzing resource sharing options for $mul$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$11 ($mul):
+    Found cell that is never activated: $mul$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$11
+    Cell is never active. Sharing is pointless, we simply remove it.
+Removing 6 cells in module dot4:
+  Removing cell $mul$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$11 ($mul).
+  Removing cell $mul$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$9 ($mul).
+  Removing cell $mul$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$7 ($mul).
+  Removing cell $mul$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$5 ($mul).
+  Removing cell $add$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$8 ($add).
+  Removing cell $add$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v:40$10 ($add).
+
+4.16. Executing OPT pass (performing simple optimizations).
+
+4.16.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module dot4.
+
+4.16.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\dot4'.
+Computing hashes of 6 cells of `\dot4'.
+Finding duplicate cells in `\dot4'.
+Removed a total of 0 cells.
+
+4.16.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \dot4..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+4.16.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \dot4.
+Performed a total of 0 changes.
+
+4.16.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\dot4'.
+Computing hashes of 6 cells of `\dot4'.
+Finding duplicate cells in `\dot4'.
+Removed a total of 0 cells.
+
+4.16.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.16.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \dot4..
+Removed 0 unused cells and 6 unused wires.
+<suppressed ~1 debug messages>
+
+4.16.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module dot4.
+
+4.16.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+4.16.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \dot4..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+4.16.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \dot4.
+Performed a total of 0 changes.
+
+4.16.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\dot4'.
+Computing hashes of 6 cells of `\dot4'.
+Finding duplicate cells in `\dot4'.
+Removed a total of 0 cells.
+
+4.16.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.16.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \dot4..
+
+4.16.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module dot4.
+
+4.16.16. Finished fast OPT passes. (There is nothing left to do.)
+
+4.17. Executing MEMORY pass.
+
+4.17.1. Executing OPT_MEM pass (optimize memories).
+Performed a total of 0 transformations.
+
+4.17.2. Executing OPT_MEM_PRIORITY pass (removing unnecessary memory write priority relations).
+Performed a total of 0 transformations.
+
+4.17.3. Executing OPT_MEM_FEEDBACK pass (finding memory read-to-write feedback paths).
+
+4.17.4. Executing MEMORY_BMUX2ROM pass (converting muxes to ROMs).
+
+4.17.5. Executing MEMORY_DFF pass (merging $dff cells to $memrd).
+
+4.17.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \dot4..
+
+4.17.7. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
+
+4.17.8. Executing OPT_MEM_WIDEN pass (optimize memories where all ports are wide).
+Performed a total of 0 transformations.
+
+4.17.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \dot4..
+
+4.17.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+4.18. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \dot4..
+
+4.19. Executing OPT pass (performing simple optimizations).
+
+4.19.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module dot4.
+
+4.19.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\dot4'.
+Computing hashes of 6 cells of `\dot4'.
+Finding duplicate cells in `\dot4'.
+Removed a total of 0 cells.
+
+4.19.3. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.19.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \dot4..
+
+4.19.5. Finished fast OPT passes.
+
+4.20. Executing MEMORY_MAP pass (converting memories to logic and flip-flops).
+
+4.21. Executing OPT pass (performing simple optimizations).
+
+4.21.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module dot4.
+
+4.21.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\dot4'.
+Computing hashes of 6 cells of `\dot4'.
+Finding duplicate cells in `\dot4'.
+Removed a total of 0 cells.
+
+4.21.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \dot4..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+4.21.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \dot4.
+Performed a total of 0 changes.
+
+4.21.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\dot4'.
+Computing hashes of 6 cells of `\dot4'.
+Finding duplicate cells in `\dot4'.
+Removed a total of 0 cells.
+
+4.21.6. Executing OPT_SHARE pass.
+
+4.21.7. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.21.8. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \dot4..
+
+4.21.9. Executing OPT_EXPR pass (perform const folding).
+Optimizing module dot4.
+
+4.21.10. Finished fast OPT passes. (There is nothing left to do.)
+
+4.22. Executing TECHMAP pass (map to technology primitives).
+
+4.22.1. Executing Verilog-2005 frontend: /opt/eda/bin/../share/yosys/techmap.v
+Parsing Verilog input from `/opt/eda/bin/../share/yosys/techmap.v' to AST representation.
+Generating RTLIL representation for module `\_90_simplemap_bool_ops'.
+Generating RTLIL representation for module `\_90_simplemap_reduce_ops'.
+Generating RTLIL representation for module `\_90_simplemap_logic_ops'.
+Generating RTLIL representation for module `\_90_simplemap_compare_ops'.
+Generating RTLIL representation for module `\_90_simplemap_various'.
+Generating RTLIL representation for module `\_90_simplemap_registers'.
+Generating RTLIL representation for module `\_90_shift_ops_shr_shl_sshl_sshr'.
+Generating RTLIL representation for module `\_90_shift_shiftx'.
+Generating RTLIL representation for module `\_90_fa'.
+Generating RTLIL representation for module `\_90_lcu_brent_kung'.
+Generating RTLIL representation for module `\_90_alu'.
+Generating RTLIL representation for module `\_90_macc'.
+Generating RTLIL representation for module `\_90_alumacc'.
+Generating RTLIL representation for module `$__div_mod_u'.
+Generating RTLIL representation for module `$__div_mod_trunc'.
+Generating RTLIL representation for module `\_90_div'.
+Generating RTLIL representation for module `\_90_mod'.
+Generating RTLIL representation for module `$__div_mod_floor'.
+Generating RTLIL representation for module `\_90_divfloor'.
+Generating RTLIL representation for module `\_90_modfloor'.
+Generating RTLIL representation for module `\_90_pow'.
+Generating RTLIL representation for module `\_90_demux'.
+Generating RTLIL representation for module `\_90_lut'.
+Generating RTLIL representation for module `$connect'.
+Generating RTLIL representation for module `$input_port'.
+Successfully finished Verilog frontend.
+
+4.22.2. Continuing TECHMAP pass.
+Using extmapper maccmap for cells of type $macc_v2.
+  add \a_r [7:0] * \b_r [7:0] (8x8 bits, signed)
+  add \a_r [31:24] * \b_r [31:24] (8x8 bits, signed)
+  add \a_r [23:16] * \b_r [23:16] (8x8 bits, signed)
+  add \a_r [15:8] * \b_r [15:8] (8x8 bits, signed)
+Using extmapper simplemap for cells of type $adff.
+Using template $paramod\_90_fa\WIDTH=32'00000000000000000000000000000001 for cells of type $fa.
+Using template $paramod\_90_fa\WIDTH=32'00000000000000000000000000010010 for cells of type $fa.
+Using template $paramod\_90_fa\WIDTH=32'00000000000000000000000000010001 for cells of type $fa.
+Using template $paramod$12350b8c8422a70d10b7db4eaae1202a7148b784\_90_alu for cells of type $alu.
+Using extmapper simplemap for cells of type $and.
+Using extmapper simplemap for cells of type $not.
+Using extmapper simplemap for cells of type $or.
+Using extmapper simplemap for cells of type $xor.
+Using template $paramod\_90_lcu_brent_kung\WIDTH=32'00000000000000000000000000010010 for cells of type $lcu.
+Using extmapper simplemap for cells of type $pos.
+Using extmapper simplemap for cells of type $mux.
+No more expansions possible.
+<suppressed ~556 debug messages>
+
+4.23. Executing OPT pass (performing simple optimizations).
+
+4.23.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module dot4.
+<suppressed ~976 debug messages>
+
+4.23.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\dot4'.
+Computing hashes of 2910 cells of `\dot4'.
+Finding duplicate cells in `\dot4'.
+Computing hashes of 2702 cells of `\dot4'.
+Finding duplicate cells in `\dot4'.
+Computing hashes of 2582 cells of `\dot4'.
+Finding duplicate cells in `\dot4'.
+Computing hashes of 2486 cells of `\dot4'.
+Finding duplicate cells in `\dot4'.
+Computing hashes of 2429 cells of `\dot4'.
+Finding duplicate cells in `\dot4'.
+Computing hashes of 2378 cells of `\dot4'.
+Finding duplicate cells in `\dot4'.
+Computing hashes of 2338 cells of `\dot4'.
+Finding duplicate cells in `\dot4'.
+Computing hashes of 2316 cells of `\dot4'.
+Finding duplicate cells in `\dot4'.
+Computing hashes of 2298 cells of `\dot4'.
+Finding duplicate cells in `\dot4'.
+Computing hashes of 2282 cells of `\dot4'.
+Finding duplicate cells in `\dot4'.
+Computing hashes of 2273 cells of `\dot4'.
+Finding duplicate cells in `\dot4'.
+Computing hashes of 2272 cells of `\dot4'.
+Finding duplicate cells in `\dot4'.
+<suppressed ~1914 debug messages>
+Removed a total of 638 cells.
+
+4.23.3. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.23.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \dot4..
+Removed 47 unused cells and 393 unused wires.
+<suppressed ~48 debug messages>
+
+4.23.5. Finished fast OPT passes.
+
+4.24. Executing ABC pass (technology mapping using ABC).
+
+4.24.1. Extracting gate netlist of module `\dot4' to `<abc-temp-dir>/input.blif'..
+
+4.24.1.1. Executed ABC.
+Extracted 2141 gates and 2205 wires to a netlist network with 64 inputs and 18 outputs.
+Running ABC script: <abc-temp-dir>/abc.script
+ABC: UC Berkeley, ABC 1.01 (compiled Oct  9 2026 11:17:03)
+ABC: abc 01> empty
+ABC: abc 01> source <abc-temp-dir>/abc.script
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_library <abc-temp-dir>/stdcells.genlib 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &fraig -x 
+ABC: + &put 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + dc2 
+ABC: + dretime 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &dch -f 
+ABC: + &nf 
+ABC: + &put 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+ABC: 
+ABC: YOSYS_ABC_DONE 
+
+4.24.1.2. Re-integrating ABC results.
+ABC RESULTS:               AND cells:      301
+ABC RESULTS:            ANDNOT cells:       30
+ABC RESULTS:               MUX cells:       14
+ABC RESULTS:              NAND cells:      923
+ABC RESULTS:               NOR cells:        1
+ABC RESULTS:               NOT cells:        1
+ABC RESULTS:                OR cells:       26
+ABC RESULTS:             ORNOT cells:       29
+ABC RESULTS:              XNOR cells:       83
+ABC RESULTS:               XOR cells:      628
+ABC RESULTS:        internal signals:     2123
+ABC RESULTS:           input signals:       64
+ABC RESULTS:          output signals:       18
+Removing temp directory.
+Removing global temp directory.
+
+4.25. Executing OPT pass (performing simple optimizations).
+
+4.25.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module dot4.
+
+4.25.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\dot4'.
+Computing hashes of 2120 cells of `\dot4'.
+Finding duplicate cells in `\dot4'.
+Removed a total of 0 cells.
+
+4.25.3. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.25.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \dot4..
+Removed 0 unused cells and 331 unused wires.
+<suppressed ~1 debug messages>
+
+4.25.5. Finished fast OPT passes.
+
+4.26. Executing HIERARCHY pass (managing design hierarchy).
+Attribute `top' found on module `dot4'. Setting top module to dot4.
+
+4.26.1. Analyzing design hierarchy..
+Top module:  \dot4
+
+4.26.2. Analyzing design hierarchy..
+Top module:  \dot4
+Removed 0 unused modules.
+
+4.27. Printing statistics.
+
+=== dot4 ===
+
+        +----------Local Count, excluding submodules.
+        | 
+     2030 wires
+     2219 wire bits
+       12 public wires
+      201 public wire bits
+        7 ports
+       86 port bits
+     2120 cells
+       30   $_ANDNOT_
+      301   $_AND_
+       84   $_DFF_PN0_
+       14   $_MUX_
+      923   $_NAND_
+        1   $_NOR_
+        1   $_NOT_
+       29   $_ORNOT_
+       26   $_OR_
+       83   $_XNOR_
+      628   $_XOR_
+
+4.28. Executing CHECK pass (checking for obvious problems).
+Checking module dot4...
+Found and reported 0 problems.
+
+5. Executing DFFLIBMAP pass (mapping DFF/DLATCH cells to sequential cells from liberty file).
+  cell DFF_X1 (noninv, pins=4, area=4.52) is a direct match for cell type $_DFF_P_.
+  cell DFFR_X1 (noninv, pins=5, area=5.32) is a direct match for cell type $_DFF_PN0_.
+  cell DFFS_X1 (noninv, pins=5, area=5.32) is a direct match for cell type $_DFF_PN1_.
+  cell DFFRS_X1 (noninv, pins=6, area=6.38) is a direct match for cell type $_DFFSR_PNN_.
+  cell DLL_X1 (noninv, pins=3, area=2.66) is a direct match for cell type $_DLATCH_N_.
+  cell DLH_X1 (noninv, pins=3, area=2.66) is a direct match for cell type $_DLATCH_P_.
+  final dff/dlatch cell mappings:
+    unmapped dff/dlatch cell: $_DFF_N_
+    \DFF_X1 _DFF_P_ (.CK( C), .D( D), .Q( Q), .QN(~Q));
+    unmapped dff/dlatch cell: $_DFF_NN0_
+    unmapped dff/dlatch cell: $_DFF_NN1_
+    unmapped dff/dlatch cell: $_DFF_NP0_
+    unmapped dff/dlatch cell: $_DFF_NP1_
+    \DFFR_X1 _DFF_PN0_ (.CK( C), .D( D), .Q( Q), .QN(~Q), .RN( R));
+    \DFFS_X1 _DFF_PN1_ (.CK( C), .D( D), .Q( Q), .QN(~Q), .SN( R));
+    unmapped dff/dlatch cell: $_DFF_PP0_
+    unmapped dff/dlatch cell: $_DFF_PP1_
+    unmapped dff/dlatch cell: $_DFFE_NN_
+    unmapped dff/dlatch cell: $_DFFE_NP_
+    unmapped dff/dlatch cell: $_DFFE_PN_
+    unmapped dff/dlatch cell: $_DFFE_PP_
+    unmapped dff/dlatch cell: $_DFFSR_NNN_
+    unmapped dff/dlatch cell: $_DFFSR_NNP_
+    unmapped dff/dlatch cell: $_DFFSR_NPN_
+    unmapped dff/dlatch cell: $_DFFSR_NPP_
+    \DFFRS_X1 _DFFSR_PNN_ (.CK( C), .D( D), .Q( Q), .QN(~Q), .RN( R), .SN( S));
+    unmapped dff/dlatch cell: $_DFFSR_PNP_
+    unmapped dff/dlatch cell: $_DFFSR_PPN_
+    unmapped dff/dlatch cell: $_DFFSR_PPP_
+    \DLL_X1 _DLATCH_N_ (.D( D), .GN( E), .Q( Q));
+    \DLH_X1 _DLATCH_P_ (.D( D), .G( E), .Q( Q));
+    unmapped dff/dlatch cell: $_DLATCH_NN0_
+    unmapped dff/dlatch cell: $_DLATCH_NN1_
+    unmapped dff/dlatch cell: $_DLATCH_NP0_
+    unmapped dff/dlatch cell: $_DLATCH_NP1_
+    unmapped dff/dlatch cell: $_DLATCH_PN0_
+    unmapped dff/dlatch cell: $_DLATCH_PN1_
+    unmapped dff/dlatch cell: $_DLATCH_PP0_
+    unmapped dff/dlatch cell: $_DLATCH_PP1_
+    unmapped dff/dlatch cell: $_DLATCHSR_NNN_
+    unmapped dff/dlatch cell: $_DLATCHSR_NNP_
+    unmapped dff/dlatch cell: $_DLATCHSR_NPN_
+    unmapped dff/dlatch cell: $_DLATCHSR_NPP_
+    unmapped dff/dlatch cell: $_DLATCHSR_PNN_
+    unmapped dff/dlatch cell: $_DLATCHSR_PNP_
+    unmapped dff/dlatch cell: $_DLATCHSR_PPN_
+    unmapped dff/dlatch cell: $_DLATCHSR_PPP_
+
+5.1. Executing DFFLEGALIZE pass (convert FFs and LATCHes to types supported by the target).
+<suppressed ~8 debug messages>
+Mapping DFF/DLATCH cells in module `\dot4':
+  mapped 84 $_DFF_PN0_ cells to \DFFR_X1 cells.
+
+6. Executing ABC pass (technology mapping using ABC).
+
+6.1. Extracting gate netlist of module `\dot4' to `<abc-temp-dir>/input.blif'..
+ABC: using cached merged SCL: /tmp/yosys-liberty-scl-cache-0/yosys_merged_cbdd84f8.scl (1 files)
+
+6.1.1. Executed ABC.
+Extracted 2036 gates and 2100 wires to a netlist network with 64 inputs and 18 outputs.
+Running ABC script: <abc-temp-dir>/abc.script
+ABC: UC Berkeley, ABC 1.01 (compiled Oct  9 2026 11:17:03)
+ABC: abc 01> empty
+ABC: abc 01> source <abc-temp-dir>/abc.script
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_scl /tmp/yosys-liberty-scl-cache-0/yosys_merged_cbdd84f8.scl 
+ABC: Warning: Detected 2 multi-output cells (for example, "FA_X1").
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &fraig -x 
+ABC: + &put 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + dc2 
+ABC: + dretime 
+ABC: + retime -o -D 1200 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &dch -f 
+ABC: + &nf -D 1200 
+ABC: + &put 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+ABC: 
+ABC: YOSYS_ABC_DONE 
+
+6.1.2. Re-integrating ABC results.
+ABC RESULTS:           AND2_X1 cells:       72
+ABC RESULTS:           AND3_X1 cells:       60
+ABC RESULTS:           AND4_X1 cells:       14
+ABC RESULTS:         AOI211_X1 cells:        2
+ABC RESULTS:          AOI21_X1 cells:      172
+ABC RESULTS:          AOI22_X1 cells:       44
+ABC RESULTS:            INV_X1 cells:      100
+ABC RESULTS:           MUX2_X1 cells:        5
+ABC RESULTS:          NAND2_X1 cells:      325
+ABC RESULTS:          NAND3_X1 cells:       40
+ABC RESULTS:          NAND4_X1 cells:        6
+ABC RESULTS:           NOR2_X1 cells:      235
+ABC RESULTS:           NOR3_X1 cells:       40
+ABC RESULTS:         OAI211_X1 cells:        2
+ABC RESULTS:          OAI21_X1 cells:      143
+ABC RESULTS:          OAI22_X1 cells:       19
+ABC RESULTS:            OR2_X1 cells:       73
+ABC RESULTS:            OR3_X1 cells:       47
+ABC RESULTS:            OR4_X1 cells:        3
+ABC RESULTS:          XNOR2_X1 cells:      327
+ABC RESULTS:           XOR2_X1 cells:      230
+ABC RESULTS:        internal signals:     2018
+ABC RESULTS:           input signals:       64
+ABC RESULTS:          output signals:       18
+Removing temp directory.
+Removing global temp directory.
+
+7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \dot4..
+Removed 0 unused cells and 2101 unused wires.
+<suppressed ~2 debug messages>
+
+8. Executing AUTONAME pass.
+Renamed 4068 objects in module dot4.
+<suppressed ~4068 debug messages>
+
+9. Printing statistics.
+
+=== dot4 ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+     2036        - wires
+     2194        - wire bits
+     2036        - public wires
+     2194        - public wire bits
+        7        - ports
+       86        - port bits
+     2043 2.69E+03 cells
+       72   76.608   AND2_X1
+       60     79.8   AND3_X1
+       14   22.344   AND4_X1
+        2     2.66   AOI211_X1
+      172  183.008   AOI21_X1
+       44    58.52   AOI22_X1
+       84   446.88   DFFR_X1
+      100     53.2   INV_X1
+        5     9.31   MUX2_X1
+      325   259.35   NAND2_X1
+       40    42.56   NAND3_X1
+        6     7.98   NAND4_X1
+      235   187.53   NOR2_X1
+       40    42.56   NOR3_X1
+        2     2.66   OAI211_X1
+      143  152.152   OAI21_X1
+       19    25.27   OAI22_X1
+       73   77.672   OR2_X1
+       47    62.51   OR3_X1
+        3    4.788   OR4_X1
+      327  521.892   XNOR2_X1
+      230   367.08   XOR2_X1
+
+   Chip area for module '\dot4': 2686.334000
+     of which used for sequential elements: 446.880000 (16.64%)
+
+10. Executing CHECK pass (checking for obvious problems).
+Checking module dot4...
+Found and reported 0 problems.
+
+11. Executing Verilog backend.
+Dumping module `\dot4'.
+
+End of script. Logfile hash: 5820d2d281, time: 54.46s, user: 0.39s, system: 0.10s, MEM: 41.08 MB peak
+Yosys 0.69 (git sha1 9f75ca1f9, Release, GNU /usr/bin/c++ 13.3.0)
+Time spent: 99% 2x abc (53 sec), 0% 16x opt_clean (0 sec), ...

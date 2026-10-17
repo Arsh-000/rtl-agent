@@ -1,0 +1,11 @@
+$ /opt/eda/bin/vvp -n equiv.vvp
+# exit=0 timed_out=False seconds=0.0
+
+@@COVERAGE compared=1995 toggled=1 of 1
+@@RESULT latency=0 mismatches=0
+@@EARLY cycles=1 mismatches=118
+@@EARLY cycles=2 mismatches=118
+@@LATE cycles=1 mismatches=118
+@@LATE cycles=2 mismatches=118
+/home/claude/rtl-agent/runs/seq_detector_20261016_174748/round_02/work/equiv/equiv_tb.v:72: $finish called at 20000000 (1ps)
+

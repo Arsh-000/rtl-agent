@@ -1,0 +1,60 @@
+# Example 4 - spec mode: start from a plain-English specification.
+# The LLM writes a testbench, then the RTL, then the normal loop optimizes it.
+project_name: gray_counter
+mode: spec
+
+design:
+  top: gray_counter
+
+spec:
+  text: |
+    An 8-bit up/down counter whose value is output in Gray code.
+    - On every rising clock edge where 'en' is 1, the internal binary count
+      goes up by 1 if 'up' is 1, or down by 1 if 'up' is 0. It wraps around
+      (255 + 1 = 0, 0 - 1 = 255).
+    - 'rst' is an active-high synchronous reset that sets the count to 0.
+    - 'gray' is the current count converted to Gray code: gray = count ^ (count >> 1).
+      It must be a registered output (it changes only on clock edges), and it changes on the
+      SAME clock edge as the count: after every edge, gray already shows the Gray code of the new
+      count (no extra cycle of delay). After reset, gray is 0.
+  interface: |
+    module gray_counter (
+        input  wire       clk,
+        input  wire       rst,
+        input  wire       en,
+        input  wire       up,
+        output reg  [7:0] gray
+    );
+  clock_port: clk
+  reset_port: rst
+
+clock_period_ns: 0.45                # no SDC file: a basic one is generated
+
+library:
+  liberty: ../../libs/nangate45_typ.lib
+
+targets:
+  min_setup_slack_ns: 0.0
+
+priority: [timing, area, power]
+
+explore:
+  candidates: 2                      # try 2 different architectures first
+
+latency:
+  policy: fixed
+
+loop:
+  max_rounds: 10                     # it was still improving when it hit 6 (real run)
+  patience: 3
+
+llm:
+  provider: openai_compatible
+  base_url: https://api.groq.com/openai/v1
+  model: openai/gpt-oss-120b
+  api_key_env: GROQ_API_KEY
+  max_output_tokens: 5000             # "medium" reasoning needs room: hidden reasoning counts toward this
+  extra_params: {reasoning_effort: medium}   # "low" gave up too early on this design (real runs)
+  scripted_dir: scripted
+
+output_dir: ../../runs

@@ -1,0 +1,144 @@
+
+ /----------------------------------------------------------------------------\
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |  Copyright (C) 2012 - 2026  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |  Distributed under an ISC-like license, type "license" to see terms        |
+ \----------------------------------------------------------------------------/
+ Yosys 0.69 (git sha1 9f75ca1f9, Release, GNU /usr/bin/c++ 13.3.0)
+
+-- Executing script file `inspect.ys' --
+
+1. Executing Verilog-2005 frontend: /home/claude/rtl-agent/runs/dot4_20261016_174644/round_02/rtl/dot4.v
+Parsing SystemVerilog input from `/home/claude/rtl-agent/runs/dot4_20261016_174644/round_02/rtl/dot4.v' to AST representation.
+Generating RTLIL representation for module `\dot4'.
+Successfully finished Verilog frontend.
+
+2. Executing HIERARCHY pass (managing design hierarchy).
+
+2.1. Analyzing design hierarchy..
+Top module:  \dot4
+
+2.2. Analyzing design hierarchy..
+Top module:  \dot4
+Removed 0 unused modules.
+
+3. Executing PROC pass (convert processes to netlists).
+
+3.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+3.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 1 switch rules as full_case in process $proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_02/rtl/dot4.v:46$12 in module dot4.
+Marked 1 switch rules as full_case in process $proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_02/rtl/dot4.v:28$3 in module dot4.
+Marked 1 switch rules as full_case in process $proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_02/rtl/dot4.v:13$1 in module dot4.
+Removed a total of 0 dead cases.
+
+3.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 10 redundant assignments.
+Promoted 0 assignments to connections.
+
+3.4. Executing PROC_INIT pass (extract init attributes).
+
+3.5. Executing PROC_ARST pass (detect async resets in processes).
+Found async reset \rst_n in `\dot4.$proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_02/rtl/dot4.v:46$12'.
+Found async reset \rst_n in `\dot4.$proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_02/rtl/dot4.v:28$3'.
+Found async reset \rst_n in `\dot4.$proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_02/rtl/dot4.v:13$1'.
+
+3.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+
+3.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\dot4.$proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_02/rtl/dot4.v:46$12'.
+     1/2: $0\out_valid[0:0]
+     2/2: $0\y[17:0]
+Creating decoders for process `\dot4.$proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_02/rtl/dot4.v:28$3'.
+     1/5: $0\v_p[0:0]
+     2/5: $0\p3[15:0]
+     3/5: $0\p2[15:0]
+     4/5: $0\p1[15:0]
+     5/5: $0\p0[15:0]
+Creating decoders for process `\dot4.$proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_02/rtl/dot4.v:13$1'.
+     1/3: $0\v_r[0:0]
+     2/3: $0\b_r[31:0]
+     3/3: $0\a_r[31:0]
+
+3.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+
+3.9. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `\dot4.\y' using process `\dot4.$proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_02/rtl/dot4.v:46$12'.
+  created $adff cell `$procdff$18' with positive edge clock and positive level reset.
+Creating register for signal `\dot4.\out_valid' using process `\dot4.$proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_02/rtl/dot4.v:46$12'.
+  created $adff cell `$procdff$23' with positive edge clock and positive level reset.
+Creating register for signal `\dot4.\p0' using process `\dot4.$proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_02/rtl/dot4.v:28$3'.
+  created $adff cell `$procdff$28' with positive edge clock and positive level reset.
+Creating register for signal `\dot4.\p1' using process `\dot4.$proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_02/rtl/dot4.v:28$3'.
+  created $adff cell `$procdff$33' with positive edge clock and positive level reset.
+Creating register for signal `\dot4.\p2' using process `\dot4.$proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_02/rtl/dot4.v:28$3'.
+  created $adff cell `$procdff$38' with positive edge clock and positive level reset.
+Creating register for signal `\dot4.\p3' using process `\dot4.$proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_02/rtl/dot4.v:28$3'.
+  created $adff cell `$procdff$43' with positive edge clock and positive level reset.
+Creating register for signal `\dot4.\v_p' using process `\dot4.$proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_02/rtl/dot4.v:28$3'.
+  created $adff cell `$procdff$48' with positive edge clock and positive level reset.
+Creating register for signal `\dot4.\a_r' using process `\dot4.$proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_02/rtl/dot4.v:13$1'.
+  created $adff cell `$procdff$53' with positive edge clock and positive level reset.
+Creating register for signal `\dot4.\b_r' using process `\dot4.$proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_02/rtl/dot4.v:13$1'.
+  created $adff cell `$procdff$58' with positive edge clock and positive level reset.
+Creating register for signal `\dot4.\v_r' using process `\dot4.$proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_02/rtl/dot4.v:13$1'.
+  created $adff cell `$procdff$63' with positive edge clock and positive level reset.
+
+3.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+3.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Removing empty process `dot4.$proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_02/rtl/dot4.v:46$12'.
+Removing empty process `dot4.$proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_02/rtl/dot4.v:28$3'.
+Removing empty process `dot4.$proc$/home/claude/rtl-agent/runs/dot4_20261016_174644/round_02/rtl/dot4.v:13$1'.
+Cleaned up 0 empty switches.
+
+3.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module dot4.
+<suppressed ~20 debug messages>
+
+4. Executing FLATTEN pass (flatten design).
+
+5. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \dot4..
+Removed 13 unused cells and 36 unused wires.
+<suppressed ~14 debug messages>
+
+6. Executing OPT_DFF pass (perform DFF optimizations).
+
+7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \dot4..
+
+8. Executing MEMORY pass.
+
+8.1. Executing OPT_MEM pass (optimize memories).
+Performed a total of 0 transformations.
+
+8.2. Executing OPT_MEM_PRIORITY pass (removing unnecessary memory write priority relations).
+Performed a total of 0 transformations.
+
+8.3. Executing OPT_MEM_FEEDBACK pass (finding memory read-to-write feedback paths).
+
+8.4. Executing MEMORY_BMUX2ROM pass (converting muxes to ROMs).
+
+8.5. Executing MEMORY_DFF pass (merging $dff cells to $memrd).
+
+8.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \dot4..
+
+8.7. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
+
+8.8. Executing OPT_MEM_WIDEN pass (optimize memories where all ports are wide).
+Performed a total of 0 transformations.
+
+8.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \dot4..
+
+8.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+9. Executing JSON backend.
+
+End of script. Logfile hash: d01ded084b, time: 0.01s, user: 0.01s, system: 0.00s, MEM: 83.67 MB peak
+Yosys 0.69 (git sha1 9f75ca1f9, Release, GNU /usr/bin/c++ 13.3.0)
+Time spent: 31% 2x read_verilog (0 sec), 24% 4x opt_clean (0 sec), ...

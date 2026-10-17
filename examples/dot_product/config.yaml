@@ -1,0 +1,40 @@
+# Example 1 - arithmetic block with a long critical path.
+# Existing RTL + SDC, no testbench: correctness is checked by comparing every
+# proposal with the original design (random co-simulation + bounded formal).
+project_name: dot4
+mode: rtl
+
+design:
+  top: dot4
+  rtl_files: [rtl/dot4.v]
+
+sdc: constraints/dot4.sdc            # read-only: the agent can never change it
+
+library:
+  liberty: ../../libs/nangate45_typ.lib
+
+targets:
+  min_setup_slack_ns: 0.0          # hold slack is reported; it is not a target by default
+
+priority: [timing, area, power]
+
+latency:
+  policy: flexible                   # pipelining is allowed...
+  max_extra_cycles: 2                # ...by up to 2 extra cycles
+
+loop:
+  max_rounds: 10
+  patience: 3
+
+llm:
+  provider: openai_compatible
+  base_url: https://api.groq.com/openai/v1
+  model: openai/gpt-oss-120b
+  api_key_env: GROQ_API_KEY
+  max_output_tokens: 5000             # "medium" reasoning needs room: hidden reasoning counts toward this
+  tokens_per_minute: 8000
+  tokens_per_day: 200000
+  extra_params: {reasoning_effort: medium}   # "low" gave up too early in real runs
+  scripted_dir: scripted              # used only with --scripted (offline test)
+
+output_dir: ../../runs

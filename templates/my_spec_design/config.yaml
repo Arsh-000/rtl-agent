@@ -1,0 +1,54 @@
+# Template: let the agent WRITE a design from your English specification, then optimize it.
+# Copy this folder, edit the lines marked <-- , then run:
+#   ~/rtl-agent/scripts/docker-run.sh run config.yaml
+# The AI writes a testbench first, then the design. REVIEW the testbench it writes
+# (runs/<run>/spec/testbench_1/) - or give your own testbench below (recommended).
+project_name: my_spec_block                 # <-- any name
+mode: spec
+
+design:
+  top: my_block                             # <-- module name the design must have
+
+spec:
+  text: |                                   # <-- describe the behaviour precisely:
+    A 16-bit accumulator.
+    - On every rising clock edge where 'valid' is 1, 'sum' becomes sum + din (wrap around at 16 bits).
+    - When 'valid' is 0, 'sum' keeps its value.
+    - 'rst' is an active-high synchronous reset that sets 'sum' to 0.
+    - 'sum' is a registered output and changes on the same clock edge as the addition
+      (no extra cycle of delay).
+  interface: |                              # <-- the exact port list (strongly recommended)
+    module my_block (
+        input  wire        clk,
+        input  wire        rst,
+        input  wire        valid,
+        input  wire [7:0]  din,
+        output reg  [15:0] sum
+    );
+  clock_port: clk
+  reset_port: rst
+
+clock_period_ns: 1.0                        # <-- required speed (or give an SDC file with  sdc: my.sdc)
+
+# testbench:                                # optional: your own testbench instead of an AI-written one
+#   files: [tb_my_block.v]
+#   top: tb_my_block
+#   pass_pattern: "TEST PASSED"
+
+library:
+  liberty: nangate45_typ.lib
+
+targets:
+  min_setup_slack_ns: 0.0
+
+explore:
+  candidates: 2                             # first try 2 different architectures
+
+loop:
+  max_rounds: 10
+  patience: 3
+
+llm:
+  model: openai/gpt-oss-120b
+  max_output_tokens: 5000
+  extra_params: {reasoning_effort: medium}

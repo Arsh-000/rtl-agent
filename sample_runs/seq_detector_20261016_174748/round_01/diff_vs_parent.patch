@@ -1,0 +1,60 @@
+--- round_00/seq_detector.v
++++ round_01/seq_detector.v
+@@ -1,44 +1,27 @@
+-// seq_detector: finite state machine that raises 'found' for one cycle
+-// whenever the last four input bits were 1,0,1,1 (overlaps allowed).
+-//
+-// Written as a Moore machine with one state per "how much of the pattern
+-// has been seen", using 3-bit binary state codes. The output is registered.
+ module seq_detector (
+     input  wire clk,
+-    input  wire rst,        // active-high synchronous reset
++    input  wire rst,
+     input  wire bit_in,
+-    input  wire bit_valid,  // only advance when a new bit arrives
++    input  wire bit_valid,
+     output reg  found
+ );
+-    localparam S_IDLE = 3'd0,   // nothing matched
+-               S_1    = 3'd1,   // seen "1"
+-               S_10   = 3'd2,   // seen "10"
+-               S_101  = 3'd3,   // seen "101"
+-               S_1011 = 3'd4;   // seen "1011" -> pattern found
++    // one-hot: exactly one of these bits is 1
++    reg s_idle, s_1, s_10, s_101, s_1011;
++    wire b = bit_in;
+ 
+-    reg [2:0] state, next_state;
+-
+-    always @* begin
+-        next_state = state;
+-        if (bit_valid) begin
+-            case (state)
+-                S_IDLE: next_state = bit_in ? S_1    : S_IDLE;
+-                S_1:    next_state = bit_in ? S_1    : S_10;
+-                S_10:   next_state = bit_in ? S_101  : S_IDLE;
+-                S_101:  next_state = bit_in ? S_1011 : S_10;
+-                S_1011: next_state = bit_in ? S_1    : S_10;
+-                default: next_state = S_IDLE;
+-            endcase
+-        end
+-    end
++    wire n_idle = bit_valid ? ((s_idle | s_10) & ~b)                 : s_idle;
++    wire n_1    = bit_valid ? ((s_idle | s_1 | s_1011) & b)          : s_1;
++    wire n_10   = bit_valid ? ((s_1 | s_101 | s_1011) & ~b)          : s_10;
++    wire n_101  = bit_valid ? (s_10 & b)                             : s_101;
++    wire n_1011 = bit_valid ? (s_101 & b)                            : s_1011;
+ 
+     always @(posedge clk) begin
+         if (rst) begin
+-            state <= S_IDLE;
++            {s_idle, s_1, s_10, s_101, s_1011} <= 5'b10000;
+             found <= 1'b0;
+         end else begin
+-            state <= next_state;
+-            found <= (next_state == S_1011) && bit_valid;
++            {s_idle, s_1, s_10, s_101, s_1011} <= {n_idle, n_1, n_10, n_101, n_1011};
++            found <= n_1011 & bit_valid;
+         end
+     end
+ endmodule

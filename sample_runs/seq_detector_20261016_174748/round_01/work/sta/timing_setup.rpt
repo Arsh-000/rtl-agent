@@ -1,0 +1,88 @@
+Startpoint: s_1011_DFF_X1_Q (rising edge-triggered flip-flop clocked by clk)
+Endpoint: s_1_DFF_X1_Q (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+
+    Delay      Time   Description                          Src Attr
+-----------------------------------------------------------------------------------------------------
+   0.0000    0.0000   clock clk (rise edge)
+   0.0000    0.0000   clock network delay (ideal)
+   0.0000    0.0000 ^ s_1011_DFF_X1_Q/CK (DFF_X1)          /home/claude/rtl-agent/runs/seq_detector_20261016_174748/round_01/rtl/seq_detector.v:18.5-26.8
+   0.0828    0.0828 v s_1011_DFF_X1_Q/Q (DFF_X1)           /home/claude/rtl-agent/runs/seq_detector_20261016_174748/round_01/rtl/seq_detector.v:18.5-26.8
+   0.0796    0.1625 v s_1_DFF_X1_Q_D_NOR2_X1_ZN_A2_AOI22_X1_ZN_B1_OR3_X1_ZN/ZN (OR3_X1)
+   0.0422    0.2047 ^ s_1_DFF_X1_Q_D_NOR2_X1_ZN_A2_AOI22_X1_ZN/ZN (AOI22_X1)
+   0.0114    0.2160 v s_1_DFF_X1_Q_D_NOR2_X1_ZN/ZN (NOR2_X1)
+   0.0000    0.2160 v s_1_DFF_X1_Q/D (DFF_X1)              /home/claude/rtl-agent/runs/seq_detector_20261016_174748/round_01/rtl/seq_detector.v:18.5-26.8
+             0.2160   data arrival time
+
+   0.5000    0.5000   clock clk (rise edge)
+   0.0000    0.5000   clock network delay (ideal)
+   0.0000    0.5000   clock reconvergence pessimism
+             0.5000 ^ s_1_DFF_X1_Q/CK (DFF_X1)
+  -0.0399    0.4601   library setup time
+             0.4601   data required time
+-----------------------------------------------------------------------------------------------------
+             0.4601   data required time
+            -0.2160   data arrival time
+-----------------------------------------------------------------------------------------------------
+             0.2440   slack (MET)
+
+
+Startpoint: s_1011_DFF_X1_Q (rising edge-triggered flip-flop clocked by clk)
+Endpoint: s_10_DFF_X1_Q (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+
+    Delay      Time   Description                          Src Attr
+-----------------------------------------------------------------------------------------------------
+   0.0000    0.0000   clock clk (rise edge)
+   0.0000    0.0000   clock network delay (ideal)
+   0.0000    0.0000 ^ s_1011_DFF_X1_Q/CK (DFF_X1)          /home/claude/rtl-agent/runs/seq_detector_20261016_174748/round_01/rtl/seq_detector.v:18.5-26.8
+   0.0828    0.0828 v s_1011_DFF_X1_Q/Q (DFF_X1)           /home/claude/rtl-agent/runs/seq_detector_20261016_174748/round_01/rtl/seq_detector.v:18.5-26.8
+   0.0778    0.1607 ^ s_10_DFF_X1_Q_D_NOR3_X1_ZN_A2_NOR4_X1_ZN/ZN (NOR4_X1)
+   0.0135    0.1741 v s_10_DFF_X1_Q_D_NOR3_X1_ZN/ZN (NOR3_X1)
+   0.0000    0.1741 v s_10_DFF_X1_Q/D (DFF_X1)             /home/claude/rtl-agent/runs/seq_detector_20261016_174748/round_01/rtl/seq_detector.v:18.5-26.8
+             0.1741   data arrival time
+
+   0.5000    0.5000   clock clk (rise edge)
+   0.0000    0.5000   clock network delay (ideal)
+   0.0000    0.5000   clock reconvergence pessimism
+             0.5000 ^ s_10_DFF_X1_Q/CK (DFF_X1)
+  -0.0413    0.4587   library setup time
+             0.4587   data required time
+-----------------------------------------------------------------------------------------------------
+             0.4587   data required time
+            -0.1741   data arrival time
+-----------------------------------------------------------------------------------------------------
+             0.2845   slack (MET)
+
+
+Startpoint: s_idle_DFF_X1_Q (rising edge-triggered flip-flop clocked by clk)
+Endpoint: s_idle_DFF_X1_Q (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+
+    Delay      Time   Description                          Src Attr
+-----------------------------------------------------------------------------------------------------
+   0.0000    0.0000   clock clk (rise edge)
+   0.0000    0.0000   clock network delay (ideal)
+   0.0000    0.0000 ^ s_idle_DFF_X1_Q/CK (DFF_X1)          /home/claude/rtl-agent/runs/seq_detector_20261016_174748/round_01/rtl/seq_detector.v:18.5-26.8
+   0.0800    0.0800 v s_idle_DFF_X1_Q/Q (DFF_X1)           /home/claude/rtl-agent/runs/seq_detector_20261016_174748/round_01/rtl/seq_detector.v:18.5-26.8
+   0.0376    0.1176 ^ s_idle_DFF_X1_Q_D_OAI21_X1_ZN_B2_AOI21_X1_ZN/ZN (AOI21_X1)
+   0.0180    0.1356 v s_idle_DFF_X1_Q_D_OAI21_X1_ZN/ZN (OAI21_X1)
+   0.0000    0.1356 v s_idle_DFF_X1_Q/D (DFF_X1)           /home/claude/rtl-agent/runs/seq_detector_20261016_174748/round_01/rtl/seq_detector.v:18.5-26.8
+             0.1356   data arrival time
+
+   0.5000    0.5000   clock clk (rise edge)
+   0.0000    0.5000   clock network delay (ideal)
+   0.0000    0.5000   clock reconvergence pessimism
+             0.5000 ^ s_idle_DFF_X1_Q/CK (DFF_X1)
+  -0.0408    0.4592   library setup time
+             0.4592   data required time
+-----------------------------------------------------------------------------------------------------
+             0.4592   data required time
+            -0.1356   data arrival time
+-----------------------------------------------------------------------------------------------------
+             0.3236   slack (MET)
+
+

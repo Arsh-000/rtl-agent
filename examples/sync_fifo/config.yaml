@@ -1,0 +1,43 @@
+# Example 2 - a design that holds memory (a flip-flop based FIFO).
+# The user supplies a self-checking testbench; it runs on every proposal,
+# together with the automatic comparison against the original design.
+project_name: sync_fifo
+mode: rtl
+
+design:
+  top: sync_fifo
+  rtl_files: [rtl/sync_fifo.v]
+
+sdc: constraints/sync_fifo.sdc
+
+testbench:
+  files: [tb/tb_sync_fifo.v]
+  top: tb_sync_fifo
+  pass_pattern: "TEST PASSED"
+  fail_pattern: "TEST FAILED|ERROR"
+
+library:
+  liberty: ../../libs/nangate45_typ.lib
+
+targets:
+  min_setup_slack_ns: 0.0         # the clock in the SDC is tight: the job is to fix timing
+
+priority: [timing, area, power]
+
+latency:
+  policy: fixed                      # outputs must match on every cycle
+
+loop:
+  max_rounds: 10
+  patience: 3
+
+llm:
+  provider: openai_compatible
+  base_url: https://api.groq.com/openai/v1
+  model: openai/gpt-oss-120b
+  api_key_env: GROQ_API_KEY
+  max_output_tokens: 5000             # "medium" reasoning needs room: hidden reasoning counts toward this
+  extra_params: {reasoning_effort: medium}   # "low" gave up too early in real runs
+  scripted_dir: scripted
+
+output_dir: ../../runs

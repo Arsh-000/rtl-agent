@@ -1,0 +1,7 @@
+read_verilog -sv /home/claude/rtl-agent/runs/sync_fifo_20261016_174743/round_00/rtl/sync_fifo.v
+hierarchy -check -top sync_fifo
+proc
+flatten
+opt_clean
+rename sync_fifo sync_fifo__golden
+write_verilog -noattr golden.v

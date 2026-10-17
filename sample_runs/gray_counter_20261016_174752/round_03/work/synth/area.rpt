@@ -1,0 +1,41 @@
+
+9. Printing statistics.
+
+=== gray_counter ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+      199        - wires
+      234        - wire bits
+      199        - public wires
+      234        - public wire bits
+        5        - ports
+       12        - port bits
+      190  306.698 cells
+        2    2.128   AND2_X1
+        3     3.99   AND3_X1
+        1    1.596   AND4_X1
+        6     7.98   AOI211_X1
+       22   23.408   AOI21_X1
+        4    6.384   AOI221_X1
+        2     2.66   AOI22_X1
+       31  140.182   DFF_X1
+       17    9.044   INV_X1
+        6   11.172   MUX2_X1
+       11    8.778   NAND2_X1
+       11   11.704   NAND3_X1
+       20    15.96   NOR2_X1
+        3    3.192   NOR3_X1
+        1     1.33   NOR4_X1
+        5     6.65   OAI211_X1
+       37   39.368   OAI21_X1
+        2    3.192   OAI221_X1
+        2     2.66   OAI22_X1
+        2    2.128   OR2_X1
+        1    1.596   XNOR2_X1
+        1    1.596   XOR2_X1
+
+   Chip area for module '\gray_counter': 306.698000
+     of which used for sequential elements: 140.182000 (45.71%)
+

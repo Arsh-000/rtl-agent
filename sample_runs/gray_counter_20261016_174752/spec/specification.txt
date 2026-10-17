@@ -1,0 +1,9 @@
+An 8-bit up/down counter whose value is output in Gray code.
+- On every rising clock edge where 'en' is 1, the internal binary count
+  goes up by 1 if 'up' is 1, or down by 1 if 'up' is 0. It wraps around
+  (255 + 1 = 0, 0 - 1 = 255).
+- 'rst' is an active-high synchronous reset that sets the count to 0.
+- 'gray' is the current count converted to Gray code: gray = count ^ (count >> 1).
+  It must be a registered output (it changes only on clock edges), and it changes on the
+  SAME clock edge as the count: after every edge, gray already shows the Gray code of the new
+  count (no extra cycle of delay). After reset, gray is 0.
