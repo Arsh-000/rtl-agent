@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RTL Agent</title>
+<style>
+:root{
+  --navy:#142433; --slate:#25394D; --orange:#C66B35; --orange-deep:#A8552A;
+  --bg:#F5F3EE; --card:#FBFAF7; --line:#E2DDD2; --text:#202B36; --muted:#5A6676;
+  --ok:#2E7D4F; --ok-bg:#E5F2EA; --bad:#A8552A; --bad-bg:#F8E9DF; --info-bg:#E6ECF3;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --sans:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 var(--sans)}
+a{color:var(--slate)}
+header{background:var(--navy);color:#F5F3EE}
+.bar{max-width:1180px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:28px}
+.brand{font-weight:700;font-size:18px;letter-spacing:.2px}
+.brand small{display:block;font-weight:400;font-size:12px;color:#C9D1DA}
+nav{display:flex;gap:6px}
+nav a{color:#C9D1DA;text-decoration:none;padding:7px 12px;border-radius:6px;font-weight:500}
+nav a.on,nav a:hover{background:var(--slate);color:#fff}
+.tools{margin-left:auto;font-size:12px;color:#C9D1DA}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;background:#888;vertical-align:middle}
+.dot.ok{background:#5DBB82}.dot.bad{background:var(--orange)}
+main{max-width:1180px;margin:0 auto;padding:28px 24px 80px}
+h1{font-size:26px;margin:0 0 4px;font-weight:650}
+h2{font-size:18px;margin:0 0 12px;font-weight:650}
+h3{font-size:15px;margin:0 0 8px;font-weight:650}
+.lead{color:var(--muted);margin:0 0 22px}
+.label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--orange-deep);font-weight:600;margin-bottom:6px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px 22px;margin-bottom:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.choice{display:flex;flex-direction:column;justify-content:flex-start;cursor:pointer;border:1.5px solid var(--line);background:var(--card);border-radius:10px;padding:18px;text-align:left;font:inherit;color:inherit}
+.choice:hover{border-color:var(--slate)}
+.choice.on{border-color:var(--orange);box-shadow:0 0 0 3px #C66B3522}
+.choice b{display:block;font-size:16px;margin-bottom:4px}
+.choice span{color:var(--muted);font-size:13.5px}
+label{display:block;font-weight:600;font-size:13.5px;margin:12px 0 5px}
+label .hint{font-weight:400;color:var(--muted)}
+input[type=text],input[type=number],input[type=password],select,textarea{width:100%;padding:9px 11px;border:1px solid #CFC8BA;border-radius:7px;background:#fff;font:inherit;color:inherit}
+textarea{font-family:var(--mono);font-size:13px;min-height:110px;resize:vertical}
+textarea.prose{font-family:var(--sans);font-size:14.5px}
+input:disabled{background:#EFECE5;color:#8A94A0}
+.u{text-transform:none;letter-spacing:0}
+.tablewrap{overflow-x:auto}
+input:focus,select:focus,textarea:focus{outline:2px solid #C66B3555;border-color:var(--orange)}
+.row{display:flex;gap:14px;flex-wrap:wrap}.row>*{flex:1;min-width:180px}
+.drop{border:2px dashed #CFC8BA;border-radius:10px;padding:22px;text-align:center;color:var(--muted);background:#fff;cursor:pointer}
+.drop.over{border-color:var(--orange);background:#FDF6F1}
+.drop input{display:none}
+.files{margin-top:8px;font-family:var(--mono);font-size:13px}
+.btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:8px;padding:10px 18px;font:600 14.5px var(--sans);cursor:pointer;text-decoration:none}
+.btn.primary{background:var(--orange);color:#fff}.btn.primary:hover{background:var(--orange-deep)}
+.btn.secondary{background:#fff;color:var(--text);border:1px solid #CFC8BA}.btn.secondary:hover{border-color:var(--slate)}
+.btn.dark{background:var(--navy);color:#fff}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:18px}
+.msg{border-radius:8px;padding:11px 14px;margin:12px 0;font-size:14px;white-space:pre-wrap}
+.msg.err{background:var(--bad-bg);color:#6B2E0E;border:1px solid #E8C4AA}
+.msg.ok{background:var(--ok-bg);color:#1E5235;border:1px solid #BFDCCB}
+.msg.info{background:var(--info-bg);color:#1E3550;border:1px solid #C9D6E5}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-weight:600;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:8px 10px;border-bottom:1.5px solid var(--line)}
+td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+tr.click{cursor:pointer}tr.click:hover td{background:#F2EFE8}
+.mono{font-family:var(--mono);font-size:13px}
+.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
+.pill.kept,.pill.finished{background:var(--ok-bg);color:var(--ok)}
+.pill.rejected,.pill.duplicate{background:#ECEAE4;color:#555}
+.pill.invalid,.pill.failed,.pill.stopped{background:var(--bad-bg);color:var(--bad)}
+.pill.baseline,.pill.spec{background:var(--info-bg);color:var(--slate)}
+.pill.running{background:#FDF0E6;color:var(--orange-deep)}
+.pill.paused{background:#F3EEDC;color:#7A5B12}
+.pulse{animation:pulse 1.4s infinite}@keyframes pulse{50%{opacity:.45}}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px}
+.metric{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.metric .k{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.metric .v{font-size:24px;font-weight:650;margin-top:4px;font-variant-numeric:tabular-nums}
+.metric .d{font-size:13px;color:var(--muted);margin-top:2px}
+.metric .v.good{color:var(--ok)}.metric .v.badv{color:var(--orange-deep)}
+.banner{border-radius:10px;padding:14px 18px;margin-bottom:16px;font-weight:500}
+.banner.finished{background:var(--ok-bg);color:#1E5235}
+.banner.paused{background:#F3EEDC;color:#5E450B}
+.banner.failed,.banner.stopped{background:var(--bad-bg);color:#6B2E0E}
+.banner.running{background:#FDF0E6;color:#6B3A15}
+pre.log{background:#16212D;color:#D6DEE6;border-radius:8px;padding:14px;font:12.5px/1.45 var(--mono);max-height:340px;overflow:auto;white-space:pre-wrap;margin:0}
+details>summary{cursor:pointer;font-weight:600;margin:4px 0}
+iframe.report{width:100%;height:900px;border:1px solid var(--line);border-radius:10px;background:#fff}
+.muted{color:var(--muted)}.small{font-size:13px}
+.empty{text-align:center;color:var(--muted);padding:40px}
+.warn-provider{font-size:13px;color:#7A5B12;background:#F3EEDC;border-radius:6px;padding:3px 9px;display:inline-block}
+.hidden{display:none !important}
+@media (max-width:820px){.grid3,.grid2,.metrics{grid-template-columns:1fr}.bar{flex-wrap:wrap;gap:10px}.tools{margin-left:0}}
+</style>
+</head>
+<body>
+<header><div class="bar">
+  <div class="brand">RTL Agent<small>AI proposes · real tools measure · plain code decides</small></div>
+  <nav><a href="#/new" id="nav-new">New run</a><a href="#/runs" id="nav-runs">My runs</a></nav>
+  <div class="tools" id="tools">checking tools…</div>
+</div></header>
+<main id="app"></main>
+
+<script>
+"use strict";
+// ------------------------------------------------------------------ helpers
+const $ = (s, el = document) => el.querySelector(s);
+const esc = (v) => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmt = (v, d = 3) => (v === null || v === undefined || isNaN(v)) ? "–" : Number(v).toFixed(d);
+async function api(path, body) {
+  const opt = body === undefined ? {} : {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(body)};
+  const r = await fetch(path, opt);
+  let data = {};
+  try { data = await r.json(); } catch (e) {}
+  if (!r.ok) { const m = data.error || `request failed (${r.status})`; throw new Error(m.charAt(0).toUpperCase() + m.slice(1)); }
+  return data;
+}
+const readFiles = (list) => Promise.all([...list].map(f => f.text().then(text => ({name: f.name, text}))));
+let STATUS = null;
+let AI_KEY = "";            // kept in this page's memory only; never stored
+let timer = null;
+
+// ------------------------------------------------------------------ router
+function route() {
+  clearTimeout(timer);
+  const h = location.hash || "#/new";
+  $("#nav-new").classList.toggle("on", h.startsWith("#/new"));
+  $("#nav-runs").classList.toggle("on", h.startsWith("#/run"));
+  if (h.startsWith("#/run/")) return showRun(h.slice(6));
+  if (h.startsWith("#/runs")) return showRuns();
+  return showNew();
+}
+window.addEventListener("hashchange", route);
+
+async function loadStatus() {
+  try {
+    STATUS = await api("/api/status");
+    const t = STATUS.tools;
+    const missing = Object.keys(t).filter(k => !t[k].found);
+    $("#tools").innerHTML = missing.length
+      ? `<span class="dot bad"></span>missing tools: ${esc(missing.join(", "))}`
+      : `<span class="dot ok"></span>Yosys · OpenSTA · Icarus ready`;
+  } catch (e) {
+    $("#tools").innerHTML = `<span class="dot bad"></span>server not reachable`;
+  }
+}
+
+// ------------------------------------------------------------------ NEW RUN
+const SPEC_EXAMPLE = {
+  top: "updown",
+  spec: "A 16-bit up/down counter.\n- 'rst' is an active-high synchronous reset: on a rising clock edge where rst is 1, count becomes 0.\n- Otherwise, on a rising clock edge where 'en' is 1: if 'up' is 1, count becomes count + 1; if 'up' is 0, count becomes count - 1. It wraps around (65535 + 1 = 0, 0 - 1 = 65535).\n- When 'en' is 0, count keeps its value.\n- 'count' is a registered output and changes on the same clock edge (no extra cycle of delay).",
+  iface: "module updown (\n    input  wire        clk,\n    input  wire        rst,\n    input  wire        en,\n    input  wire        up,\n    output reg  [15:0] count\n);",
+  reset: "rst", period: "0.6",
+};
+let NEW = {kind: null, rtlFiles: [], inspect: null, sdc: null, tbFiles: [], specTbFiles: []};
+
+function showNew() {
+  const keyNeeded = STATUS && !STATUS.server_has_key;
+  $("#app").innerHTML = `
+    <div class="label">New run</div>
+    <h1>What are you starting from?</h1>
+    <p class="lead">The agent proposes changes with an AI, checks each one with real chip tools, and keeps only the changes that are correct and better.</p>
+    <div class="grid3" id="kinds">
+      <button class="choice" data-kind="rtl"><b>My Verilog design</b><span>You have RTL code. The agent makes it faster, smaller or lower power without changing what it does.</span></button>
+      <button class="choice" data-kind="spec"><b>An English description</b><span>You only have the idea. The AI writes a testbench and the design, then the agent improves it.</span></button>
+      <button class="choice" data-kind="example"><b>A built-in example</b><span>Try it in a minute. Offline mode needs no AI key.</span></button>
+    </div>
+    <div id="form"></div>`;
+  $("#kinds").addEventListener("click", (e) => {
+    const b = e.target.closest(".choice"); if (!b) return;
+    NEW.kind = b.dataset.kind;
+    document.querySelectorAll(".choice").forEach(c => c.classList.toggle("on", c === b));
+    renderForm(keyNeeded);
+  });
+  if (NEW.kind) { $(`.choice[data-kind=${NEW.kind}]`).classList.add("on"); renderForm(keyNeeded); }
+}
+
+function goalsBlock() {
+  return `
+  <div class="card"><div class="label">Goals</div>
+    <div class="row">
+      <div><label>Minimum setup slack (ns) <span class="hint">0 = just meet the clock</span></label><input type="number" step="0.001" id="g-slack" value="0"></div>
+      <div><label>Maximum area (µm²) <span class="hint">optional</span></label><input type="number" step="any" id="g-area" placeholder="no limit"></div>
+      <div><label>Maximum power (mW) <span class="hint">optional</span></label><input type="number" step="any" id="g-power" placeholder="no limit"></div>
+    </div>
+    <div class="row">
+      <div><label>What matters most</label><select id="g-prio">
+        <option value="timing,area,power">Timing first, then area, then power</option>
+        <option value="area,timing,power">Area first, then timing, then power</option>
+        <option value="area,power,timing">Area first, then power, then timing</option>
+        <option value="power,area,timing">Power first, then area, then timing</option>
+        <option value="timing,power,area">Timing first, then power, then area</option>
+      </select></div>
+      <div><label>Can the output arrive later? <span class="hint">(latency)</span></label><select id="g-lat">
+        <option value="fixed">No: same clock cycle as the original</option>
+        <option value="flexible">Yes: allow extra cycles (pipelining)</option>
+      </select></div>
+      <div><label>Extra cycles allowed</label><input type="number" min="1" max="8" id="g-extra" value="2" disabled></div>
+    </div>
+    <details style="margin-top:12px"><summary>Advanced: AI settings and limits</summary>
+      <div class="row">
+        <div><label>Maximum rounds</label><input type="number" min="1" max="50" id="a-rounds" value="10"></div>
+        <div><label>AI model</label><input type="text" id="a-model" value="openai/gpt-oss-120b"></div>
+        <div><label>Reasoning effort</label><select id="a-effort"><option>medium</option><option>low</option><option>high</option></select></div>
+      </div>
+      <label>AI server address <span class="hint">(any OpenAI-compatible server; empty = Groq)</span></label>
+      <input type="text" id="a-base" placeholder="https://api.groq.com/openai/v1">
+    </details>
+  </div>`;
+}
+
+function keyBlock(keyNeeded) {
+  if (!keyNeeded) return `<div class="msg info">An AI key is set on the server, so real runs work without entering one.</div>`;
+  return `<div class="card"><div class="label">AI key</div>
+    <label>Groq API key <span class="hint">used only for this run's process; never saved to disk or shown again. Free at console.groq.com</span></label>
+    <input type="password" id="k-key" autocomplete="off" placeholder="gsk_…" value="${esc(AI_KEY)}"></div>`;
+}
+
+function tbBlock(prefix) {
+  return `<details class="card"><summary>Optional: your own testbench</summary>
+    <p class="muted small">A self-checking testbench that prints a pass message. It runs on every proposal, in addition to the automatic comparison with the original.</p>
+    <div class="drop" id="${prefix}-tbdrop"><input type="file" multiple accept=".v,.sv,.vh,.svh" id="${prefix}-tbfile">Drop testbench files here or <u>choose files</u><div class="files" id="${prefix}-tblist"></div></div>
+    <div class="row"><div><label>Testbench top module</label><input type="text" id="${prefix}-tbtop" placeholder="tb_my_block"></div>
+    <div><label>Text it prints when it passes</label><input type="text" id="${prefix}-tbpass" value="TEST PASSED"></div></div>
+  </details>`;
+}
+
+function renderForm(keyNeeded) {
+  const f = $("#form");
+  if (NEW.kind === "rtl") {
+    f.innerHTML = `
+    <div class="card" style="margin-top:18px"><div class="label">Step 1 · your design</div>
+      <div class="drop" id="rtl-drop"><input type="file" multiple accept=".v,.sv,.vh,.svh" id="rtl-file">
+        <b>Drop your Verilog files here</b> or <u>choose files</u><div class="small">.v · .sv · include files (.vh) too</div>
+        <div class="files" id="rtl-list"></div></div>
+      <div id="rtl-inspect"></div>
+      <div class="row"><div><label>Project name</label><input type="text" id="r-name" placeholder="my_block"></div>
+      <div><label>One-line description <span class="hint">optional, shown in the report</span></label><input type="text" id="r-desc" placeholder="Outputs the largest of four 16-bit numbers"></div></div>
+    </div>
+    <div class="card"><div class="label">Step 2 · how fast must it run?</div>
+      <div class="row">
+        <div><label><input type="radio" name="tm" value="period" checked> Clock period (ns)</label><input type="number" step="any" id="r-period" placeholder="1.2"><div class="small muted">A basic timing file is generated for you.</div></div>
+        <div><label><input type="radio" name="tm" value="sdc"> My own SDC file</label><div class="drop" id="sdc-drop" style="padding:12px"><input type="file" accept=".sdc" id="sdc-file">choose .sdc file<div class="files" id="sdc-list"></div></div></div>
+      </div>
+    </div>
+    ${goalsBlock()}${tbBlock("r")}${keyBlock(keyNeeded)}
+    <div id="r-err"></div>
+    <div class="actions"><button class="btn primary" id="r-run">Start the agent</button><button class="btn secondary" id="r-analyze">Measure only (no AI)</button>
+      <span class="muted small">Measure only gives you the starting numbers in about a minute.</span></div>`;
+    wireDrop("rtl", async (files) => { NEW.rtlFiles = files; await inspectRtl(); });
+    wireDrop("sdc", async (files) => { NEW.sdc = files[0] || null; document.querySelector("input[name=tm][value=sdc]").checked = true; });
+    wireTb("r", "tbFiles");
+    if (NEW.rtlFiles.length) { showFileList("rtl", NEW.rtlFiles); renderInspect(); }
+    $("#r-run").onclick = () => submitRtl("run");
+    $("#r-analyze").onclick = () => submitRtl("analyze");
+  } else if (NEW.kind === "spec") {
+    f.innerHTML = `
+    <div class="card" style="margin-top:18px"><div class="label">Step 1 · describe the block</div>
+      <div class="actions" style="margin:0 0 6px"><button class="btn secondary" id="s-example">Fill in an example (up/down counter)</button></div>
+      <div class="row"><div><label>Module name</label><input type="text" id="s-top" placeholder="my_block"></div>
+      <div><label>Project name <span class="hint">optional</span></label><input type="text" id="s-name"></div></div>
+      <label>What should it do? <span class="hint">be precise: reset, timing of outputs, corner cases</span></label>
+      <textarea class="prose" id="s-spec" rows="7" placeholder="A 16-bit accumulator. On every rising clock edge where 'valid' is 1, 'sum' becomes sum + din…"></textarea>
+      <label>Exact port list <span class="hint">strongly recommended</span></label>
+      <textarea id="s-iface" rows="6" placeholder="module my_block (\n    input  wire clk,\n    ...\n);"></textarea>
+      <div class="row"><div><label>Clock port</label><input type="text" id="s-clk" value="clk"></div>
+      <div><label>Reset port <span class="hint">optional</span></label><input type="text" id="s-rst" placeholder="rst"></div>
+      <div><label>Clock period (ns)</label><input type="number" step="any" id="s-period" placeholder="1.0"></div>
+      <div><label>Designs to try first</label><input type="number" min="0" max="5" id="s-cand" value="2"></div></div>
+    </div>
+    ${goalsBlock()}${tbBlock("s")}${keyBlock(keyNeeded)}
+    <div class="msg info">The AI also writes the testbench in this mode. Review it afterwards (it is in the downloaded run folder), or give your own above.</div>
+    <div id="s-err"></div>
+    <div class="actions"><button class="btn primary" id="s-run">Start the agent</button></div>`;
+    $("#s-example").onclick = () => { $("#s-top").value = SPEC_EXAMPLE.top; $("#s-spec").value = SPEC_EXAMPLE.spec; $("#s-iface").value = SPEC_EXAMPLE.iface; $("#s-rst").value = SPEC_EXAMPLE.reset; $("#s-period").value = SPEC_EXAMPLE.period; };
+    wireTb("s", "specTbFiles");
+    $("#s-run").onclick = submitSpec;
+  } else if (NEW.kind === "example") {
+    const ex = (STATUS && STATUS.examples) || [];
+    f.innerHTML = `
+    <div class="card" style="margin-top:18px"><div class="label">Choose an example</div>
+      <table><thead><tr><th></th><th>Example</th><th>Starts from</th><th>About</th></tr></thead><tbody>
+      ${ex.map((e, i) => `<tr class="click" data-i="${i}"><td><input type="radio" name="ex" value="${esc(e.name)}" ${i === 0 ? "checked" : ""}></td>
+        <td class="mono">${esc(e.name)}</td><td>${e.mode === "spec" ? "English spec" : "Verilog"}</td><td class="small">${esc(e.about)}</td></tr>`).join("")}
+      </tbody></table>
+      <label style="margin-top:16px"><input type="checkbox" id="e-off" checked> Offline demo <span class="hint">replays hand-written proposals instead of calling the AI: real tools, no key, about a minute</span></label>
+    </div>
+    <div id="e-key">${keyBlock(keyNeeded)}</div>
+    <div id="e-err"></div>
+    <div class="actions"><button class="btn primary" id="e-run">Start</button></div>`;
+    f.querySelectorAll("tr.click").forEach(tr => tr.onclick = () => tr.querySelector("input").checked = true);
+    const syncKey = () => $("#e-key").classList.toggle("hidden", $("#e-off").checked);
+    $("#e-off").onchange = syncKey; syncKey();
+    $("#e-run").onclick = submitExample;
+  }
+  const lat = $("#g-lat");
+  if (lat) lat.onchange = () => { $("#g-extra").disabled = lat.value !== "flexible"; };
+  window.scrollTo({top: $("#form").offsetTop - 80, behavior: "smooth"});
+}
+
+function wireDrop(id, onFiles) {
+  const drop = $(`#${id}-drop`), input = $(`#${id}-file`);
+  drop.onclick = (e) => { if (e.target.tagName !== "INPUT") input.click(); };
+  input.onchange = async () => { const files = await readFiles(input.files); showFileList(id, files); onFiles(files); };
+  drop.ondragover = (e) => { e.preventDefault(); drop.classList.add("over"); };
+  drop.ondragleave = () => drop.classList.remove("over");
+  drop.ondrop = async (e) => { e.preventDefault(); drop.classList.remove("over"); const files = await readFiles(e.dataTransfer.files); showFileList(id, files); onFiles(files); };
+}
+function showFileList(id, files) { const l = $(`#${id}-list`); if (l) l.innerHTML = files.map(f => `✓ ${esc(f.name)} <span class="muted">(${f.text.length.toLocaleString()} characters)</span>`).join("<br>"); }
+function wireTb(prefix, key) {
+  const drop = $(`#${prefix}-tbdrop`), input = $(`#${prefix}-tbfile`);
+  drop.onclick = (e) => { if (e.target.tagName !== "INPUT") input.click(); };
+  input.onchange = async () => { NEW[key] = await readFiles(input.files); $(`#${prefix}-tblist`).innerHTML = NEW[key].map(f => "✓ " + esc(f.name)).join("<br>"); };
+}
+
+async function inspectRtl(top) {
+  $("#rtl-inspect").innerHTML = `<div class="msg info">Reading the design with Yosys…</div>`;
+  try {
+    NEW.inspect = await api("/api/inspect", {files: NEW.rtlFiles, top});
+    if (!$("#r-name").value && NEW.inspect.top) $("#r-name").value = NEW.inspect.top;
+  } catch (e) { NEW.inspect = {error: e.message, modules: []}; }
+  renderInspect();
+}
+function renderInspect() {
+  const x = NEW.inspect, el = $("#rtl-inspect"); if (!x || !el) return;
+  if (!x.modules || !x.modules.length) { el.innerHTML = `<div class="msg err">No Verilog module found in these files.${x.error ? "\n" + esc(x.error) : ""}</div>`; return; }
+  const ports = x.info ? x.info.ports : [];
+  el.innerHTML = `
+    <div class="row" style="margin-top:6px"><div><label>Top module <span class="hint">the block to optimize</span></label>
+      <select id="r-top">${x.modules.map(m => `<option ${m === x.top ? "selected" : ""}>${esc(m)}</option>`).join("")}</select></div><div></div></div>
+    ${x.error ? `<div class="msg err">${esc(x.error)}</div>` : ""}
+    ${x.info ? `<div class="msg ok">Design read: ${ports.length} ports · clock: <b>${esc(x.info.clocks.join(", ") || "none found")}</b> · reset: <b>${esc((x.info.resets || []).map(r => r.port).join(", ") || "none")}</b> · ${x.info.flop_bits} flip-flop bits${x.info.memory_bits ? " · " + x.info.memory_bits + " memory bits" : ""}</div>
+      <details><summary>Ports (${ports.length})</summary><table><thead><tr><th>Name</th><th>Direction</th><th>Width</th></tr></thead><tbody>
+      ${ports.map(p => `<tr><td class="mono">${esc(p.name)}</td><td>${esc(p.direction)}</td><td>${p.width} bit${p.width > 1 ? "s" : ""}</td></tr>`).join("")}</tbody></table></details>` : ""}`;
+  $("#r-top").onchange = (e) => inspectRtl(e.target.value);
+}
+
+function common() {
+  const prio = $("#g-prio").value.split(",");
+  const key = $("#k-key") ? $("#k-key").value.trim() : "";
+  if (key) AI_KEY = key;
+  return {
+    targets: {min_setup_slack_ns: $("#g-slack").value, max_area_um2: $("#g-area").value, max_power_mw: $("#g-power").value},
+    priority: prio, latency: {policy: $("#g-lat").value, max_extra_cycles: $("#g-extra").value},
+    loop: {max_rounds: $("#a-rounds").value},
+    llm: {model: $("#a-model").value, reasoning_effort: $("#a-effort").value, base_url: $("#a-base").value},
+    api_key: AI_KEY || undefined,
+  };
+}
+async function start(body, errBox, btns) {
+  $(errBox).innerHTML = "";
+  btns.forEach(b => b && (b.disabled = true));
+  try {
+    const r = await api("/api/runs", body);
+    location.hash = "#/run/" + r.id;
+  } catch (e) {
+    $(errBox).innerHTML = `<div class="msg err">${esc(e.message)}</div>`;
+    btns.forEach(b => b && (b.disabled = false));
+  }
+}
+function submitRtl(action) {
+  const tm = document.querySelector("input[name=tm]:checked").value;
+  const body = Object.assign(common(), {
+    kind: "rtl", action, files: NEW.rtlFiles, top: $("#r-top") ? $("#r-top").value : "",
+    project_name: $("#r-name").value, description: $("#r-desc").value,
+    timing: tm === "sdc" && NEW.sdc ? {sdc_name: NEW.sdc.name, sdc_text: NEW.sdc.text} : {clock_period_ns: $("#r-period").value},
+    testbench: NEW.tbFiles.length ? {files: NEW.tbFiles, top: $("#r-tbtop").value, pass_pattern: $("#r-tbpass").value} : null,
+  });
+  if (action === "analyze") delete body.api_key;
+  start(body, "#r-err", [$("#r-run"), $("#r-analyze")]);
+}
+function submitSpec() {
+  const body = Object.assign(common(), {
+    kind: "spec", action: "run", top: $("#s-top").value, project_name: $("#s-name").value,
+    spec: $("#s-spec").value, interface: $("#s-iface").value, clock_port: $("#s-clk").value,
+    reset_port: $("#s-rst").value, clock_period_ns: $("#s-period").value, candidates: $("#s-cand").value,
+    testbench: NEW.specTbFiles.length ? {files: NEW.specTbFiles, top: $("#s-tbtop").value, pass_pattern: $("#s-tbpass").value} : null,
+  });
+  start(body, "#s-err", [$("#s-run")]);
+}
+function submitExample() {
+  const name = document.querySelector("input[name=ex]:checked").value;
+  const offline = $("#e-off").checked;
+  const key = $("#k-key") ? $("#k-key").value.trim() : "";
+  if (key) AI_KEY = key;
+  start({kind: "example", action: "run", example: name, offline, api_key: offline ? undefined : (AI_KEY || undefined)}, "#e-err", [$("#e-run")]);
+}
+
+// ------------------------------------------------------------------ RUNS LIST
+async function showRuns() {
+  $("#app").innerHTML = `<div class="label">My runs</div><h1>Runs on this computer</h1><p class="lead">Newest first. Click a run to see its progress and report.</p><div class="card" id="runs">Loading…</div>`;
+  try {
+    const {runs} = await api("/api/runs");
+    if (!runs.length) { $("#runs").innerHTML = `<div class="empty">No runs yet. <a href="#/new">Start one</a>.</div>`; return; }
+    $("#runs").innerHTML = `<div class="tablewrap"><table><thead><tr><th>Name</th><th>Started</th><th>From</th><th>Status</th><th>Setup slack</th><th>Area <span class="u">(µm²)</span></th></tr></thead><tbody>
+      ${runs.map(r => `<tr class="click" data-id="${esc(r.id)}"><td><b>${esc(r.name)}</b>${r.scripted ? ' <span class="small muted">(offline demo)</span>' : ""}${r.action === "analyze" ? ' <span class="small muted">(measure only)</span>' : ""}</td>
+        <td class="small">${new Date(r.created * 1000).toLocaleString()}</td><td class="small">${({rtl: "Verilog", spec: "English spec", example: "Example"})[r.kind] || esc(r.kind)}</td>
+        <td><span class="pill ${esc(r.status)} ${r.status === "running" ? "pulse" : ""}">${esc(r.status)}</span></td>
+        <td class="mono">${r.baseline ? fmt(r.baseline.setup_ws) + " → " + fmt(r.best && r.best.setup_ws) + " ns" : "–"}</td>
+        <td class="mono">${r.baseline ? fmt(r.baseline.area, 1) + " → " + fmt(r.best && r.best.area, 1) : "–"}</td></tr>`).join("")}</tbody></table></div>`;
+    document.querySelectorAll("tr.click").forEach(tr => tr.onclick = () => location.hash = "#/run/" + tr.dataset.id);
+  } catch (e) { $("#runs").innerHTML = `<div class="msg err">${esc(e.message)}</div>`; }
+}
+
+// ------------------------------------------------------------------ ONE RUN
+function metricCard(title, base, best, digits, unit, lowerIsBetter, target) {
+  let cls = "", delta = "";
+  if (base !== null && base !== undefined && best !== null && best !== undefined) {
+    const diff = best - base;
+    if (unit === "ns") {
+      delta = `${diff >= 0 ? "+" : ""}${diff.toFixed(3)} ns`;
+      cls = (target !== undefined && best >= target) ? "good" : "badv";
+    } else {
+      const pct = base ? diff / Math.abs(base) * 100 : 0;
+      delta = `${pct >= 0 ? "+" : ""}${pct.toFixed(1)} %`;
+      if (Math.abs(pct) >= 0.05) cls = (lowerIsBetter ? pct < 0 : pct > 0) ? "good" : "";
+    }
+  }
+  return `<div class="metric"><div class="k">${title}</div><div class="v ${cls}">${fmt(best ?? base, digits)} <span class="small muted">${unit}</span></div>
+    <div class="d">start ${fmt(base, digits)}${delta ? " · " + delta : ""}</div></div>`;
+}
+
+async function showRun(id) {
+  let d;
+  try { d = await api("/api/runs/" + encodeURIComponent(id)); }
+  catch (e) { $("#app").innerHTML = `<div class="msg err">${esc(e.message)}</div><a href="#/runs">Back to my runs</a>`; return; }
+  const running = d.status === "running";
+  const b = d.baseline || {}, x = d.best || {};
+  const target = (d.targets || {}).min_setup_slack_ns ?? 0;
+  const met = d.best && d.best.setup_ws !== null && d.best.setup_ws >= target;
+  const keyNeeded = STATUS && !STATUS.server_has_key && !d.scripted;
+  const bannerText = running ? `Running… round ${Math.max(0, d.rounds_done - 1)} done. This page updates by itself.`
+    : d.status === "paused" ? `Paused: ${d.stop_reason}. You can continue where it stopped.`
+    : d.status === "finished" ? `Finished: ${d.stop_reason}`
+    : `Stopped: ${d.stop_reason}`;
+  const keepOpen = $("#log-details") ? $("#log-details").open : running;
+  $("#app").innerHTML = `
+    <div class="label">${d.kind === "spec" ? "English spec" : d.kind === "example" ? "Example" : "Verilog design"}${d.action === "analyze" ? " · measure only" : ""}</div>
+    <h1>${esc(d.name)} <span class="pill ${esc(d.status)} ${running ? "pulse" : ""}" style="vertical-align:middle">${esc(d.status)}</span></h1>
+    <p class="lead">${esc(d.description || "")} ${d.llm_provider && d.action === "run" ? `<span class="${d.scripted ? "warn-provider" : "small muted"}">${esc(d.llm_provider)}</span>` : ""}</p>
+    <div class="banner ${esc(d.status)}">${esc(bannerText)}</div>
+    <div class="actions" style="margin:-4px 0 18px">
+      ${running ? `<button class="btn secondary" id="b-stop">Pause</button>` : ""}
+      ${(d.status === "paused" || d.status === "stopped") && d.action === "run" ? `${keyNeeded ? `<input type="password" id="k-resume" placeholder="AI key to continue" style="max-width:240px" value="${esc(AI_KEY)}">` : ""}<button class="btn primary" id="b-resume">Continue</button>` : ""}
+      ${d.has_report ? `<a class="btn dark" href="/api/runs/${encodeURIComponent(id)}/report" target="_blank" rel="noopener">Open report</a>` : ""}
+      ${d.has_best ? `<a class="btn secondary" href="/api/runs/${encodeURIComponent(id)}/best.zip">Download best design</a>` : ""}
+      <a class="btn secondary" href="/api/runs/${encodeURIComponent(id)}/all.zip">Download everything</a>
+      <span class="small muted">${d.llm_calls ? `${d.llm_calls} AI calls · ${Number(d.tokens).toLocaleString()} tokens` : ""}</span>
+    </div>
+    <div id="run-err"></div>
+    ${d.baseline ? `<div class="metrics">
+      ${metricCard("Setup slack " + (met ? "· target met" : `· target ≥ ${target}`), b.setup_ws, x.setup_ws, 3, "ns", false, target)}
+      ${metricCard("Area", b.area, x.area, 1, "µm²", true)}
+      ${metricCard("Power (estimate)", b.power_mw, x.power_mw, 4, "mW", true)}
+      <div class="metric"><div class="k">Flip-flop bits</div><div class="v">${fmt(x.flop_bits ?? b.flop_bits, 0)}</div>
+        <div class="d">start ${fmt(b.flop_bits, 0)} · extra latency +${x.latency ?? 0} cycle${(x.latency ?? 0) === 1 ? "" : "s"}</div></div>
+    </div>` : ""}
+    <div class="card"><h2>Rounds</h2>
+      ${d.rounds.length ? `<div class="tablewrap"><table><thead><tr><th>#</th><th>Result</th><th>Idea and reason</th><th>Slack <span class="u">(ns)</span></th><th>Area <span class="u">(µm²)</span></th><th>Power <span class="u">(mW)</span></th></tr></thead><tbody>
+      ${d.rounds.map(r => { const m = r.metrics || {}; return `<tr><td class="mono">${r.number}</td>
+        <td><span class="pill ${esc(r.status)}">${esc(r.status)}</span>${r.number === d.best_round && r.number !== 0 ? ' <span class="small">★ best</span>' : ""}</td>
+        <td><div>${esc(r.idea || "")}</div><div class="small muted">${esc(r.reason || "")}</div></td>
+        <td class="mono">${fmt(m.setup_ws)}</td><td class="mono">${fmt(m.area, 1)}</td><td class="mono">${fmt(m.power_mw, 4)}</td></tr>`; }).join("")}
+      </tbody></table></div>` : `<div class="muted">${running ? "Setting up and measuring the starting design…" : "No rounds recorded."}</div>`}
+      <p class="small muted" style="margin:12px 0 0">Slack: negative = too slow for the clock, positive = fast enough. Power is an estimate for comparing versions.</p>
+    </div>
+    <details class="card" id="log-details" ${keepOpen ? "open" : ""}><summary>Agent log</summary><pre class="log" id="log">${esc(d.log || "")}</pre></details>
+    ${d.has_report && !running ? `<div class="card"><h2>Report</h2><iframe class="report" id="report-frame" sandbox="allow-popups" src="/api/runs/${encodeURIComponent(id)}/report"></iframe></div>` : ""}
+    <p><a href="#/runs">← All runs</a></p>`;
+  const log = $("#log"); if (log) log.scrollTop = log.scrollHeight;
+  if ($("#b-stop")) $("#b-stop").onclick = async () => {
+    try { await api(`/api/runs/${encodeURIComponent(id)}/stop`, {}); } catch (e) { $("#run-err").innerHTML = `<div class="msg err">${esc(e.message)}</div>`; }
+    setTimeout(() => showRun(id), 800);
+  };
+  if ($("#b-resume")) $("#b-resume").onclick = async () => {
+    const k = $("#k-resume") ? $("#k-resume").value.trim() : ""; if (k) AI_KEY = k;
+    try { await api(`/api/runs/${encodeURIComponent(id)}/resume`, {api_key: AI_KEY || undefined}); showRun(id); }
+    catch (e) { $("#run-err").innerHTML = `<div class="msg err">${esc(e.message)}</div>`; }
+  };
+  if (running && location.hash === "#/run/" + id) timer = setTimeout(() => { if (location.hash === "#/run/" + id) showRun(id); }, 2000);
+}
+
+loadStatus().then(route);
+</script>
+</body>
+</html>

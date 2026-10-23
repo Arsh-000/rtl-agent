@@ -12,6 +12,14 @@
 set -euo pipefail
 IMAGE=${RTL_AGENT_IMAGE:-rtl-agent}
 
+if ! command -v docker >/dev/null 2>&1; then
+  echo "Docker is not available in this terminal." >&2
+  echo "  Windows: start Docker Desktop, then Settings > Resources > WSL integration > turn on your" >&2
+  echo "  Ubuntu > Apply & restart, and open a new terminal. Check with: docker --version" >&2
+  echo "  (Without Docker: install the tools yourself, README Option B, then: python3 -m rtl_agent web)" >&2
+  exit 1
+fi
+
 if ! docker image inspect "$IMAGE" >/dev/null 2>&1; then
   echo "Docker image '$IMAGE' not found. Build it first (once, 20-40 minutes):" >&2
   echo "    cd ~/rtl-agent && docker build -t rtl-agent ." >&2

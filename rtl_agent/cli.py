@@ -6,6 +6,7 @@
     python -m rtl_agent run      CONFIG --resume RUN_DIR   continue a paused run
     python -m rtl_agent run      CONFIG --scripted         offline test (hand-written responses, not an LLM)
     python -m rtl_agent report   CONFIG RUN_DIR      rebuild report.html from saved results
+    python -m rtl_agent web                          browser interface at http://localhost:8501
 """
 
 from __future__ import annotations
@@ -69,6 +70,12 @@ def _report(args) -> int:
     return 0
 
 
+def _web(args) -> int:
+    from .web.server import serve
+    serve(args.host, args.port, Path(args.workdir))
+    return 0
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(prog="rtl_agent", description="LLM-driven RTL generation and optimization")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -89,6 +96,12 @@ def main(argv=None) -> int:
     p.add_argument("config")
     p.add_argument("run_dir")
     p.set_defaults(fn=_report)
+    p = sub.add_parser("web", help="start the browser interface")
+    p.add_argument("--port", type=int, default=8501)
+    p.add_argument("--host", default="127.0.0.1",
+                   help="127.0.0.1 = only this computer (default); 0.0.0.0 = reachable from the network")
+    p.add_argument("--workdir", default="webruns", help="folder where web runs are saved (default: webruns)")
+    p.set_defaults(fn=_web)
     args = ap.parse_args(argv)
     try:
         return args.fn(args)

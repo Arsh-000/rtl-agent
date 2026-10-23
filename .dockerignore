@@ -8,3 +8,4 @@ new_user_test/
 libs/*.lib
 *.pyc
 release/
+webruns/

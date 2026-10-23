@@ -3,6 +3,7 @@
 #
 #   Build once (20-40 minutes):   docker build -t rtl-agent .
 #   Then run with the helper:     scripts/docker-run.sh run examples/dot_product/config.yaml
+#   Or the web page:              bash scripts/docker-web.sh   (then open http://localhost:8501)
 #   (or by hand, see README "Running with Docker")
 FROM ubuntu:24.04
 
@@ -36,4 +37,6 @@ ENV HOME=/home/rtl
 RUN mkdir -p /home/rtl && ln -s /opt/rtl-agent /home/rtl/rtl-agent && chmod 777 /home/rtl
 
 WORKDIR /work
+# the web interface (python3 -m rtl_agent web) listens on this port
+EXPOSE 8501
 CMD ["python3", "-m", "rtl_agent", "check-tools"]

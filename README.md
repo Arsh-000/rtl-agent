@@ -32,6 +32,9 @@ The core idea in one sentence:
 | **Icarus Verilog** | compiles and simulates: testbenches and the equivalence check |
 | **Any OpenAI-compatible LLM** | Groq (free tier), OpenAI, OpenRouter, a local Ollama, ... |
 
+**Prefer a web page to the terminal?** Run `python3 -m rtl_agent web` (or `bash scripts/docker-web.sh`)
+and open http://localhost:8501. See [The web interface](#the-web-interface).
+
 New to the code? Read **[docs/GUIDE.md](docs/GUIDE.md)**. It explains every
 file in plain language, in the order the agent uses them.
 
@@ -54,6 +57,9 @@ scripts/docker-run.sh check-tools
 scripts/docker-run.sh run examples/dot_product/config.yaml --scripted   # offline demo, no API key
 export GROQ_API_KEY=gsk_...                                            # never put the key in a file
 scripts/docker-run.sh run examples/dot_product/config.yaml              # the real thing
+
+# or use it from the browser instead: then open http://localhost:8501
+bash scripts/docker-web.sh
 ```
 
 On Windows, install **Docker Desktop** (with "WSL 2 integration" turned on) and run these commands
@@ -105,6 +111,40 @@ Open `runs/<project>_<date>_<time>/report.html` to see the result.
 | `python3 -m rtl_agent run CONFIG --resume runs/<run>` | continue a paused run (e.g. after the daily LLM limit) |
 | `python3 -m rtl_agent run CONFIG --scripted` | offline test with hand-written responses |
 | `python3 -m rtl_agent report CONFIG runs/<run>` | rebuild the report from saved results |
+| `python3 -m rtl_agent web` | the web interface at http://localhost:8501 (`--port`, `--host`, `--workdir`) |
+
+---
+
+## The web interface
+
+The same agent, from a browser page instead of the terminal. Nothing extra to install: it uses
+only Python's standard library.
+
+```bash
+python3 -m rtl_agent web            # tools installed yourself (Option B)
+bash scripts/docker-web.sh          # with Docker (Option A)
+```
+
+Then open **http://localhost:8501**. On the page you can:
+
+* **start from your Verilog files**: drag them in, the page reads the design with Yosys,
+  suggests the top module and shows its ports and clock; give a clock period or your own SDC;
+* **start from an English description**: the AI writes a testbench and the design first;
+* **try a built-in example**, offline without a key, or with the real AI;
+* set the goals (slack, area, power), what matters most, and whether extra latency is allowed;
+* **Measure only (no AI)**: just the starting numbers, in about a minute;
+* watch the rounds arrive live, **Pause** and **Continue** a run, open the report, and download the
+  best design or everything as a zip.
+
+Good to know:
+
+* The AI key is pasted in the page (or taken from `GROQ_API_KEY` when the server starts). It is
+  passed only to the run's process and is **never written to disk**. Paste it again to continue a
+  paused run after restarting the server.
+* Each run is a separate folder in `webruns/jobs/<id>/` (inputs, `config.yaml`, `agent.log`, and
+  the usual `runs/` folder), so a web run can also be continued from the terminal.
+* By default the page is reachable from **this computer only**. It has no login, so do not
+  expose it to a network (`--host 0.0.0.0`) unless you trust everyone on that network.
 
 ---
 
@@ -307,10 +347,12 @@ python3 -m unittest discover -s tests -v        # or: pytest tests
 
 * `tests/test_units.py`: parsers, scoring, guardrails, SDC helpers, config checking (no tools needed)
 * `tests/test_llm_http.py`: the LLM client against a fake local server: success, 429 + retry, daily limit, token pacing
+* `tests/test_web.py`: the web interface: form checks, then the real server with real tools:
+  measure-only run, offline run with pause and continue, downloads, error messages
 * `tests/test_integration.py`: real tools: full offline runs, a full run through the HTTP client,
   "SDC changed mid-run stops the run", pause on daily limit + resume, custom STA command
 
-All 53 tests pass in the development environment (about three minutes).
+All 64 tests pass in the development environment (about five minutes).
 
 ## Honest limits
 
@@ -342,6 +384,8 @@ All 53 tests pass in the development environment (about three minutes).
 | `Permission denied` when running `scripts/docker-run.sh` | run it with bash: `bash scripts/docker-run.sh ...` |
 | `$'\r': command not found` | the files got Windows line endings: `sed -i 's/\r$//' scripts/*.sh` |
 | `GROQ_API_KEY is not set` | `export GROQ_API_KEY=gsk_...` in the same terminal (create a key at console.groq.com) |
+| `Address already in use` when starting the web page | another program uses port 8501: `python3 -m rtl_agent web --port 8600` (Docker: `PORT=8600 bash scripts/docker-web.sh`) |
+| the web page does not open from Windows | use http://localhost:8501 (not 127.0.0.1 inside WSL), and keep the terminal that runs the server open |
 | `429` / "daily limit" | the free tier's limit: the run pauses; continue later with `--resume runs/<run>` |
 
 ## Project layout
@@ -361,6 +405,8 @@ rtl_agent/
   report.py         report.html / report.md
   tools.py          finding and running external programs
   cli.py            command line
+  web/              the web interface: server.py (web server), jobs.py (runs as background
+                    processes), static/index.html (the page)
   adapters/         inspect.py  simulate.py  equiv.py  synth.py  sta.py
   llm/              base.py  openai_compat.py  scripted.py
 examples/           four example designs with configs

@@ -49,7 +49,8 @@ class Agent:
         self.cfg = cfg
         self.analyze_only = analyze_only
         if resume_dir:
-            self.store = RunStore(Path(resume_dir))
+            # full path: the tools run from other folders, so a relative path would break them
+            self.store = RunStore(Path(resume_dir).resolve())
             self.state = self.store.load_state()
             log(f"resuming run in {self.store.dir}")
         else:
@@ -72,6 +73,7 @@ class Agent:
         rounds = [r for r in self.state["rounds"] if r["number"] != rec.number]
         rounds.append(record_to_dict(rec))
         self.state["rounds"] = sorted(rounds, key=lambda r: r["number"])
+        self.state["llm_calls_saved"] = self.state["llm_calls"]   # calls that belong to finished rounds
         self.store.write_record(rec)
         self.store.save_state(self.state)
 
@@ -89,7 +91,9 @@ class Agent:
         if self.provider is None:
             self.provider = make_provider(self.cfg.llm)
             if hasattr(self.provider, "index"):          # scripted provider: continue where we left off
-                self.provider.index = self.state["llm_calls"]
+                # a round interrupted half-way is thrown away and asked again, so replay from the
+                # last finished round, not from the last call made
+                self.provider.index = self.state.get("llm_calls_saved", self.state["llm_calls"])
         return self.provider
 
     def ask_llm(self, system: str, user: str, round_no: int, label: str = "") -> str:
