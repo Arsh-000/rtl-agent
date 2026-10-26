@@ -13,8 +13,18 @@ proposal, so all versions are measured in exactly the same way:
     6. timing + power            OpenSTA -> slack, critical paths, power
 
 A version that fails steps 1-4 is never measured or kept.
+
+MAP OF THIS FILE  (search for the tag, e.g. "[E4]", to jump to a section)
+
+    [E1]  Imports                  the tool adapters this file uses
+    [E2]  The result               Evaluation: passed or failed, the reason, the numbers
+    [E3]  Creating the judge       remembers the locked SDC, the original ports, the golden copy
+    [E4]  evaluate()               THE SIX CHECKS, in order: CHECK 1 ... CHECK 6
 """
 
+# ==================================================================================================
+# [E1] IMPORTS: one adapter per tool (Icarus, Yosys, OpenSTA) plus the safety rules
+# ==================================================================================================
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -31,6 +41,9 @@ from .guardrails import check_sdc_unchanged, interface_differences, registered_o
 from .scoring import Metrics
 
 
+# ==================================================================================================
+# [E2] THE RESULT: valid or not, a short reason, and the measured numbers
+# ==================================================================================================
 @dataclass
 class Evaluation:
     valid: bool
@@ -44,7 +57,13 @@ class Evaluation:
     sta: Optional[StaResult] = None
 
 
+# ==================================================================================================
+# THE JUDGE
+# ==================================================================================================
 class Evaluator:
+    # ==============================================================================================
+    # [E3] CREATING THE JUDGE: locked SDC fingerprint, original ports, golden copy
+    # ==============================================================================================
     def __init__(self, cfg, tools: dict, sdc: Path, sdc_hash: str, clock_period_ns: Optional[float],
                  testbench: Optional[dict] = None):
         self.cfg = cfg
@@ -59,21 +78,25 @@ class Evaluator:
         d = self.cfg.design
         return DesignFiles(files=files, top=d.top, include_dirs=d.include_dirs, defines=d.defines)
 
+    # ==============================================================================================
+    # [E4] EVALUATE ONE VERSION: six checks in order. Fail one -> stop there with a reason
+    # ==============================================================================================
     def evaluate(self, files: list[Path], workdir: Path, is_reference: bool = False) -> Evaluation:
         cfg, t = self.cfg, self.tools
         workdir.mkdir(parents=True, exist_ok=True)
         design = self.design(files)
         checks: dict = {}
 
-        # 1. guardrail: the timing rules must be exactly the ones we started with
+        # ---- CHECK 1 of 6: timing rules (SDC) unchanged? The AI must not loosen the target -----------
+        # guardrail: the timing rules must be exactly the ones we started with
         check_sdc_unchanged(self.sdc, self.sdc_hash)
 
-        # 2. does it compile?
+        # ---- CHECK 2 of 6: does it compile? (Icarus Verilog)  -> else 'does not compile' -------------
         comp = compile_check(design, workdir / "compile", t["iverilog"])
         if not comp.ok:
             return Evaluation(False, "does not compile", "Compiler errors:\n" + comp.detail)
 
-        # 3. what is in it, and is the interface unchanged?
+        # ---- CHECK 3 of 6: same ports? registered outputs still registered? (Yosys) ------------------
         info = inspect_design(design, workdir / "inspect", t["yosys"])
         if not info.ok:
             return Evaluation(False, "Yosys could not read the design", info.error)
@@ -93,12 +116,13 @@ class Evaluator:
                                       "registers; shorten the logic INTO them instead (for example compute the next "
                                       "output value from the next state, one cycle ahead).", info=info)
 
-        # 4. is it still correct?
+        # ---- CHECK 4 of 6: same behaviour? 4a vs original, 4b formal, 4c testbench -------------------
         latency = 0
         verified_by = []
         # The comparison with the original runs FIRST: when it fails it can say precisely what is
         # wrong (e.g. "right outputs, but one cycle early"), which helps the LLM far more than raw
         # testbench errors. The testbench runs after it.
+        # 4a. random simulation, side by side with the original (golden) design: 2000 cycles
         use_equiv = (cfg.correctness.equivalence != "off" and self.golden is not None and not is_reference)
         if use_equiv:
             max_lat = cfg.latency.max_extra_cycles if cfg.latency.policy == "flexible" else 0
@@ -120,6 +144,7 @@ class Evaluator:
                 latency = eq.latency or 0
                 verified_by.append("co-simulation vs original")
 
+            # 4b. bounded formal proof: no input sequence (up to N cycles) makes the outputs differ
             if cfg.correctness.formal != "off" and latency == 0:
                 fr = formal_check(self.golden, design, info, workdir / "formal", t["yosys"],
                                   cfg.correctness.formal_depth, cfg.correctness.formal_timeout_s)
@@ -131,6 +156,7 @@ class Evaluator:
                 if fr.status == "proven_bounded":
                     verified_by.append("bounded formal")
 
+        # 4c. the testbench (yours, or the one the AI wrote in spec mode)
         if self.testbench:
             tb = self.testbench
             sim = run_testbench(design, tb["files"], tb["top"], workdir / "testbench", t["iverilog"], t["vvp"],
@@ -141,6 +167,7 @@ class Evaluator:
                                   info=info)
             verified_by.append("testbench")
 
+        # 4d. at least one of these checks must have run, or the change cannot be trusted
         if not is_reference and not verified_by:
             return Evaluation(False, "no correctness check possible",
                               "Neither a testbench nor the automatic equivalence check could run for this design, "
@@ -148,18 +175,19 @@ class Evaluator:
                               checks=checks, info=info)
         checks["verified_by"] = verified_by
 
-        # 5. synthesis
+        # ---- CHECK 5 of 6: synthesis (Yosys): Verilog -> logic gates -> AREA -------------------------
         syn = synthesize(design, cfg.library.liberty, workdir / "synth", t["yosys"], self.clock_period_ns,
                          cfg.library.tie_hi, cfg.library.tie_lo, cfg.custom_commands.synth)
         if not syn.ok:
             return Evaluation(False, "synthesis failed", syn.error, checks=checks, info=info)
 
-        # 6. timing and power
+        # ---- CHECK 6 of 6: timing and power (OpenSTA): SLACK, slowest paths, POWER -------------------
         sta = run_sta(syn.netlist, cfg.design.top, cfg.library.liberty, self.sdc, workdir / "sta", t["sta"],
                       custom_cmd=cfg.custom_commands.sta)
         if not sta.ok:
             return Evaluation(False, "timing analysis failed", sta.error, checks=checks, info=info, synth=syn)
 
+        # ---- RESULT: passed everything -> return the numbers -----------------------------------------
         metrics = Metrics(setup_ws=sta.setup_ws, setup_tns=sta.setup_tns, hold_ws=sta.hold_ws,
                           area=syn.area, power_mw=sta.power_mw, flop_bits=info.flop_bits,
                           cell_count=syn.cell_count, latency=latency)

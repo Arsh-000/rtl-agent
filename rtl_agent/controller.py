@@ -10,8 +10,26 @@
 
 The LLM only ever *proposes*. Every decision below is made by plain Python
 code from measured numbers.
+
+MAP OF THIS FILE  (search for the tag, e.g. "[S9]", to jump to a section)
+
+    [S1]  Imports                  the other files this one uses
+    [S2]  Small tools              StopRun (ends a run with a reason), log()
+    [S3]  Creating the Agent       new run, or continue a paused one (--resume)
+    [S4]  Run memory               save a round, find the best round
+    [S5]  Talking to the AI        ask_llm(): one call; retry once if the reply was cut off
+    [S6]  Setup                    find Yosys, OpenSTA, Icarus
+    [S7]  Baseline (round 0)       measure the starting design, make the golden copy
+    [S8]  What the AI sees         _context(): build the prompt, shrink it if too big
+    [S9]  ONE ROUND                _try_proposal(): ask -> judge -> keep or reject
+    [S10] Stop rules               _stop_reason(): when to stop
+    [S11] MAIN LOOP                run(): the whole agent on one screen
+    [S12] Repeat detection         same circuit / same mistake as an earlier round
 """
 
+# ==================================================================================================
+# [S1] IMPORTS: the other files this one uses
+# ==================================================================================================
 from __future__ import annotations
 
 import datetime as _dt
@@ -32,6 +50,9 @@ from .sdc import check_against_design, fingerprint, generate_basic_sdc, read_clo
 from .tools import require_tool, tool_versions
 
 
+# ==================================================================================================
+# [S2] SMALL TOOLS: StopRun ends a run with a reason; log() prints a timestamped line
+# ==================================================================================================
 class StopRun(Exception):
     """Raised to end the run early with a reason (e.g. daily LLM limit reached)."""
 
@@ -44,7 +65,13 @@ def log(msg: str) -> None:
     print(f"[{_dt.datetime.now():%H:%M:%S}] {msg}", flush=True)
 
 
+# ==================================================================================================
+# THE AGENT
+# ==================================================================================================
 class Agent:
+    # ==============================================================================================
+    # [S3] CREATING THE AGENT: a new run, or continue a paused one (--resume)
+    # ==============================================================================================
     def __init__(self, cfg: Config, resume_dir: Optional[Path] = None, analyze_only: bool = False):
         self.cfg = cfg
         self.analyze_only = analyze_only
@@ -64,7 +91,9 @@ class Agent:
         self.evaluator: Optional[Evaluator] = None
         self.provider = None
 
-    # ------------------------------------------------------------------ helpers
+    # ==============================================================================================
+    # [S4] RUN MEMORY: every round is saved to disk; find the best round so far
+    # ==============================================================================================
     @property
     def rounds(self) -> list[RoundRecord]:
         return [record_from_dict(r) for r in self.state["rounds"]]
@@ -87,6 +116,9 @@ class Agent:
     def _elapsed_min(self) -> float:
         return (self.state.get("elapsed_before_resume", 0.0) + time.time() - self.started) / 60.0
 
+    # ==============================================================================================
+    # [S5] TALKING TO THE AI: one call per round; retry once if the reply was cut off
+    # ==============================================================================================
     def _llm(self):
         if self.provider is None:
             self.provider = make_provider(self.cfg.llm)
@@ -126,7 +158,9 @@ class Agent:
         self.state["tokens"] += reply.total_tokens
         return reply
 
-    # ------------------------------------------------------------------ phase A
+    # ==============================================================================================
+    # [S6] SETUP: find the tools (Yosys, OpenSTA, Icarus), save a copy of the settings
+    # ==============================================================================================
     def _setup(self) -> None:
         t = self.cfg.tools
         self.tools = {"yosys": require_tool(t.yosys), "sta": require_tool(t.sta),
@@ -140,7 +174,9 @@ class Agent:
         if not cfg_copy.exists():
             cfg_copy.write_text(_config_as_yaml(self.cfg))
 
-    # ------------------------------------------------------------------ phases B-D
+    # ==============================================================================================
+    # [S7] BASELINE (round 0): get the starting design, measure it, make the golden copy
+    # ==============================================================================================
     def _baseline(self) -> None:
         cfg = self.cfg
         n = 0
@@ -150,6 +186,7 @@ class Agent:
                          "pass_pattern": cfg.testbench.pass_pattern, "fail_pattern": cfg.testbench.fail_pattern,
                          "timeout_s": cfg.testbench.timeout_s}
 
+        # ---- Step 1: get the starting design (spec mode: the AI writes it; rtl mode: your files) -----
         if cfg.mode == "spec":
             from .spec_mode import build_from_spec
             log("spec mode: asking the LLM for a testbench and a first RTL version")
@@ -160,6 +197,7 @@ class Agent:
         self.state["testbench"] = testbench
 
         paths = self.store.write_rtl(n, files)
+        # ---- Step 2: the timing rules (SDC): yours, or a basic generated one; then lock it -----------
         # The SDC: the user's file, or a generated basic one (clearly marked).
         if cfg.sdc:
             sdc = cfg.sdc
@@ -182,6 +220,7 @@ class Agent:
         period = next((c["period"] for c in sdc_clocks if c["period"]), cfg.clock_period_ns)
         self.state["clock_period_ns"] = period
 
+        # ---- Step 3: measure the starting design with the judge (evaluate.py) ------------------------
         self._make_evaluator()
         log("round 0: measuring the starting design (baseline)")
         ev = self.evaluator.evaluate(paths, self.store.round_dir(n) / "work", is_reference=True)
@@ -198,6 +237,7 @@ class Agent:
         self.state["sdc_problems"] = check_against_design(sdc.read_text(), ev.info)
         for p in self.state["sdc_problems"]:
             log(f"SDC warning: {p}")
+        # ---- Step 4: freeze a 'golden' copy: every later version is compared with it -----------------
         golden, err = make_golden(self.evaluator.design(paths), self.store.dir / "golden", self.tools["yosys"])
         if golden is None:
             log(f"could not create the golden reference ({err}); equivalence checks disabled")
@@ -224,7 +264,9 @@ class Agent:
             ev.golden = Path(self.state["golden"])
         self.evaluator = ev
 
-    # ------------------------------------------------------------------ prompt context
+    # ==============================================================================================
+    # [S8] WHAT THE AI SEES: build the prompt (the AI has no memory: this is its memory)
+    # ==============================================================================================
     def _context(self, task: str) -> tuple[str, str]:
         cfg, best = self.cfg, self._best()
         base = next(r for r in self.rounds if r.number == 0)
@@ -238,6 +280,7 @@ class Agent:
                 return "n/a" if v is None else f"{v:.3f} ns"
             unmet[unmet.index("timing")] = (f"timing (setup slack {ns(best.metrics.get('setup_ws'))}, "
                                             f"hold slack {ns(best.metrics.get('hold_ws'))})")
+        # ---- Step 1: collect everything the AI needs: code, numbers, slow paths, history -------------
         rows = [("original (round 0)", base.metrics)]
         if best.number != 0:
             rows.append((f"current best (round {best.number})", best.metrics))
@@ -256,8 +299,10 @@ class Agent:
             "files_text": prompts.files_text(best_files),
             "task": task,
         }
+        # ---- Step 2: turn it into text (the wording lives in prompts.py) -----------------------------
         system = prompts.system_prompt(cfg.latency.policy, cfg.latency.max_extra_cycles)
         user = prompts.improve_prompt(ctx)
+        # ---- Step 3: too big for the token limit? Drop the least important parts first ---------------
         # Keep the request inside the per-minute token limit: drop the least important parts first.
         budget = (cfg.llm.tokens_per_minute or 10 ** 9) - cfg.llm.max_output_tokens - 200
         shrink_steps = [("history", lambda c: c.update(history=c["history"][-6:])),
@@ -277,10 +322,13 @@ class Agent:
                           f"max_output_tokens={cfg.llm.max_output_tokens}. Use a provider/plan with higher limits.")
         return system, user
 
-    # ------------------------------------------------------------------ one proposal
+    # ==============================================================================================
+    # [S9] ONE ROUND: ask the AI -> check the reply -> judge it -> KEEP or REJECT
+    # ==============================================================================================
     def _try_proposal(self, phase: str, task: str) -> Optional[RoundRecord]:
         cfg, best = self.cfg, self._best()
         n = self._next_round_number()
+        # ---- Step 1: ask the AI (prompt from [S8]) ---------------------------------------------------
         system, user = self._context(task)
         log(f"round {n} [{phase}]: asking the LLM for a proposal")
         reply = self.ask_llm(system, user, n)
@@ -288,6 +336,7 @@ class Agent:
         prop: Proposal = parse_reply(reply, sorted(best_files))
         rec = RoundRecord(number=n, phase=phase, parent=best.number, idea=prop.idea, plan=prop.plan,
                           expected=prop.expected)
+        # ---- Step 2: did the AI say 'no more ideas'? Push back once if targets are not met -----------
         if prop.no_more_ideas:
             self.store.write_text(n, "NO_MORE_IDEAS.txt", "The LLM said it has no further ideas.\n")
             met = all_targets_met(Metrics.from_dict(best.metrics), cfg.targets)
@@ -309,6 +358,7 @@ class Agent:
                                 "logic on the critical path, precompute values one cycle early (look-ahead "
                                 "registers), simplify or re-encode logic, or pipeline if the latency policy allows.")
         self.state["no_ideas_streak"] = 0
+        # ---- Step 3: is the reply usable? (not cut off, contains Verilog)  -> else INVALID -----------
         if prop.problem:
             if getattr(self, "last_reply_cut_off", False):
                 return self._reject(rec, "invalid", "reply cut off (output length limit)",
@@ -317,6 +367,7 @@ class Agent:
                                     "and only the files you change.")
             return self._reject(rec, "invalid", "reply not usable", prop.problem)
 
+        # ---- Step 4: save the new files; same code as an earlier round?  -> DUPLICATE ----------------
         new_files = dict(best_files)
         new_files.update(prop.files)
         try:
@@ -330,6 +381,7 @@ class Agent:
             return self._reject(rec, "duplicate", f"identical to round {earlier[rec.rtl_hash]}",
                                 f"This proposal is identical to round {earlier[rec.rtl_hash]}. Try a different idea.")
 
+        # ---- Step 5: THE JUDGE (evaluate.py): correct? then measure  -> else INVALID -----------------
         start = time.time()
         ev: Evaluation = self.evaluator.evaluate(paths, self.store.round_dir(n) / "work")
         rec.seconds = time.time() - start
@@ -344,6 +396,7 @@ class Agent:
                                     f"it again in any form; find a different idea.\n{ev.detail}")
             return self._reject(rec, "invalid", ev.reason, f"{ev.reason}. {ev.detail}")
 
+        # ---- Step 6: THE DECISION: clearly better than the best?  -> KEPT, else REJECTED -------------
         rec.metrics, rec.analysis = ev.metrics.to_dict(), ev.analysis
         best_m = Metrics.from_dict(best.metrics)
         rec.claims = judge_claims(prop.expected, ev.metrics, best_m)
@@ -358,6 +411,7 @@ class Agent:
             rec.status, rec.reason = "rejected", f"{why} than round {best.number}"
             self.state["no_improve"] += 1
         self.state["consecutive_failures"] = 0
+        # ---- Step 7: feedback for the next round, then save this round -------------------------------
         twin = _same_circuit(rec.metrics, self.rounds)
         if verdict <= 0 and twin is not None:
             # Different Verilog text, identical measurements: synthesis built the same circuit.
@@ -374,6 +428,7 @@ class Agent:
         log(f"round {n}: {rec.status.upper()} ({rec.reason}) - " + _metrics_line(ev.metrics))
         return rec
 
+    # _reject: records a failed round and its reason; the reason is sent to the AI next round
     def _reject(self, rec: RoundRecord, status: str, reason: str, detail: str) -> RoundRecord:
         rec.status, rec.reason = status, reason
         # Broken proposals count toward the "stuck" rule, not the "plateau" rule:
@@ -384,7 +439,9 @@ class Agent:
         log(f"round {rec.number}: {status.upper()} - {reason}")
         return rec
 
-    # ------------------------------------------------------------------ stop rules
+    # ==============================================================================================
+    # [S10] STOP RULES: success / plateau / stuck / budget (checked before every round)
+    # ==============================================================================================
     def _stop_reason(self) -> Optional[str]:
         cfg, loop = self.cfg, self.cfg.loop
         best = self._best()
@@ -401,10 +458,13 @@ class Agent:
             return f"budget: reached max_minutes={loop.max_minutes}"
         return None
 
-    # ------------------------------------------------------------------ main entry
+    # ==============================================================================================
+    # [S11] MAIN LOOP: the whole agent on one screen. START EXPLAINING HERE.
+    # ==============================================================================================
     def run(self) -> dict:
         from .report import write_reports
         try:
+            # ---- Start: setup, then round 0 (skipped when continuing a paused run) ---------------
             self._setup()
             if self.state.get("best_round") is None:
                 self._baseline()
@@ -413,7 +473,7 @@ class Agent:
             if self.analyze_only:
                 raise StopRun("analysis only: the design was measured, no LLM rounds were requested", "finished")
 
-            # E. architecture exploration
+            # ---- E. Explore (optional): ask for a few completely different designs ---------------
             n_explore = self.cfg.explore_candidates
             while self.state["explored"] < n_explore:
                 i = self.state["explored"] + 1
@@ -425,7 +485,7 @@ class Agent:
                 self.state["consecutive_failures"] = 0
                 self.state["no_improve"] = 0
 
-            # F. improvement loop - no fixed number of rounds; the stop rules decide.
+            # ---- F. Improve: loop until a stop rule fires (no fixed number of rounds) ---------------
             while True:
                 reason = self._stop_reason()
                 if reason:
@@ -433,6 +493,7 @@ class Agent:
                     break
                 self._try_proposal("improve", "Propose the next improvement toward the targets.")
                 write_reports(self.store, self.state, self.cfg)
+        # ---- End: why did it stop? Ctrl+C = paused. Always save and write the report -----------------
         except StopRun as stop:
             self.state["stop_reason"], self.state["status"] = stop.reason, stop.status
         except GuardrailViolation as exc:
@@ -451,6 +512,9 @@ class Agent:
         return self.state
 
 
+# ==================================================================================================
+# [S12] REPEAT DETECTION: tell the AI when it repeats an earlier round, plus small formatting helpers
+# ==================================================================================================
 def _same_circuit(metrics: dict, rounds: list) -> Optional[int]:
     """Earliest round whose measurements are identical (timing, area, power, flip-flops), or None."""
     keys = ("setup_ws", "area", "power_mw", "flop_bits")
