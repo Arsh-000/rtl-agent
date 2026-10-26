@@ -29,9 +29,15 @@ TOOLS = {n: find_tool(n) for n in ("yosys", "sta", "iverilog", "vvp")}
 HAVE_TOOLS = all(TOOLS.values()) and (ROOT / "libs" / "nangate45_typ.lib").exists()
 
 
+def _example_dir(name: str) -> Path:
+    """A user-facing example, or a test-only design kept in tests/data (e.g. sync_fifo)."""
+    d = ROOT / "examples" / name
+    return d if d.is_dir() else ROOT / "tests" / "data" / name
+
+
 def copy_example(name: str, tmp: Path) -> Path:
     """Copy an example (and the library) into a temp folder so tests never touch the originals."""
-    shutil.copytree(ROOT / "examples" / name, tmp / "examples" / name)
+    shutil.copytree(_example_dir(name), tmp / "examples" / name)
     (tmp / "libs").mkdir(exist_ok=True)
     lib = tmp / "libs" / "nangate45_typ.lib"
     if not lib.exists():
@@ -40,7 +46,7 @@ def copy_example(name: str, tmp: Path) -> Path:
 
 
 def scripted_texts(name: str) -> list[str]:
-    return [p.read_text() for p in sorted((ROOT / "examples" / name / "scripted").glob("*.md"))]
+    return [p.read_text() for p in sorted((_example_dir(name) / "scripted").glob("*.md"))]
 
 
 class ListProvider(LLMProvider):
@@ -63,7 +69,7 @@ class ListProvider(LLMProvider):
 class TestAdaptersOnExamples(unittest.TestCase):
     def test_fifo_inspection_finds_memory_clock_reset(self):
         with tempfile.TemporaryDirectory() as d:
-            info = inspect_design(DesignFiles([ROOT / "examples/sync_fifo/rtl/sync_fifo.v"], "sync_fifo"),
+            info = inspect_design(DesignFiles([ROOT / "tests/data/sync_fifo/rtl/sync_fifo.v"], "sync_fifo"),
                                   Path(d), TOOLS["yosys"])
         self.assertTrue(info.ok)
         self.assertEqual(info.clocks, ["clk"])
@@ -182,14 +188,15 @@ class TestAgentRuns(unittest.TestCase):
             agent.provider = provider
         return agent, agent.run()
 
-    def test_offline_fsm_run(self):
-        agent, state = self.run_agent(copy_example("seq_detector", self.tmp), scripted=True)
+    def test_offline_run(self):
+        agent, state = self.run_agent(copy_example("dot_product", self.tmp), scripted=True)
         statuses = [r["status"] for r in state["rounds"]]
-        self.assertEqual(statuses, ["baseline", "kept", "kept"])
-        self.assertIn("no further", state["stop_reason"])
+        self.assertEqual(statuses, ["baseline", "invalid", "kept"])
+        self.assertIn("success", state["stop_reason"])
+        self.assertEqual(state["best_round"], 2)
         self.assertTrue((agent.store.dir / "report.html").exists())
-        self.assertTrue((agent.store.dir / "best" / "seq_detector.v").exists())
-        self.assertTrue(state["sdc_generated"])
+        self.assertTrue((agent.store.dir / "best" / "dot4.v").exists())
+        self.assertFalse(state["sdc_generated"])
         # every round folder has the promised files
         for n in (1, 2):
             for f in ("diff_vs_parent.patch", "metrics.json", "change_note.md", "prompt.md", "llm_reply.md"):
@@ -206,7 +213,7 @@ class TestAgentRuns(unittest.TestCase):
 
     def test_http_provider_drives_the_agent(self):
         """Full run through the real OpenAI-compatible client, against a fake local server."""
-        replies = scripted_texts("seq_detector")
+        replies = scripted_texts("dot_product")
 
         class Handler(BaseHTTPRequestHandler):
             def do_POST(self):
@@ -226,13 +233,13 @@ class TestAgentRuns(unittest.TestCase):
         server = HTTPServer(("127.0.0.1", 0), Handler)
         threading.Thread(target=server.serve_forever, daemon=True).start()
         try:
-            cfg = load_config(copy_example("seq_detector", self.tmp))
+            cfg = load_config(copy_example("dot_product", self.tmp))
             cfg.llm.base_url = f"http://127.0.0.1:{server.server_address[1]}/v1"
             state = Agent(cfg).run()
         finally:
             server.shutdown()
-        self.assertEqual([r["status"] for r in state["rounds"]], ["baseline", "kept", "kept"])
-        self.assertEqual(state["tokens"], 3 * 800)
+        self.assertEqual([r["status"] for r in state["rounds"]], ["baseline", "invalid", "kept"])
+        self.assertEqual(state["tokens"], 2 * 800)
 
     def test_sdc_change_stops_the_run(self):
         cfg_path = copy_example("dot_product", self.tmp)
@@ -246,14 +253,14 @@ class TestAgentRuns(unittest.TestCase):
         self.assertIn("SDC file", state["stop_reason"])
 
     def test_pause_on_daily_limit_then_resume(self):
-        cfg_path = copy_example("seq_detector", self.tmp)
-        replies = scripted_texts("seq_detector")
+        cfg_path = copy_example("dot_product", self.tmp)
+        replies = scripted_texts("dot_product")
         agent, state = self.run_agent(cfg_path, provider=ListProvider(replies, fail_at=2))
         self.assertEqual(state["status"], "paused")
-        self.assertEqual([r["status"] for r in state["rounds"]], ["baseline", "kept"])
+        self.assertEqual([r["status"] for r in state["rounds"]], ["baseline", "invalid"])
         _, state2 = self.run_agent(cfg_path, provider=ListProvider(replies[1:]), resume=agent.store.dir)
         self.assertEqual(state2["status"], "finished")
-        self.assertEqual([r["status"] for r in state2["rounds"]], ["baseline", "kept", "kept"])
+        self.assertEqual([r["status"] for r in state2["rounds"]], ["baseline", "invalid", "kept"])
         self.assertEqual(state2["best_round"], 2)
 
     def test_spec_mode_replaces_a_wrong_testbench(self):
@@ -307,7 +314,7 @@ class TestAgentRuns(unittest.TestCase):
         self.assertIn("twice in a row", state["stop_reason"])
 
     def test_custom_sta_command(self):
-        cfg_path = copy_example("seq_detector", self.tmp)
+        cfg_path = copy_example("dot_product", self.tmp)
         cfg = load_config(cfg_path)
         cfg.custom_commands.sta = ('echo \'{"setup_ws": 0.5, "setup_tns": 0, "hold_ws": 0.1, "power_mw": 1.25}\''
                                    ' > "$OUT_DIR/sta_metrics.json"')

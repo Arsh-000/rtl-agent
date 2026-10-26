@@ -1,6 +1,6 @@
-# Example 1 - arithmetic block with a long critical path.
-# Existing RTL + SDC, no testbench: correctness is checked by comparing every
-# proposal with the original design (random co-simulation + bounded formal).
+# Example 1 - starts from existing Verilog. Multiplies four pairs of numbers and adds the results
+# (a dot product). It is too slow for its 1.2 ns clock; the agent's job is to make it fast enough.
+# No testbench needed: every change is compared with the original design.
 project_name: dot4
 mode: rtl
 

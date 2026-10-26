@@ -1,7 +1,0 @@
-read_verilog -sv /home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_00/rtl/gray_counter.v
-hierarchy -check -top gray_counter
-proc
-flatten
-opt_clean
-rename gray_counter gray_counter__golden
-write_verilog -noattr golden.v

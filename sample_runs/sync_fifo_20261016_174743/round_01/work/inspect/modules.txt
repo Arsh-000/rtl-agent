@@ -1,3 +1,0 @@
-
-1 modules:
-  sync_fifo

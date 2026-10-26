@@ -255,7 +255,7 @@ class TestSameCircuit(unittest.TestCase):
 
 class TestSameFailure(unittest.TestCase):
     def test_identical_wrong_behaviour_points_to_earlier_round(self):
-        # Real Groq run (seq_detector): rounds 2, 4 and 5 made the same mistake in different words.
+        # Real Groq run (a state-machine design): rounds 2, 4 and 5 made the same mistake in different words.
         from rtl_agent.controller import _same_failure
         bad = {"equivalence": {"ran": True, "passed": False, "detail": "59 mismatches; cycle=32 expected=0 got=1"}}
         other = {"equivalence": {"ran": True, "passed": False, "detail": "3 mismatches; cycle=7 expected=1 got=0"}}
@@ -276,7 +276,7 @@ class TestReportDesign(unittest.TestCase):
 
 class TestConfig(unittest.TestCase):
     def test_examples_load(self):
-        for name in ("dot_product", "seq_detector", "spec_gray_counter"):
+        for name in ("dot_product", "spec_gray_counter"):
             cfg = load_config(ROOT / "examples" / name / "config.yaml")
             self.assertTrue(cfg.library.liberty.is_absolute())
 

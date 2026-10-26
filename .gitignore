@@ -1,4 +1,5 @@
 runs/
+runs_*/
 libs/*.lib
 __pycache__/
 *.pyc
@@ -6,3 +7,4 @@ __pycache__/
 .env
 release/
 webruns/
+_to_delete/

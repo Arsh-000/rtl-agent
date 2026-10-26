@@ -1,7 +1,0 @@
-read_verilog -sv /home/claude/rtl-agent/runs/dot4_20261016_174644/round_00/rtl/dot4.v
-hierarchy -check -top dot4
-proc
-flatten
-opt_clean
-rename dot4 dot4__golden
-write_verilog -noattr golden.v

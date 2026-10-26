@@ -1,4 +1,0 @@
-$ /opt/eda/bin/iverilog -g2012 -o equiv.vvp -s rtl_agent_equiv_tb /home/claude/rtl-agent/runs/dot4_20261016_174644/golden/golden.v /home/claude/rtl-agent/runs/dot4_20261016_174644/round_01/rtl/dot4.v /home/claude/rtl-agent/runs/dot4_20261016_174644/round_01/work/equiv/equiv_tb.v
-# exit=0 timed_out=False seconds=0.0
-
-

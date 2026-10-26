@@ -240,16 +240,16 @@ custom_commands:
 
 ## The examples
 
-Four very different designs, all run with **no code changes**: the evidence
-that the tool is general. The numbers below are real Yosys/OpenSTA measurements
-(Nangate45 typical) from the offline `--scripted` runs saved in
-`sample_runs/`. The proposals in those runs are hand-written, not LLM output.
+Two very different designs, run with **no code changes**: an existing design to optimize,
+and a design written from plain English (spec mode). The numbers below are real Yosys/OpenSTA measurements
+(Nangate45 typical) from the offline `--scripted` runs. The proposals in those runs are
+hand-written, not LLM output. To see one yourself, run
+`python3 -m rtl_agent run examples/dot_product/config.yaml --scripted` (about a minute) and open
+the `report.html` it prints.
 
 | Example | What it shows | Result of the offline run |
 |---|---|---|
 | `dot_product` (arithmetic, 4 multipliers + adders) | existing RTL + SDC, no testbench, **flexible latency** | Round 1 (unsigned multipliers) **rejected**: outputs differ from the original. Round 2 (pipeline + adder tree, +1 cycle) **kept**: setup slack −0.368 → +0.060 ns, area +6.4%, power +17% (more flip-flops). Target met. |
-| `sync_fifo` (16×8 FIFO, holds memory) | user testbench + equivalence, **tight clock (0.7 ns)** | Round 1 **passes the user's testbench but is rejected** by the comparison with the original (it changes `dout` while the FIFO is empty, which the testbench never checks). Round 2 (look-ahead head register: next cycle's `dout` computed one cycle early, so the read multiplexer leaves the output path) **kept**: setup slack −0.111 → +0.002 ns, area +6%. Target met. |
-| `seq_detector` (finite state machine) | **no SDC** (generated), area first | One-hot encoding kept (−4.9%), then merging two equivalent states kept: area 47.3 → 39.1 µm², 4 → 3 flip-flops. |
 | `spec_gray_counter` | **spec mode**: text → testbench → RTL → explore → optimize | 2 architectures explored (one rejected: smaller but much slower), then a look-ahead register version meets the 0.45 ns clock: slack −0.106 → +0.035 ns, at twice the area. |
 
 ### With a real LLM
@@ -261,8 +261,6 @@ the absolute numbers differ a little from the table above; what matters is the b
 | Design | Result with the free LLM |
 |---|---|
 | `dot_product` | **target met**: setup slack −0.500 → +0.123 ns (pipelining, +1 cycle of latency, allowed by the config) |
-| `sync_fifo` (0.7 ns clock) | **target met**: −0.118 → +0.070 ns (one-hot read pointer) |
-| `seq_detector` | area −2.8%; 3 wrong designs proposed by the LLM were caught and rejected |
 | `spec_gray_counter` | improved but **not met**: best correct design −0.061 → −0.034 ns |
 | a new design (`moving_avg`, written by a "new user") | improved but **not met**: −0.227 → −0.005 ns (a running-sum design; a known better design reaches +0.035) |
 
@@ -409,13 +407,12 @@ rtl_agent/
                     processes), static/index.html (the page)
   adapters/         inspect.py  simulate.py  equiv.py  synth.py  sta.py
   llm/              base.py  openai_compat.py  scripted.py
-examples/           four example designs with configs
+examples/           two example designs with configs
 tests/              unit, fake-LLM and integration tests
 scripts/            tool installer, library download
 templates/          starting folders for your own RTL or your own spec
 docs/               GUIDE.md (walkthrough); RTL_Agent_Design.pdf is the original design document
                     (written before Docker and the later checks; GUIDE.md and this README are current)
-sample_runs/        the offline runs shown above, with their reports
 Dockerfile          the image with every tool; scripts/docker-run.sh runs it
 .devcontainer/      the same image for GitHub Codespaces / VS Code
 ```

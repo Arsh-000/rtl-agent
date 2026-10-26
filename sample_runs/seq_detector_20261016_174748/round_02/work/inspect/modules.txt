@@ -1,3 +1,0 @@
-
-1 modules:
-  seq_detector

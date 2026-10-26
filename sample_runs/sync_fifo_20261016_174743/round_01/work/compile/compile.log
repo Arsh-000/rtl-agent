@@ -1,4 +1,0 @@
-$ /opt/eda/bin/iverilog -g2012 -Wall -o compile_check.vvp -s sync_fifo /home/claude/rtl-agent/runs/sync_fifo_20261016_174743/round_01/rtl/sync_fifo.v
-# exit=0 timed_out=False seconds=0.0
-
-

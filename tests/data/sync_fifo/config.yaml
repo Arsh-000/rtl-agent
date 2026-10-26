@@ -1,4 +1,4 @@
-# Example 2 - a design that holds memory (a flip-flop based FIFO).
+# Test fixture (not a user example) - a design that holds memory (a flip-flop based FIFO).
 # The user supplies a self-checking testbench; it runs on every proposal,
 # together with the automatic comparison against the original design.
 project_name: sync_fifo

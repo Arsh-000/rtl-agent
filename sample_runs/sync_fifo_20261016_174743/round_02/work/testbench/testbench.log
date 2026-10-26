@@ -1,7 +1,0 @@
-$ /opt/eda/bin/vvp -n testbench.vvp
-# exit=0 timed_out=False seconds=0.1
-
-writes=1336 reads=1335 errors=0
-TEST PASSED
-/home/claude/rtl-agent/examples/sync_fifo/tb/tb_sync_fifo.v:75: $finish called at 40036000 (1ps)
-

@@ -1,4 +1,0 @@
-$ /opt/eda/bin/iverilog -g2012 -o testbench.vvp -s tb_gray_counter /home/claude/rtl-agent/runs/gray_counter_20261016_174752/round_02/rtl/gray_counter.v /home/claude/rtl-agent/runs/gray_counter_20261016_174752/spec/testbench_1/tb_gray_counter.v
-# exit=0 timed_out=False seconds=0.0
-
-

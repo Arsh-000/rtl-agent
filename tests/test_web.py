@@ -173,7 +173,7 @@ class TestWebEndToEnd(unittest.TestCase):
         self.assertIn(b"RTL Agent", page)
         _, st = self.call("/api/status")
         self.assertTrue(st["tools_ok"])
-        self.assertIn("sync_fifo", [e["name"] for e in st["examples"]])
+        self.assertEqual(sorted(e["name"] for e in st["examples"]), ["dot_product", "spec_gray_counter"])
         _, ins = self.call("/api/inspect", {"files": [{"name": "max4.v", "text": MAX4}]})
         self.assertEqual(ins["top"], "max4")
         self.assertEqual(ins["info"]["clocks"], ["clk"])

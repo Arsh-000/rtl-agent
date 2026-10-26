@@ -1,5 +1,6 @@
-# Example 4 - spec mode: start from a plain-English specification.
-# The LLM writes a testbench, then the RTL, then the normal loop optimizes it.
+# Example 2 - starts from an English description only. An 8-bit counter that counts up or down
+# and shows its value in Gray code. The AI writes the testbench and the Verilog, then the agent
+# makes it fast enough for a 0.45 ns clock.
 project_name: gray_counter
 mode: spec
 

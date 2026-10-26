@@ -1,7 +1,0 @@
-read_verilog -sv /home/claude/rtl-agent/runs/seq_detector_20261016_174748/round_00/rtl/seq_detector.v
-hierarchy -check -top seq_detector
-proc
-flatten
-opt_clean
-rename seq_detector seq_detector__golden
-write_verilog -noattr golden.v

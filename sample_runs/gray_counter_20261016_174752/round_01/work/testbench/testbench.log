@@ -1,7 +1,0 @@
-$ /opt/eda/bin/vvp -n testbench.vvp
-# exit=0 timed_out=False seconds=0.0
-
-cycles=3000 errors=0
-TEST PASSED
-/home/claude/rtl-agent/runs/gray_counter_20261016_174752/spec/testbench_1/tb_gray_counter.v:42: $finish called at 30020000 (1ps)
-
