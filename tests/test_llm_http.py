@@ -72,6 +72,25 @@ class TestOpenAICompatible(unittest.TestCase):
         self.assertEqual((r.text, r.total_tokens), ("hi", 120))
         self.assertEqual(FakeProvider.requests[0]["body"]["reasoning_effort"], "low")
 
+    def test_unsupported_setting_is_dropped(self):
+        """Switching to a model without reasoning_effort (e.g. a Llama model on Groq) must not stop the run."""
+        FakeProvider.script = [(400, {"error": {"message": "`reasoning_effort` is not supported with this model",
+                                                "type": "invalid_request_error", "param": "reasoning_effort"}}, {}),
+                               ok("first"), ok("second")]
+        p = self.provider()
+        self.assertEqual(p.complete([{"role": "user", "content": "x"}]).text, "first")
+        self.assertEqual(p.complete([{"role": "user", "content": "x"}]).text, "second")
+        self.assertIn("reasoning_effort", FakeProvider.requests[0]["body"])
+        self.assertNotIn("reasoning_effort", FakeProvider.requests[1]["body"])
+        self.assertNotIn("reasoning_effort", FakeProvider.requests[2]["body"])    # remembered for later calls
+        self.assertIn("temperature", FakeProvider.requests[1]["body"])            # other settings kept
+
+    def test_other_400_is_still_an_error(self):
+        from rtl_agent.llm.base import LLMError
+        FakeProvider.script = [(400, {"error": {"message": "messages must not be empty"}}, {})]
+        with self.assertRaises(LLMError):
+            self.provider().complete([{"role": "user", "content": "x"}])
+
     def test_429_then_success(self):
         FakeProvider.script = [(429, {"error": {"message": "Rate limit reached: tokens per minute (TPM)"}},
                                 {"retry-after": "7"}), ok()]

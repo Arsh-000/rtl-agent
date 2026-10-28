@@ -350,7 +350,7 @@ python3 -m unittest discover -s tests -v        # or: pytest tests
 * `tests/test_integration.py`: real tools: full offline runs, a full run through the HTTP client,
   "SDC changed mid-run stops the run", pause on daily limit + resume, custom STA command
 
-All 64 tests pass in the development environment (about five minutes).
+All 66 tests pass in the development environment (about ten minutes).
 
 ## Honest limits
 

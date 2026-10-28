@@ -32,6 +32,7 @@ class OpenAICompatibleProvider(LLMProvider):
         self.api_key = os.environ.get(cfg.api_key_env, "")
         self.tokens_used = 0
         self._window = collections.deque()        # (timestamp, tokens) of recent requests
+        self._dropped: set[str] = set()           # optional settings this model rejected (see complete)
         self._sleep, self._clock = sleep, clock
         if not self.api_key and "localhost" not in cfg.base_url and "127.0.0.1" not in cfg.base_url:
             raise LLMError(f"environment variable {cfg.api_key_env} is not set. "
@@ -72,6 +73,10 @@ class OpenAICompatibleProvider(LLMProvider):
         self._check_day_budget(needed)
         body = {"model": self.cfg.model, "messages": messages, "temperature": self.cfg.temperature,
                 "max_tokens": max_tokens, **self.cfg.extra_params, **(overrides or {})}
+        # Optional settings a model may not support (e.g. reasoning_effort on a non-reasoning model).
+        optional = {"temperature", *self.cfg.extra_params, *(overrides or {})}
+        for key in self._dropped:
+            body.pop(key, None)
         headers = {"Content-Type": "application/json"}
         if self.api_key:
             headers["Authorization"] = f"Bearer {self.api_key}"
@@ -115,6 +120,18 @@ class OpenAICompatibleProvider(LLMProvider):
             if resp.status_code in (401, 403):
                 raise LLMError(f"the API key was rejected ({resp.status_code}). Check {self.cfg.api_key_env}. "
                                f"Server said: {detail}")
+            if resp.status_code in (400, 422):
+                # The model rejected an optional setting by name: leave it out and ask again.
+                rejected = [k for k in optional if k in body and k in detail]
+                if rejected:
+                    self._window.pop()                    # the rejected request used no tokens
+                    for key in rejected:
+                        body.pop(key)
+                        self._dropped.add(key)
+                    print(f"    [llm] model {self.cfg.model} does not accept {', '.join(rejected)}; "
+                          "asking again without it")
+                    last_error = detail
+                    continue
             if resp.status_code >= 500:
                 last_error = f"server error {resp.status_code}: {detail}"
                 self._sleep(min(60, 5 * 2 ** attempt))
