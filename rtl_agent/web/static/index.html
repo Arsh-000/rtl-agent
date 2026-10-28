@@ -204,7 +204,14 @@ function goalsBlock() {
     <details style="margin-top:12px"><summary>Advanced: AI settings and limits</summary>
       <div class="row">
         <div><label>Maximum rounds</label><input type="number" min="1" max="50" id="a-rounds" value="10"></div>
-        <div><label>AI model</label><input type="text" id="a-model" value="openai/gpt-oss-120b"></div>
+        <div><label>AI model</label><select id="a-model-pick">
+          <option value="openai/gpt-oss-120b">GPT-OSS 120B (default, tested)</option>
+          <option value="openai/gpt-oss-20b">GPT-OSS 20B (smaller, faster)</option>
+          <option value="llama-3.3-70b-versatile">Llama 3.3 70B</option>
+          <option value="llama-3.1-8b-instant">Llama 3.1 8B (very small)</option>
+          <option value="other">Other: type a model name</option>
+        </select>
+        <input type="text" id="a-model" class="hidden" style="margin-top:6px" value="openai/gpt-oss-120b" placeholder="exact model name from your AI provider"></div>
         <div><label>Reasoning effort</label><select id="a-effort"><option>medium</option><option>low</option><option>high</option></select></div>
       </div>
       <label>AI server address <span class="hint">(any OpenAI-compatible server; empty = Groq)</span></label>
@@ -299,6 +306,12 @@ function renderForm(keyNeeded) {
   }
   const lat = $("#g-lat");
   if (lat) lat.onchange = () => { $("#g-extra").disabled = lat.value !== "flexible"; };
+  const pick = $("#a-model-pick");      // model list; "Other" shows a box to type any model name
+  if (pick) pick.onchange = () => {
+    const other = pick.value === "other";
+    $("#a-model").classList.toggle("hidden", !other);
+    if (other) { $("#a-model").value = ""; $("#a-model").focus(); } else $("#a-model").value = pick.value;
+  };
   window.scrollTo({top: $("#form").offsetTop - 80, behavior: "smooth"});
 }
 
